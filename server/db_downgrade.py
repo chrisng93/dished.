@@ -1,6 +1,11 @@
+"""
+    Downgrade db to previous version
+"""
+
 #!flask/bin/python3.6
 from migrate.versioning import api
-from config import SQLALCHEMY_DATABASE_URI, SQLALCHEMY_MIGRATE_REPO
+
+from app.config import SQLALCHEMY_DATABASE_URI, SQLALCHEMY_MIGRATE_REPO
 
 v = api.db_version(SQLALCHEMY_DATABASE_URI, SQLALCHEMY_MIGRATE_REPO)
 api.downgrade(SQLALCHEMY_DATABASE_URI, SQLALCHEMY_MIGRATE_REPO, v-1)
