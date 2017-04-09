@@ -1,0 +1,8 @@
+{
+  "name": "restaurant-picker",
+  "version": "1.0.0",
+  "description": "For when your girlfriend doesn't know what to eat",
+  "author": "Chris Ng",
+  "license": "MIT",
+  "dependencies": {}
+}
