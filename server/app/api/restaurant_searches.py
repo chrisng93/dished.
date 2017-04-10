@@ -1,6 +1,7 @@
 """
     RestaurantSearch CRUD
 """
+from functools import reduce
 from ..services import RestaurantSearch
 from flask import Blueprint, jsonify, request, abort
 from . import route
@@ -15,7 +16,10 @@ def get_search(id):
 
 @route(bp, '/', methods=['POST'])
 def create_search():
-    if not request.json or 'email' not in request.json or 'password' not in request.json:
+    req_fields = ['user_location', 'transport_method', 'desired_travel_time', 'food_type']
+    given_fields = list(request.json.keys())
+    has_all_fields = reduce((lambda x, y: x and y), [field in req_fields for field in given_fields])
+    if not request.json or not has_all_fields or len(given_fields) != len(req_fields):
         abort(400)
     return RestaurantSearch.create(**request.json).as_dict()
 
