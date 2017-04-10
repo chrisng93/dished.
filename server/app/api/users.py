@@ -1,7 +1,7 @@
 """
     User CRUD
 """
-from flask import Blueprint, request, abort
+from flask import Blueprint, request, abort, g
 from flask_login import login_required
 from ..common.services import User
 from . import route
@@ -10,7 +10,6 @@ bp = Blueprint('user', __name__, url_prefix='/api/user')
 
 
 @route(bp, '/<int:id>', methods=['GET'])
-@login_required
 def get_user_by_id(id):
     user = User.get(id)
     if not user:
@@ -34,19 +33,25 @@ def create_user():
 
 
 @route(bp, '/<int:id>', methods=['PUT'])
+@login_required
 def update_user(id):
     if not request.json:
         abort(400)
     request.json['id'] = id
     if not User.get(id):
         abort(404)
+    if 'user' in g and g.user and g.user.is_authenticated and g.user.get_id() != id:
+        abort(401)
     return User.update(**request.json).as_dict()
 
 
 @route(bp, '/<int:id>', methods=['DELETE'])
+@login_required
 def delete_user(id):
     if not id:
         abort(400)
     if not User.get(id):
         abort(404)
+    if 'user' in g and g.user and g.user.is_authenticated and g.user.get_id() != id:
+        abort(401)
     return User.delete(id)

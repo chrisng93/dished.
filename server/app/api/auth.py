@@ -17,11 +17,11 @@ def login():
     if not user:
         abort(404)
     if 'user' in g and g.user is not None and g.user.is_authenticated:
-        return True
+        return 'Already logged in'
     print('validating', g)
     if user.validate_password(request.json['password']):
         login_user(user, remember=True, fresh=True)
-        session['remember_me'] = getattr(user, 'id')
+        session['remember_me'] = user.get_id()
         return 'Login successful'
     abort(401)
 
@@ -33,6 +33,7 @@ def logout():
     if not user:
         abort(404)
     logout_user()
+    return 'Logout successful'
 
 
 @login_manager.user_loader
