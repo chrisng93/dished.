@@ -12,11 +12,6 @@ def create_app(package_name, package_path):
     db.init_app(app)
     login_manager.init_app(app)
 
-    with app.app_context():
-        db.create_all()
-        from .users.UserModel import User
-        from .restaurant_searches.RestaurantSearchModel import RestaurantSearch
-
     register_blueprints(app, package_name, package_path)
 
     return app
@@ -27,8 +22,8 @@ class ModelService(object):
     __model__ = None
 
     def _preprocess_params(self, kwargs):
-        """ Return fields relevant to given model """
-        return kwargs
+        fields = self.__model__.__table__.columns._data.keys()
+        return {k: v for k, v in kwargs.items() if k in fields and k is not 'id'}
 
     def _isinstance(self, model):
         """ Checks to see if model is correct instance """
@@ -60,11 +55,14 @@ class ModelService(object):
         """ Updates and returns model """
         model = self.get(kwargs['id'])
         for k, v in self._preprocess_params(kwargs).items():
+            print('setting attribute', k, v)
             setattr(model, k, v)
-        return self.save(model)
+        self.save(model)
+        return model
 
-    def delete(self, model):
+    def delete(self, id):
         """ Deletes model """
+        model = self.get(id)
         self._isinstance(model)
         db.session.delete(model)
         db.session.commit()
