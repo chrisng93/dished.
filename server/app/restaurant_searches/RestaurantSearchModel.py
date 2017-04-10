@@ -15,7 +15,7 @@ class RestaurantSearch(db.Model):
     id = db.Column(db.Integer, index=True, primary_key=True)
     created_at = db.Column(db.DateTime, default=datetime.utcnow(), nullable=False)
     user_location = db.Column(db.String(400), nullable=False)
-    transport_method = db.Column(db.Enum(TRANSPORT_METHODS), nullable=False)
+    transport_method = db.Column(db.Enum(*TRANSPORT_METHODS), nullable=False)
     desired_travel_time = db.Column(db.Integer, nullable=False)
     food_type = db.Column(db.String(120), nullable=False)
     selection = db.Column(db.String(120))

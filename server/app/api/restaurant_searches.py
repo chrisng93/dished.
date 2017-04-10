@@ -21,7 +21,10 @@ def create_search():
     has_all_fields = reduce((lambda x, y: x and y), [field in req_fields for field in given_fields])
     if not request.json or not has_all_fields or len(given_fields) != len(req_fields):
         abort(400)
-    return RestaurantSearch.create(**request.json).as_dict()
+    rs = RestaurantSearch.create(**request.json).as_dict()
+    # hit google maps api to get radius given user_location, transport_method, and desired_travel_time
+    # hit yelp api to get restaurants w/ certain food_type within given radius of user_location
+    return
 
 
 @route(bp, '/<int:id>', methods=['PUT'])
