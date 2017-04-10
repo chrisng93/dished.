@@ -1,22 +1,22 @@
 """
     Manage authentication
 """
-from flask import Blueprint, jsonify
+from app.models.UserModel import User
+from flask import Blueprint
 from . import route
 from ..extensions import login_manager
-from ..users.UserModels import User
 
-bp = Blueprint('users', __name__, url_prefix='/api/user')
+bp = Blueprint('user', __name__, url_prefix='/api/user')
 
 
 @route(bp, '/<int:user_id>', methods=['GET'])
 def get_user_by_id(user_id):
-    return User.query.filter_by(id=user_id)
+    return User.query.get(user_id)
 
 
 @route(bp, '/<string:email>', methods=['GET'])
 def get_user_by_email(email):
-    return User.query.filter_by(email=email)
+    return User.query.get(email)
 
 
 @route(bp, '/', methods=['POST'])

@@ -1,7 +1,7 @@
 """
     Define User model
 """
-from ..extensions import db
+from app.extensions import db
 
 
 class User(db.Model):
@@ -11,7 +11,7 @@ class User(db.Model):
     password = db.Column(db.String(120), nullable=False)
     name = db.Column(db.String(64))
     location = db.Column(db.String(400))
-    restaurant_searches = db.relationship('RestaurantSearch', backref='users', lazy='dynamic')
+    restaurant_searches = db.relationship('RestaurantSearch', backref='user', lazy='dynamic')
 
     def __init__(self, email):
         self.email = email
