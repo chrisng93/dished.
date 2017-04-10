@@ -41,7 +41,8 @@ class ModelService(object):
     def create(self, **kwargs):
         """ Creates and returns model """
         model = self.__model__(**self._preprocess_params(kwargs))
-        return self.save(model)
+        self.save(model)
+        return model
 
     def all(self):
         """ Gets all instances of a model """

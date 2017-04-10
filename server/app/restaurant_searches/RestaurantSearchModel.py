@@ -23,11 +23,9 @@ class RestaurantSearch(db.Model):
     comments = db.Column(db.String(1000))
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), index=True)
 
-    def __init__(self, location, transport_method, desired_travel_time, food_type):
-        self.location = location
-        self.transport_method = transport_method
-        self.desired_travel_time = desired_travel_time
-        self.food_type = food_type
+    def __init__(self, **kwargs):
+        for k, v in kwargs.items():
+            setattr(self, k, v)
 
     def __repr__(self):
         return '<User %r>' % self.id
