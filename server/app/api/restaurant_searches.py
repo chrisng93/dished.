@@ -45,8 +45,6 @@ def update_search(id):
 @route(bp, '/<int:id>', methods=['DELETE'])
 @login_required
 def delete_search(id):
-    if not id:
-        abort(400)
     if 'user' in g and g.user and g.user.is_authenticated and g.user.get_id() != RestaurantSearch.get(id).get('user_id'):
         abort(401)
     return RestaurantSearch.delete(id)

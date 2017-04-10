@@ -1,6 +1,8 @@
 """
     Define User model
 """
+from sqlalchemy.orm import validates
+from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
 from ..common.extensions import db
 from ..common.exceptions import InvalidField
@@ -18,13 +20,22 @@ class User(db.Model):
 
     def __init__(self, **kwargs):
         for k, v in kwargs.items():
-            setattr(self, k, v)
+            print(k, v)
+            if k == 'password':
+                self.set_password(v)
+            else:
+                setattr(self, k, v)
 
     def __repr__(self):
         return '<User %r>' % self.email
 
     def as_dict(self):
         return {c.name: getattr(self, c.name) for c in self.__table__.columns}
+
+    @validates('email')
+    def validate_email(self, key, address):
+        assert '@' in address
+        return address
 
     @property
     def is_authenticated(self):
@@ -49,5 +60,9 @@ class User(db.Model):
             raise InvalidField('Attempting to get field %s from User model' % field)
         return getattr(self, field)
 
+    def set_password(self, password):
+        self.password = generate_password_hash(password)
+        print(password, self.password)
+
     def validate_password(self, password):
-        return self.password == password
+        return check_password_hash(self.password, password)

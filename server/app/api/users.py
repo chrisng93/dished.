@@ -48,10 +48,6 @@ def update_user(id):
 @route(bp, '/<int:id>', methods=['DELETE'])
 @login_required
 def delete_user(id):
-    if not id:
-        abort(400)
-    if not User.get(id):
-        abort(404)
     if 'user' in g and g.user and g.user.is_authenticated and g.user.get_id() != id:
         abort(401)
-    return User.delete(id)
+    return User.delete(g.user.get_id())

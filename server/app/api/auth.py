@@ -13,6 +13,8 @@ bp = Blueprint('auth', __name__, url_prefix='/auth')
 
 @route(bp, '/login', methods=['POST'])
 def login():
+    if not request.json or 'id' not in request.json or 'password' not in request.json:
+        abort(400)
     user = User.get(request.json['id'])
     if not user:
         abort(404)
@@ -29,9 +31,6 @@ def login():
 @route(bp, '/logout', methods=['POST'])
 @login_required
 def logout():
-    user = User.get(request.json['id'])
-    if not user:
-        abort(404)
     logout_user()
     return 'Logout successful'
 
