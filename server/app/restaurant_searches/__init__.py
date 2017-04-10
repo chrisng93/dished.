@@ -1,4 +1,4 @@
-from ..core import ModelService
+from ..common.core import ModelService
 from .RestaurantSearchModel import RestaurantSearch
 
 

@@ -1,16 +1,22 @@
-from flask import Flask
-from .common.helpers import register_blueprints
+from flask import Flask, g
+from flask_login import current_user
+from .. import config
 from .extensions import db, login_manager
-from . import config
+from .helpers import register_blueprints
 
 
 def create_app(package_name, package_path):
     app = Flask(package_name)
 
     app.config.from_object(config)
+    app.secret_key = config.SECRET_KEY
 
     db.init_app(app)
     login_manager.init_app(app)
+
+    @app.before_request
+    def before_request():
+        g.user = current_user
 
     register_blueprints(app, package_name, package_path)
 

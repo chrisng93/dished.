@@ -3,7 +3,8 @@
 """
 
 from datetime import datetime
-from app.extensions import db
+from ..common.extensions import db
+from ..common.exceptions import InvalidField
 
 
 # enums
@@ -32,3 +33,8 @@ class RestaurantSearch(db.Model):
 
     def as_dict(self):
         return {c.name: getattr(self, c.name) for c in self.__table__.columns}
+
+    def get(self, field):
+        if field not in self.__table__.columns.keys():
+            raise InvalidField('Attempting to get field %s from RestaurantSearch model' % field)
+        return getattr(self, field)

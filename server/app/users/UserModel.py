@@ -2,7 +2,8 @@
     Define User model
 """
 from datetime import datetime
-from app.extensions import db
+from ..common.extensions import db
+from ..common.exceptions import InvalidField
 
 
 class User(db.Model):
@@ -41,4 +42,12 @@ class User(db.Model):
         return False
 
     def get_id(self):
-        return str(self.id)
+        return getattr(self, 'id')
+
+    def get(self, field):
+        if field not in self.__table__.columns.keys():
+            raise InvalidField('Attempting to get field %s from User model' % field)
+        return getattr(self, field)
+
+    def validate_password(self, password):
+        return self.password == password

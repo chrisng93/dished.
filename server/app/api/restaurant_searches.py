@@ -2,8 +2,8 @@
     RestaurantSearch CRUD
 """
 from functools import reduce
-from ..services import RestaurantSearch
-from flask import Blueprint, jsonify, request, abort
+from flask import Blueprint, request, abort
+from ..common.services import RestaurantSearch
 from . import route
 
 bp = Blueprint('restaurant_search', __name__, url_prefix='/api/restaurant/search')
@@ -24,6 +24,7 @@ def create_search():
     rs = RestaurantSearch.create(**request.json).as_dict()
     # hit google maps api to get radius given user_location, transport_method, and desired_travel_time
     # hit yelp api to get restaurants w/ certain food_type within given radius of user_location
+    # run results through ranking algorithm and return to client
     return
 
 

@@ -4,7 +4,7 @@
 from functools import wraps
 from flask import jsonify
 
-from .. import core
+from ..common import core
 
 def create_app():
     """ Returns API application instance """
