@@ -13,11 +13,15 @@ class User(db.Model):
     location = db.Column(db.String(400))
     restaurant_searches = db.relationship('RestaurantSearch', backref='user', lazy='dynamic')
 
-    def __init__(self, email):
+    def __init__(self, email, password):
         self.email = email
+        self.password = password
 
     def __repr__(self):
         return '<User %r>' % self.email
+
+    def as_dict(self):
+        return {c.name: getattr(self, c.name) for c in self.__table__.columns}
 
     @property
     def is_authenticated(self):

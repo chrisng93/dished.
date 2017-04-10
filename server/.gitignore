@@ -2,3 +2,4 @@
 flask/
 app.db
 db_repository/
+*.pyc

@@ -4,12 +4,12 @@
 from functools import wraps
 from flask import jsonify
 
-from .. import factory
+from .. import core
 
 def create_app():
     """ Returns API application instance """
 
-    app = factory.create_app(__name__, __path__)
+    app = core.create_app(__name__, __path__)
 
     # Custom error handlers
     # app.errorhandler(ExampleError)(on_example_error)
