@@ -25,12 +25,13 @@ def route(bp, *args, **kwargs):
         @bp.route(*args, **kwargs)
         @wraps(f)
         def wrapper(*args, **kwargs):
-            sc = 200
-            rv = f(*args, **kwargs)
-            if isinstance(rv, tuple):
-                sc = rv[1]
-                rv = rv[0]
-            return jsonify(dict(data=rv)), sc
+            code = 200
+            data = f(*args, **kwargs)
+            if isinstance(data, tuple):
+                code = data[1]
+                data = data[0]
+            data['status'] = 'success' if str(code)[0] == '2' else 'failure'
+            return jsonify(**data), code
         return f
     return decorator
 

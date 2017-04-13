@@ -1,11 +1,13 @@
 """
     Define User model
 """
+import jwt
 from sqlalchemy.orm import validates
 from werkzeug.security import generate_password_hash, check_password_hash
-from datetime import datetime
+from datetime import datetime, timedelta
 from ..common.extensions import db
 from ..common.exceptions import InvalidField
+from .. import config
 
 
 class User(db.Model):
@@ -29,28 +31,27 @@ class User(db.Model):
     def __repr__(self):
         return '<User %r>' % self.email
 
-    def as_dict(self):
-        return {c.name: getattr(self, c.name) for c in self.__table__.columns}
+    def to_dict(self):
+        return {c.name: getattr(self, c.name) for c in self.__table__.columns if c.name != 'password'}
 
     @validates('email')
     def validate_email(self, key, address):
         assert '@' in address
         return address
 
-    @property
-    def is_authenticated(self):
-        # only return False if users should not be allowed to auth
-        return True
-
-    @property
-    def is_active(self):
-        # only return False if users is inactive (e.g. banned)
-        return True
-
-    @property
-    def is_anonymous(self):
-        # only return True if users is fake/not supposed to log in
-        return False
+    def encode_auth_token(self):
+        try:
+            payload = {
+                'exp': datetime.now() + timedelta(days=1, seconds=0),
+                'iat': datetime.now(),
+                'sub': self.get_id()
+            }
+            return jwt.encode(
+                payload,
+                config.SECRET_KEY
+            )
+        except Exception as e:
+            return str(e)
 
     def get_id(self):
         return getattr(self, 'id')

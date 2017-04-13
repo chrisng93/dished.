@@ -10,6 +10,12 @@ class InvalidField(Exception):
         self.errors = errors
 
 
+class UnableToComplete(Exception):
+    def __init__(self, message='', errors={}):
+        super(UnableToComplete, self).__init__(message)
+        self.errors = errors
+
+
 ############################ EXAMPLE ############################
 # class InvalidUsage(Exception):
 #     status_code = 400

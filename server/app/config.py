@@ -2,8 +2,18 @@ import os
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'app.db')
-SQLALCHEMY_MIGRATE_REPO = os.path.join(basedir, 'db_repository')
 SQLALCHEMY_TRACK_MODIFICATIONS = True
 
 SESSION_TYPE = 'filesystem'
 SECRET_KEY = 'secret'
+
+GOOGLE_API_URL = 'https://maps.googleapis.com'
+GOOGLE_API_KEY = 'AIzaSyC2YOfmCwiOcCndwxD43Elblu9b0e1HRbc'
+
+YELP_APP_ID = 'q9muNPdaGwv_outr1dOxtg'
+YELP_APP_SECRET = 'sVJ3PCwEY8CVF4aOKzPwIzDq7MOkfqZ44apQPynFVufX5GUHwjInnGfpUsfsREOO'
+
+AVERAGE_CAR_SPEED = 35
+AVERAGE_TRANSIT_SPEED = 15
+AVERAGE_BICYCLING_SPEED = 10
+AVERAGE_WALKING_SPEED = 3

@@ -31,7 +31,7 @@ class RestaurantSearch(db.Model):
     def __repr__(self):
         return '<User %r>' % self.id
 
-    def as_dict(self):
+    def to_dict(self):
         return {c.name: getattr(self, c.name) for c in self.__table__.columns}
 
     def get(self, field):

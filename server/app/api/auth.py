@@ -1,40 +1,41 @@
 """
     Manage authentication
 """
-from flask import Blueprint, request, abort, session, g
-from flask_login import login_user, logout_user, login_required
+from flask import Blueprint, request, session, g
 
-from ..common.extensions import login_manager
 from ..common.services import User
+from ..common.helpers import check_auth
 from . import route
 
-bp = Blueprint('auth', __name__, url_prefix='/auth')
+auth_bp = Blueprint('auth', __name__, url_prefix='/auth')
 
 
-@route(bp, '/login', methods=['POST'])
+@route(auth_bp, '/login', methods=['POST'])
 def login():
-    if not request.json or 'id' not in request.json or 'password' not in request.json:
-        abort(400)
-    user = User.get(request.json['id'])
+    if not request.json or 'email' not in request.json or 'password' not in request.json:
+        return dict(error='Please include email and password in body'), 400
+    user = User.get_by_email(request.json['email'])
     if not user:
-        abort(404)
-    if 'user' in g and g.user is not None and g.user.is_authenticated:
-        return 'Already logged in'
-    print('validating', g)
+        return dict(error='User not found'), 404
     if user.validate_password(request.json['password']):
-        login_user(user, remember=True, fresh=True)
-        session['remember_me'] = user.get_id()
-        return 'Login successful'
-    abort(401)
+        try:
+            token = user.encode_auth_token()
+            response = {
+                'user': user.to_dict(),
+                'token': token.decode()
+            }
+            return response
+        except Exception as e:
+            print(e)
+            return dict(error=e)
+    return dict(error='Password incorrect'), 401
 
 
-@route(bp, '/logout', methods=['POST'])
-@login_required
+@route(auth_bp, '/logout', methods=['POST'])
 def logout():
-    logout_user()
-    return 'Logout successful'
-
-
-@login_manager.user_loader
-def load_user(id):
-    return User.get(int(id))
+    auth = check_auth(request.headers.get('Authorization'))
+    if auth['status'] == 'failure':
+        # TODO: manage specific errors
+        return dict(error=auth['message']), 500
+    # revoke token
+    return dict(message='User %d successfully logged out' % auth['message'])

@@ -2,52 +2,75 @@
     User CRUD
 """
 from flask import Blueprint, request, abort, g
-from flask_login import login_required
 from ..common.services import User
+from ..common.helpers import check_auth
 from . import route
 
-bp = Blueprint('user', __name__, url_prefix='/api/user')
+user_bp = Blueprint('user', __name__, url_prefix='/api/user')
 
 
-@route(bp, '/<int:id>', methods=['GET'])
+@route(user_bp, '/<int:id>', methods=['GET'])
 def get_user_by_id(id):
     user = User.get(id)
     if not user:
-        abort(404)
-    return user.as_dict()
+        return dict(error='User not found'), 404
+    return user.to_dict()
 
 
-@route(bp, '/<string:email>', methods=['GET'])
+@route(user_bp, '/<string:email>', methods=['GET'])
 def get_user_by_email(email):
     user = User.get(email)
     if not user:
-        abort(404)
-    return user.as_dict()
+        return dict(error='User not found'), 404
+    return user.to_dict()
 
 
-@route(bp, '/', methods=['POST'])
+@route(user_bp, '/', methods=['POST'])
 def create_user():
     if not request.json or 'email' not in request.json or 'password' not in request.json:
-        abort(400)
-    return User.create(**request.json).as_dict()
+        return dict(error='Please include email and password in body'), 400
+    if User.get(request.json['email']):
+        return dict(error='User already exists'), 400
+    try:
+        user = User.create(**request.json)
+        token = user.encode_auth_token()
+        response = {
+            'user': user.to_dict(),
+            'token': token.decode()
+        }
+        return response
+    except Exception as e:
+        return dict(error=e), 500
 
 
-@route(bp, '/<int:id>', methods=['PUT'])
-@login_required
+@route(user_bp, '/<int:id>', methods=['PUT'])
 def update_user(id):
     if not request.json:
-        abort(400)
+        return dict(error='Please include updated fields and values'), 400
     request.json['id'] = id
-    if not User.get(id):
-        abort(404)
-    if 'user' in g and g.user and g.user.is_authenticated and g.user.get_id() != id:
-        abort(401)
-    return User.update(**request.json).as_dict()
+    user = User.get(id)
+    if not user:
+        return dict(error='User not found'), 404
+    try:
+        auth = check_auth(request.headers.get('Authorization'))
+        if auth['status'] == 'failure':
+            return dict(error=auth['message']), 401
+        if auth['message'] != id:
+            return dict(error='Permission denied'), 401
+        return User.update(**request.json).to_dict()
+    except Exception as e:
+        return dict(error=e), 500
 
 
-@route(bp, '/<int:id>', methods=['DELETE'])
-@login_required
+@route(user_bp, '/<int:id>', methods=['DELETE'])
 def delete_user(id):
-    if 'user' in g and g.user and g.user.is_authenticated and g.user.get_id() != id:
-        abort(401)
-    return User.delete(g.user.get_id())
+    user = User.get(id)
+    if not user:
+        return dict(error='User not found'), 404
+    auth = check_auth(request.headers.get('Authorization'))
+    if auth['status'] == 'failure':
+        return dict(error=auth['message']), 401
+    if auth['message'] != id:
+        return dict(error='Permission denied'), 401
+    User.delete(id)
+    return dict(message='User %d successfully deleted' % id)
