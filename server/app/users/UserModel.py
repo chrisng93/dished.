@@ -63,7 +63,6 @@ class User(db.Model):
 
     def set_password(self, password):
         self.password = generate_password_hash(password)
-        print(password, self.password)
 
     def validate_password(self, password):
         return check_password_hash(self.password, password)

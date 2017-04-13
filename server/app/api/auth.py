@@ -37,5 +37,5 @@ def logout():
     if auth['status'] == 'failure':
         # TODO: manage specific errors
         return dict(error=auth['message']), 500
-    # revoke token
+    # TODO: implement token blacklist using redis
     return dict(message='User %d successfully logged out' % auth['message'])

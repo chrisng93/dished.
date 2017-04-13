@@ -1,14 +1,14 @@
 /**
- * Containers should hold logic for state management/interaction with Redux store
+ * Stateful container for entire app
  */
 import React, { Component, PropTypes as T } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux'
 import { push } from 'react-router-redux';
 import * as actions from '../actions';
-import Example from '../components/Example';
 
 const propTypes = {
+  children: T.node.isRequired,
 };
 
 class AppContainer extends Component {
@@ -17,9 +17,9 @@ class AppContainer extends Component {
   }
 
   render() {
-    return(
+    return (
       <div id="app">
-        <Example />
+        {this.props.children}
       </div>
     );
   }

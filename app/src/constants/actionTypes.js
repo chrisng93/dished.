@@ -2,5 +2,7 @@
  * All action types should be listed here
  */
 module.exports = {
-  EXAMPLE: 'EXAMPLE',
+  LOGIN: 'LOGIN',
+  SESSION_SET: 'SESSION_SET',
+  SESSION_ERROR: 'SESSION_ERROR',
 };

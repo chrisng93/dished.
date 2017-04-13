@@ -9,7 +9,7 @@ import configureStore from './store/configureStore';
 import routes from './routes';
 
 const store = configureStore();
-persistStore(store);
+// persistStore(store);
 const history = syncHistoryWithStore(browserHistory, store);
 
 // import stylesheets
