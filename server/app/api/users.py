@@ -4,6 +4,8 @@
 from flask import Blueprint, request, abort, g
 from ..common.services import User
 from ..common.helpers import check_auth
+from ..common.extensions import redis
+from .. import config
 from . import route
 
 user_bp = Blueprint('user', __name__, url_prefix='/api/user')
@@ -14,7 +16,7 @@ def get_user_by_id(id):
     user = User.get(id)
     if not user:
         return dict(error='User not found'), 404
-    return user.to_dict()
+    return dict(user=user.to_dict())
 
 
 @route(user_bp, '/<string:email>', methods=['GET'])
@@ -22,7 +24,13 @@ def get_user_by_email(email):
     user = User.get(email)
     if not user:
         return dict(error='User not found'), 404
-    return user.to_dict()
+    return dict(user=user.to_dict())
+
+
+@route(user_bp, '/', methods=['GET'])
+def get_users():
+    users = User.all()
+    return dict(users=[user.to_dict() for user in users])
 
 
 @route(user_bp, '/', methods=['POST'])
@@ -33,14 +41,12 @@ def create_user():
         return dict(error='User already exists'), 400
     try:
         user = User.create(**request.json)
-        token = user.encode_auth_token()
-        response = {
-            'user': user.to_dict(),
-            'token': token.decode()
-        }
-        return response
+        token = user.encode_auth_token().decode()
+        redis.set(token, True)
+        redis.expire(token, config.TOKEN_EXPIRY)
+        return dict(user=user.to_dict(), token=token)
     except Exception as e:
-        return dict(error=e), 500
+        return dict(error=str(e)), 500
 
 
 @route(user_bp, '/<int:id>', methods=['PUT'])
@@ -57,9 +63,9 @@ def update_user(id):
             return dict(error=auth['message']), 401
         if auth['message'] != id:
             return dict(error='Permission denied'), 401
-        return User.update(**request.json).to_dict()
+        return dict(user=User.update(**request.json).to_dict())
     except Exception as e:
-        return dict(error=e), 500
+        return dict(error=str(e)), 500
 
 
 @route(user_bp, '/<int:id>', methods=['DELETE'])

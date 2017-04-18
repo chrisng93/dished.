@@ -2,7 +2,7 @@ from flask import Flask, g
 from flask_login import current_user
 from flask_cors import CORS
 from .. import config
-from .extensions import db
+from .extensions import db, redis
 from .helpers import register_blueprints
 
 
@@ -14,6 +14,7 @@ def create_app(package_name, package_path):
     app.secret_key = config.SECRET_KEY
 
     db.init_app(app)
+    redis.init_app(app)
 
     @app.before_request
     def before_request():
@@ -63,7 +64,6 @@ class ModelService(object):
         """ Updates and returns model """
         model = self.get(kwargs['id'])
         for k, v in self._preprocess_params(kwargs).items():
-            print('setting attribute', k, v)
             setattr(model, k, v)
         self.save(model)
         return model

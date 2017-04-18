@@ -22,7 +22,6 @@ class User(db.Model):
 
     def __init__(self, **kwargs):
         for k, v in kwargs.items():
-            print(k, v)
             if k == 'password':
                 self.set_password(v)
             else:
@@ -42,7 +41,7 @@ class User(db.Model):
     def encode_auth_token(self):
         try:
             payload = {
-                'exp': datetime.now() + timedelta(days=1, seconds=0),
+                'exp': datetime.now() + timedelta(seconds=config.TOKEN_EXPIRY),
                 'iat': datetime.now(),
                 'sub': self.get_id()
             }

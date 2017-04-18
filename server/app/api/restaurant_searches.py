@@ -7,7 +7,6 @@ from ..common.services import RestaurantSearch
 from ..common.exceptions import UnableToComplete
 from ..common.helpers import check_auth
 from . import route
-from .. import config
 from ..restaurant_searches.helpers import get_radius
 
 restaurant_search_bp = Blueprint('restaurant_search', __name__, url_prefix='/api/restaurant/search')
@@ -15,7 +14,7 @@ restaurant_search_bp = Blueprint('restaurant_search', __name__, url_prefix='/api
 
 @route(restaurant_search_bp, '/<int:id>', methods=['GET'])
 def get_search(id):
-    return RestaurantSearch.get(id).to_dict()
+    return dict(search=RestaurantSearch.get(id).to_dict())
 
 
 @route(restaurant_search_bp, '/', methods=['POST'])
@@ -49,7 +48,7 @@ def update_search(id):
         return dict(error=auth['message']), 401
     if auth['message'] != id:
         return dict(error='Permission denied'), 401
-    return RestaurantSearch.update(**request.json).to_dict()
+    return dict(search=RestaurantSearch.update(**request.json).to_dict())
 
 
 @route(restaurant_search_bp, '/<int:id>', methods=['DELETE'])

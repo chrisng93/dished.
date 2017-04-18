@@ -4,8 +4,7 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'app.db')
 SQLALCHEMY_TRACK_MODIFICATIONS = True
 
-SESSION_TYPE = ''
-SECRET_KEY = ''
+TOKEN_EXPIRY = 86400 # seconds
 
 GOOGLE_API_KEY = ''
 
