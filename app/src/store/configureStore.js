@@ -14,6 +14,9 @@ const logger = createLogger({
   collapsed: true,
   duration: true,
   diff: true,
+  stateTransformer: state => JSON.parse(JSON.stringify(state)),
+  actionTransformer: state => JSON.parse(JSON.stringify(state)),
+  errorTransformer: state => JSON.parse(JSON.stringify(state)),
 });
 const router = routerMiddleware(browserHistory);
 
