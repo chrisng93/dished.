@@ -12,8 +12,8 @@ from . import route
 auth_bp = Blueprint('auth', __name__, url_prefix='/auth')
 
 
-@route(auth_bp, '/login', methods=['POST'])
-def login():
+@route(auth_bp, '/signin', methods=['POST'])
+def signin():
     if not request.json or 'email' not in request.json or 'password' not in request.json:
         return dict(error='Please include email and password in body'), 400
     user = User.get_by_email(request.json['email'])
@@ -30,8 +30,8 @@ def login():
     return dict(error='Password incorrect'), 401
 
 
-@route(auth_bp, '/logout', methods=['POST'])
-def logout():
+@route(auth_bp, '/signout', methods=['POST'])
+def signout():
     auth_header = request.headers.get('Authorization')
     auth = check_auth(auth_header)
     if auth['status'] == 'failure':

@@ -2,49 +2,64 @@
  * Created by chrisng on 4/11/17.
  */
 import { Observable } from 'rxjs';
+import { push } from 'react-router-redux';
 import * as actionTypes from '../constants/actionTypes';
 import { createHeaders } from '../utils/requestUtils';
 
-export function login(payload) {
+export function signin(payload) {
   return {
-    type: actionTypes.LOGIN,
+    type: actionTypes.SIGNIN_PENDING,
     payload,
   };
 }
 
-function setSession(session) {
+function signinUser(action) {
+  const { payload } = action;
+  const { email, password } = payload;
+  const body = JSON.stringify({ email, password });
+  const headers = createHeaders();
+  return Observable.ajax.post(`${process.env.API_URL}/auth/signin`, body, headers);
+}
+
+export const signinEpic = (action$) => {
+  return action$.ofType(actionTypes.SIGNIN_PENDING)
+    .switchMap(action =>
+      Observable.from(signinUser(action))
+        .flatMap(session =>
+          Observable.concat(
+            Observable.of({ type: actionTypes.SIGNIN_SUCCESS, payload: session }),
+            Observable.of(push('/')),
+          )
+        )
+    )
+    .catch(error => Observable.of({ type: actionTypes.SIGNIN_FAILURE, payload: { error } }));
+};
+
+export function signup(payload) {
   return {
-    type: actionTypes.SESSION_SET,
-    payload: session,
+    type: actionTypes.SIGNUP_PENDING,
+    payload,
   };
 }
 
-function setSessionError(error) {
-  console.log('SESSION ERROR')
-  return {
-    type: actionTypes.SESSION_ERROR,
-    payload: { error },
-  };
+function signupUser(action) {
+  const { payload } = action;
+  const { email, password } = payload;
+  const body = JSON.stringify({ email, password });
+  const headers = createHeaders();
+  return Observable.ajax.post(`${process.env.API_URL}/api/user`, body, headers);
 }
 
-function fetchLogin(options) {
-  return fetch(`${process.env.API_URL}/auth/login`, options)
-    .then(response => response.json())
-    // TODO: catch errors
-    .catch(err => err);
-}
-
-export const loginEpic = (action$) => {
-  return action$.ofType(actionTypes.LOGIN)
-    .mergeMap((action) => {
-      const { payload } = action;
-      const options = {
-        method: 'POST',
-        headers: createHeaders(),
-        body: JSON.stringify({ email: payload.email, password: payload.password }),
-      };
-      return Observable.from(fetchLogin(options))
-        .map(setSession)
-        .catch(setSessionError);
-    });
+export const signupEpic = (action$) => {
+  return action$.ofType(actionTypes.SIGNUP_PENDING)
+    .switchMap(action =>
+      Observable.from(signupUser(action))
+        .flatMap(session =>
+          Observable.concat(
+            Observable.of({ type: actionTypes.SIGNUP_SUCCESS, payload: session }),
+            Observable.of(push('/')),
+          )
+        )
+    )
+    .catch(error => Observable.of({ type: actionTypes.SIGNUP_FAILURE, payload: { error } }));
 };

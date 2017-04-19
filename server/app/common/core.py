@@ -1,5 +1,4 @@
 from flask import Flask, g
-from flask_login import current_user
 from flask_cors import CORS
 from .. import config
 from .extensions import db, redis
@@ -15,10 +14,6 @@ def create_app(package_name, package_path):
 
     db.init_app(app)
     redis.init_app(app)
-
-    @app.before_request
-    def before_request():
-        g.user = current_user
 
     register_blueprints(app, package_name, package_path)
 
