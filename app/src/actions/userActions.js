@@ -25,14 +25,14 @@ export const signinEpic = (action$) => {
   return action$.ofType(actionTypes.SIGNIN_PENDING)
     .switchMap(action =>
       Observable.from(signinUser(action))
-        .flatMap(session =>
+        .flatMap(payload =>
           Observable.concat(
-            Observable.of({ type: actionTypes.SIGNIN_SUCCESS, payload: session }),
+            Observable.of({ type: actionTypes.SIGNIN_SUCCESS, payload: payload.response }),
             Observable.of(push('/')),
           )
         )
+        .catch(error => Observable.of({ type: actionTypes.SIGNIN_FAILURE, payload: { error } }))
     )
-    .catch(error => Observable.of({ type: actionTypes.SIGNIN_FAILURE, payload: { error } }));
 };
 
 export function signup(payload) {
@@ -54,12 +54,12 @@ export const signupEpic = (action$) => {
   return action$.ofType(actionTypes.SIGNUP_PENDING)
     .switchMap(action =>
       Observable.from(signupUser(action))
-        .flatMap(session =>
+        .flatMap(payload =>
           Observable.concat(
-            Observable.of({ type: actionTypes.SIGNUP_SUCCESS, payload: session }),
+            Observable.of({ type: actionTypes.SIGNUP_SUCCESS, payload: payload.response }),
             Observable.of(push('/')),
           )
         )
+        .catch(error => Observable.of({ type: actionTypes.SIGNUP_FAILURE, payload: { error } }))
     )
-    .catch(error => Observable.of({ type: actionTypes.SIGNUP_FAILURE, payload: { error } }));
 };

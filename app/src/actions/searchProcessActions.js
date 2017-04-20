@@ -39,16 +39,16 @@ export function submitFoodType(payload) {
 
 export const submitFoodTypeEpic = (action$) => {
   return action$.ofType(actionTypes.SUBMIT_FOOD_TYPE)
-    .mapTo(Observable.of({ type: actionTypes.SUBMIT_SEARCH_PENDING }));
+    .mapTo({ type: actionTypes.SUBMIT_SEARCH_PENDING });
 };
 
 export function submitSearch(store) {
-  const { location, transitMethod, transitTime, foodType } = store.getState().searchProcess;
+  const searchProcess = store.getState().searchProcess;
   const body = JSON.stringify({
-    user_location: location,
-    transport_method: transitMethod,
-    desired_travel_time: transitTime,
-    food_type: foodType,
+    user_location: searchProcess.get('location'),
+    transport_method: searchProcess.get('transitMethod'),
+    desired_travel_time: searchProcess.get('transitTime'),
+    food_type: searchProcess.get('foodType'),
   });
   const headers = createHeaders();
   return Observable.ajax.post(`${process.env.API_URL}/api/restaurant/search`, body, headers);
@@ -60,10 +60,10 @@ export const submitSearchEpic = (action$, store) => {
       Observable.from(submitSearch(store))
         .flatMap(payload =>
           Observable.concat(
-            Observable.of({ type: actionTypes.SUBMIT_SEARCH_SUCCESS, payload }),
+            Observable.of({ type: actionTypes.SUBMIT_SEARCH_SUCCESS, payload: payload.response }),
             Observable.of(push('/search/choices')),
           )
         )
+        .catch(error => Observable.of({ type: actionTypes.SUBMIT_SEARCH_FAILURE, payload: { error } }))
     )
-    .catch(error => Observable.of({ type: actionTypes.SUBMIT_SEARCH_FAILURE, payload: { error } }))
 };

@@ -42,7 +42,7 @@ export default class FoodType extends Component {
             onChange={(e) => this.onChangeInput(e)}
           />
         </form>
-        <button className="food-type-submit" onSubmit={this.onSubmit}>
+        <button className="food-type-submit" onClick={this.onSubmit}>
           Submit food type
         </button>
       </section>

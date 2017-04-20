@@ -7,6 +7,7 @@ import SignupContainer from './containers/SignupContainer';
 import SearchProcessContainer from './containers/SearchProcessContainer';
 import LocationContainer from './containers/LocationContainer';
 import TransitContainer from './containers/TransitContainer';
+import FoodTypeContainer from './containers/FoodTypeContainer';
 
 const routes = (
   <Route path="/" component={App}>
@@ -16,7 +17,7 @@ const routes = (
     <Route path="/search" component={SearchProcessContainer}>
       <Route path="/search/location" component={LocationContainer} />
       <Route path="/search/transit" component={TransitContainer} />
-      {/*<Route path="/search/food" component={FoodTypeContainer} />*/}
+      <Route path="/search/food" component={FoodTypeContainer} />
       {/*<Route path="/search/choices" component={ChoicesContainer} />*/}
       {/*<Route path="/search/selection" component={SelectionContainer} />*/}
     </Route>
