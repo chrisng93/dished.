@@ -3,7 +3,7 @@
  */
 import { combineEpics } from 'redux-observable';
 import { signin, signinEpic, signup, signupEpic } from './userActions';
-import { startSearchProcess, submitLocation, submitLocationEpic, submitTransit, submitTransitEpic, submitFoodType, submitFoodTypeEpic, submitSearchEpic } from './searchProcessActions';
+import { startSearchProcess, submitLocation, confirmLocation, confirmLocationEpic, submitTransit, submitTransitEpic, submitFoodType, submitFoodTypeEpic, submitSearchEpic } from './searchProcessActions';
 
 const rootEpic = combineEpics(
   // user
@@ -11,7 +11,7 @@ const rootEpic = combineEpics(
   signupEpic,
 
   // search process
-  submitLocationEpic,
+  confirmLocationEpic,
   submitTransitEpic,
   submitFoodTypeEpic,
   submitSearchEpic,
@@ -25,6 +25,7 @@ module.exports = {
   // search process
   startSearchProcess,
   submitLocation,
+  confirmLocation,
   submitTransit,
   submitFoodType,
 

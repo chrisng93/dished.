@@ -33,7 +33,9 @@ export default function searchProcess(state = initialState, action) {
         .set('currentStep', 'location');
     case actionTypes.SUBMIT_LOCATION:
       return state
-        .set('location', payload.location)
+        .set('location', payload.location);
+    case actionTypes.CONFIRM_LOCATION:
+      return state
         .set('currentStep', 'transit');
     case actionTypes.SUBMIT_TRANSIT:
       return state

@@ -6,6 +6,7 @@ import Location from '../components/Location';
 
 const propTypes = {
   submitLocation: T.func,
+  confirmLocation: T.func,
   startSearch: T.func,
 };
 
@@ -22,6 +23,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     submitLocation: bindActionCreators(actions.submitLocation, dispatch),
+    confirmLocation: bindActionCreators(actions.confirmLocation, dispatch),
     startSearch: bindActionCreators(actions.startSearchProcess, dispatch),
   };
 }

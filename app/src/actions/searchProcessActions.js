@@ -17,8 +17,12 @@ export function submitLocation(payload) {
   }
 }
 
-export const submitLocationEpic = (action$) => {
-  return action$.ofType(actionTypes.SUBMIT_LOCATION)
+export function confirmLocation() {
+  return { type: actionTypes.CONFIRM_LOCATION }
+}
+
+export const confirmLocationEpic = (action$) => {
+  return action$.ofType(actionTypes.CONFIRM_LOCATION)
     .mapTo(push('/search/transit'));
 };
 
