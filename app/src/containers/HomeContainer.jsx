@@ -1,10 +1,12 @@
 import React, { PropTypes as T } from 'react';
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
+import * as actions from '../actions';
 import Home from '../components/Home';
 
 const propTypes = {
-  routeToSearchProcess: T.func,
+  routeToLocation: T.func,
 };
 
 function HomeContainer(props) {
@@ -21,7 +23,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    routeToSearchProcess: () => dispatch(push('/search/location')),
+    routeToLocation: () => dispatch(push('/search/location')),
   };
 }
 

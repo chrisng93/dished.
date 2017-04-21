@@ -47,6 +47,7 @@ module.exports = {
         HOST: JSON.stringify(config.HOST),
         PORT: JSON.stringify(config.PORT),
         API_URL: JSON.stringify(config.API_URL),
+        GOOGLE_API_KEY: JSON.stringify(config.GOOGLE_API_KEY),
       },
     }),
   ],

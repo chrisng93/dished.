@@ -4,13 +4,13 @@
 import React, { PropTypes as T } from 'react';
 
 const propTypes = {
-  routeToSearchProcess: T.func,
+  routeToLocation: T.func,
 };
 
-export default function Home({ routeToSearchProcess }) {
+export default function Home({ routeToLocation }) {
   return (
     <section className="home">
-      <button className="home-route" onClick={routeToSearchProcess}>
+      <button className="home-route" onClick={routeToLocation}>
         Start your search
       </button>
     </section>

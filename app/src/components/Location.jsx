@@ -5,6 +5,7 @@ import React, { Component, PropTypes as T } from 'react';
 
 const propTypes = {
   submitLocation: T.func,
+  startSearch: T.func,
 };
 
 export default class Location extends Component {
@@ -12,9 +13,14 @@ export default class Location extends Component {
     super(props);
     this.state = {
       location: '',
+      setLocation: false,
     };
     this.onChangeLocation = this.onChangeLocation.bind(this);
     this.onSubmitLocation = this.onSubmitLocation.bind(this);
+  }
+
+  componentWillMount() {
+    this.props.startSearch();
   }
 
   onChangeLocation(e) {
@@ -24,6 +30,9 @@ export default class Location extends Component {
   onSubmitLocation() {
     // TODO: error checking to make sure location is valid (API call to gmaps?)
     // TODO: add confirmation that this is where the user is
+  }
+
+  onConfirmSubmit() {
     const { submitLocation } = this.props;
     const { location } = this.state;
     submitLocation({ location });
@@ -42,6 +51,9 @@ export default class Location extends Component {
         </form>
         <button className="location-submit" onClick={this.onSubmitLocation}>
           Send location
+        </button>
+        <button className="location-confirm" onClick={this.onConfirmSubmit}>
+          Is this where you're at?
         </button>
       </section>
     );

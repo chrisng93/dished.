@@ -10,6 +10,7 @@ const initialError = fromJS({
 });
 
 const initialState = fromJS({
+  currentStep: '',
   location: '',
   transitMethod: '',
   transitTime: 0,
@@ -27,13 +28,18 @@ const initialState = fromJS({
 export default function searchProcess(state = initialState, action) {
   const { type, payload } = action;
   switch (type) {
+    case actionTypes.START_SEARCH_PROCESS:
+      return state
+        .set('currentStep', 'location');
     case actionTypes.SUBMIT_LOCATION:
       return state
-        .set('location', payload.location);
+        .set('location', payload.location)
+        .set('currentStep', 'transit');
     case actionTypes.SUBMIT_TRANSIT:
       return state
         .set('transitMethod', payload.transitMethod)
-        .set('transitTime', payload.transitTime);
+        .set('transitTime', payload.transitTime)
+        .set('currentStep', 'foodType');
     case actionTypes.SUBMIT_FOOD_TYPE:
       return state
         .set('foodType', payload.foodType);

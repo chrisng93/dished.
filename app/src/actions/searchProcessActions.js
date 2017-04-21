@@ -6,6 +6,10 @@ import { push } from 'react-router-redux';
 import * as actionTypes from '../constants/actionTypes';
 import { createHeaders } from '../utils/requestUtils';
 
+export function startSearchProcess() {
+  return { type: actionTypes.START_SEARCH_PROCESS }
+}
+
 export function submitLocation(payload) {
   return {
     type: actionTypes.SUBMIT_LOCATION,

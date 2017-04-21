@@ -6,6 +6,7 @@ import Location from '../components/Location';
 
 const propTypes = {
   submitLocation: T.func,
+  startSearch: T.func,
 };
 
 function LocationContainer(props) {
@@ -21,6 +22,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     submitLocation: bindActionCreators(actions.submitLocation, dispatch),
+    startSearch: bindActionCreators(actions.startSearchProcess, dispatch),
   };
 }
 

@@ -9,12 +9,12 @@
   "author": "Chris Ng",
   "license": "MIT",
   "dependencies": {
+    "google-map-react": "^0.24.0",
     "immutable": "^3.8.1",
     "node-sass": "^4.5.0",
     "nprogress": "^0.2.0",
     "react": "15.3.0",
     "react-dom": "15.3.0",
-    "react-google-maps": "^4.11.0",
     "react-redux": "^4.4.5",
     "react-router": "^3.0.2",
     "react-router-redux": "^4.0.8",
