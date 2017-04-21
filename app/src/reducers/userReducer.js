@@ -16,6 +16,7 @@ const initialState = fromJS({
 
   isSigningIn: false,
   isSigningUp: false,
+  isEditingUser: false,
 
   error: initialError,
 });
@@ -33,7 +34,7 @@ function authFailure(state, payload) {
     .set('user', Map())
     .set('token', '')
     .set('isAuthenticated', false)
-    .set('error', fromJS({ status: true, message: payload.error }));
+    .set('error', Map({ status: true, message: payload.error }));
 }
 
 export default function user(state = initialState, action) {
@@ -58,6 +59,21 @@ export default function user(state = initialState, action) {
     case actionTypes.SIGNUP_FAILURE:
       return authFailure(state, payload)
         .set('isSigningUp', false);
+
+    case actionTypes.EDIT_USER_PENDING:
+      return state
+        .set('isEditingUser', true);
+    case actionTypes.EDIT_USER_SUCCESS:
+      return state
+        .set('user', Map(payload.user))
+        .set('isEditingUser', false)
+        .set('error', initialError);
+    case actionTypes.EDIT_USER_FAILURE:
+      console.log(payload)
+      return state
+        .set('isEditingUser', false)
+        .set('error', Map({ status: true, message: payload.error }));
+
     default:
       return state;
   }

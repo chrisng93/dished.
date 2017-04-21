@@ -25,6 +25,7 @@ const routes = (
       {/*<Route path="/search/selection" component={SelectionContainer} />*/}
   </Route>
     <Route path="/profile" component={EnsureAuthenticationContainer}>
+      <IndexRoute component={ProfileContainer} />
       <Route path="/profile" component={ProfileContainer} />
     </Route>
     {/*<Route path="/searches" component={EnsureAuthenticationContainer}>*/}

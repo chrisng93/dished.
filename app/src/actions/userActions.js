@@ -15,8 +15,7 @@ export function signin(payload) {
 
 function signinUser(action) {
   const { payload } = action;
-  const { email, password } = payload;
-  const body = JSON.stringify({ email, password });
+  const body = JSON.stringify(payload);
   const headers = createHeaders();
   return Observable.ajax.post(`${process.env.API_URL}/auth/signin`, body, headers);
 }
@@ -44,8 +43,7 @@ export function signup(payload) {
 
 function signupUser(action) {
   const { payload } = action;
-  const { email, password } = payload;
-  const body = JSON.stringify({ email, password });
+  const body = JSON.stringify(payload);
   const headers = createHeaders();
   return Observable.ajax.post(`${process.env.API_URL}/api/user`, body, headers);
 }
@@ -61,5 +59,28 @@ export const signupEpic = (action$) => {
           )
         )
         .catch(error => Observable.of({ type: actionTypes.SIGNUP_FAILURE, payload: { error } }))
+    )
+};
+
+export function editUser(payload) {
+  return {
+    type: actionTypes.EDIT_USER_PENDING,
+    payload,
+  }
+}
+
+function editUserFetch(action) {
+  const { payload } = action;
+  const body = JSON.stringify(payload);
+  const headers = createHeaders(payload.token);
+  return Observable.ajax.put(`${process.env.API_URL}/api/user/${payload.id}`, body, headers);
+}
+
+export const editUserEpic = (action$) => {
+  return action$.ofType(actionTypes.EDIT_USER_PENDING)
+    .switchMap(action =>
+      Observable.from(editUserFetch(action))
+        .map(payload => ({ type: actionTypes.EDIT_USER_SUCCESS, payload: payload.response }))
+        .catch(error => Observable.of({ type: actionTypes.EDIT_USER_FAILURE, payload: { error } }))
     )
 };
