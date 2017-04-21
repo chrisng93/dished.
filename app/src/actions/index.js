@@ -2,13 +2,14 @@
  * All action names should be defined here
  */
 import { combineEpics } from 'redux-observable';
-import { signin, signinEpic, signup, signupEpic, editUser, editUserEpic } from './userActions';
+import { signIn, signInEpic, signUp, signUpEpic, signOut, signOutEpic, editUser, editUserEpic } from './userActions';
 import { startSearchProcess, submitLocation, confirmLocation, confirmLocationEpic, submitTransit, submitTransitEpic, submitFoodType, submitFoodTypeEpic, submitSearchEpic } from './searchProcessActions';
 
 const rootEpic = combineEpics(
   // user
-  signinEpic,
-  signupEpic,
+  signInEpic,
+  signUpEpic,
+  signOutEpic,
   editUserEpic,
 
   // search process
@@ -20,8 +21,9 @@ const rootEpic = combineEpics(
 
 module.exports = {
   // user
-  signin,
-  signup,
+  signIn,
+  signUp,
+  signOut,
   editUser,
 
   // search process

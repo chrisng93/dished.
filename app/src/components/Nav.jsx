@@ -5,43 +5,41 @@ import React, { Component, PropTypes as T } from 'react';
 
 const propTypes = {
   isAuthenticated: T.boolean,
+  token: T.string,
+
   routeToHome: T.func,
-  routeToSignin: T.func,
-  routeToSignup: T.func,
+  routeToSignIn: T.func,
+  routeToSignUp: T.func,
   routeToProfile: T.func,
   routeToSearches: T.func,
+  signOut: T.func,
 };
 
 export default class Nav extends Component {
   constructor(props) {
     super(props);
-    this.renderSignin = this.renderSignin.bind(this);
-    this.renderSignup = this.renderSignup.bind(this);
-    this.renderProfile = this.renderProfile.bind(this);
-    this.renderSearches = this.renderSearches.bind(this);
+    this.renderAuthed = this.renderAuthed.bind(this);
+    this.renderUnauthed = this.renderUnauthed.bind(this);
   }
 
-  renderSignin() {
+  renderUnauthed() {
+    const { routeToSignIn, routeToSignUp } = this.props;
     return (
-      <li className="nav-signin" onClick={this.props.routeToSignin}>Sign in</li>
+      <section className="nav-cluster">
+        <li className="nav-cluster-signin" onClick={routeToSignIn}>Sign in</li>
+        <li className="nav-cluster-signup" onClick={routeToSignUp}>Sign up</li>
+      </section>
     );
   }
 
-  renderSignup() {
+  renderAuthed() {
+    const { token, routeToProfile, routeToSearches, signOut } = this.props;
     return (
-      <li className="nav-signup" onClick={this.props.routeToSignup}>Sign up</li>
-    );
-  }
-
-  renderProfile() {
-    return (
-      <li className="nav-profile" onClick={this.props.routeToProfile}>Profile</li>
-    );
-  }
-
-  renderSearches() {
-    return (
-      <li className="nav-searches" onClick={this.props.routeToSearches}>Searches</li>
+      <section className="nav-cluster">
+        <li className="nav-cluster-profile" onClick={routeToProfile}>Profile</li>
+        <li className="nav-cluster-searches" onClick={routeToSearches}>Searches</li>
+        <li className="nav-cluster-signout" onClick={() => signOut({ token })}>Sign out</li>
+      </section>
     );
   }
 
@@ -50,10 +48,7 @@ export default class Nav extends Component {
     return (
       <ul className="nav">
         <li className="nav-home" onClick={routeToHome}>Home</li>
-        {isAuthenticated ? null : this.renderSignin()}
-        {isAuthenticated ? null : this.renderSignup()}
-        {isAuthenticated ? this.renderProfile() : null}
-        {isAuthenticated ? this.renderSearches() : null}
+        {isAuthenticated ? this.renderAuthed() : this.renderUnauthed()}
       </ul>
     );
   }

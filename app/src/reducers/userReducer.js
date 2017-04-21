@@ -16,6 +16,7 @@ const initialState = fromJS({
 
   isSigningIn: false,
   isSigningUp: false,
+  isSigningOut: false,
   isEditingUser: false,
 
   error: initialError,
@@ -40,25 +41,39 @@ function authFailure(state, payload) {
 export default function user(state = initialState, action) {
   const { type, payload } = action;
   switch (type) {
-    case actionTypes.SIGNIN_PENDING:
+    case actionTypes.SIGN_IN_PENDING:
       return state
         .set('isSigningIn', true);
-    case actionTypes.SIGNIN_SUCCESS:
+    case actionTypes.SIGN_IN_SUCCESS:
       return authSuccess(state, payload)
         .set('isSigningIn', false);
-    case actionTypes.SIGNIN_FAILURE:
+    case actionTypes.SIGN_IN_FAILURE:
       return authFailure(state, payload)
         .set('isSigningIn', false);
 
-    case actionTypes.SIGNUP_PENDING:
+    case actionTypes.SIGN_UP_PENDING:
       return state
         .set('isSigningUp', true);
-    case actionTypes.SIGNUP_SUCCESS:
+    case actionTypes.SIGN_UP_SUCCESS:
       return authSuccess(state, payload)
         .set('isSigningUp', false);
-    case actionTypes.SIGNUP_FAILURE:
+    case actionTypes.SIGN_UP_FAILURE:
       return authFailure(state, payload)
         .set('isSigningUp', false);
+
+    case actionTypes.SIGN_OUT_PENDING:
+      return state
+        .set('isSigningOut', true);
+    case actionTypes.SIGN_OUT_SUCCESS:
+      return state
+        .set('user', Map())
+        .set('token', '')
+        .set('isAuthenticated', false)
+        .set('isSigningOut', false);
+    case actionTypes.SIGN_OUT_FAILURE:
+      return state
+        .set('isSigningOut', false)
+        .set('error', Map({ status: true, message: payload.error }));
 
     case actionTypes.EDIT_USER_PENDING:
       return state

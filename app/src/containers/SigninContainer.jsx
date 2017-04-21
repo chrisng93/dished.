@@ -7,16 +7,16 @@ import { push } from 'react-router-redux';
 import { bindActionCreators } from 'redux';
 import * as actions from '../actions';
 import { isAuthenticatedSelector } from '../selectors/userSelectors';
-import Signin from '../components/Signin';
+import SignInModal from '../components/SignInModal';
 
 const propTypes = {
   isAuthenticated: T.bool,
-  signin: T.func,
+  signIn: T.func,
 };
 
-function SigninContainer(props) {
+function SignInContainer(props) {
   return (
-    <Signin {...props} />
+    <SignInModal {...props} />
   );
 }
 
@@ -28,10 +28,10 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    signin: bindActionCreators(actions.signin, dispatch),
+    signIn: bindActionCreators(actions.signIn, dispatch),
   };
 }
 
-SigninContainer.propTypes = propTypes;
+SignInContainer.propTypes = propTypes;
 
-export default connect(mapStateToProps, mapDispatchToProps)(SigninContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(SignInContainer);

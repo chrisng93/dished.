@@ -5,10 +5,10 @@ import React, { Component, PropTypes as T } from 'react';
 
 const propTypes = {
   isAuthenticated: T.bool,
-  signin: T.func,
+  signIn: T.func,
 };
 
-export default class Signin extends Component {
+export default class SignIn extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -16,7 +16,7 @@ export default class Signin extends Component {
       password: '',
     };
     this.onChangeInput = this.onChangeInput.bind(this);
-    this.onSignin = this.onSignin.bind(this);
+    this.onSignIn = this.onSignIn.bind(this);
   }
 
   onChangeInput(e, field) {
@@ -25,10 +25,10 @@ export default class Signin extends Component {
     this.setState(newState);
   }
 
-  onSignin() {
+  onSignIn() {
     const { email, password } = this.state;
-    const { signin } = this.props;
-    signin({ email, password })
+    const { signIn } = this.props;
+    signIn({ email, password })
   }
 
   render() {
@@ -50,7 +50,7 @@ export default class Signin extends Component {
             onChange={(e) => this.onChangeInput(e, 'password')}
           />
         </form>
-        <button className="signin-submit" onClick={this.onSignin}>
+        <button className="signin-submit" onClick={this.onSignIn}>
           Sign In
         </button>
       </section>
@@ -58,4 +58,4 @@ export default class Signin extends Component {
   }
 }
 
-Signin.propTypes = propTypes;
+SignIn.propTypes = propTypes;

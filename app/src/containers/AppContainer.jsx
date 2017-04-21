@@ -6,17 +6,21 @@ import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
 import { bindActionCreators } from 'redux';
 import * as actions from '../actions';
-import { isAuthenticatedSelector } from '../selectors/userSelectors';
+import { isAuthenticatedSelector, tokenSelector } from '../selectors/userSelectors';
 import Nav from '../components/Nav';
 
 const propTypes = {
   children: T.node,
+
   isAuthenticated: T.boolean,
+  token: T.string,
+
   routeToHome: T.func,
-  routeToSignin: T.func,
-  routeToSignup: T.func,
+  routeToSignIn: T.func,
+  routeToSignUp: T.func,
   routeToProfile: T.func,
   routeToSearches: T.func,
+  signOut: T.func,
 };
 
 function AppContainer(props) {
@@ -31,16 +35,18 @@ function AppContainer(props) {
 function mapStateToProps(state) {
   return {
     isAuthenticated: isAuthenticatedSelector(state),
+    token: tokenSelector(state),
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
     routeToHome: () => dispatch(push('/')),
-    routeToSignin: () => dispatch(push('/signin')),
-    routeToSignup: () => dispatch(push('/signup')),
+    routeToSignIn: () => dispatch(push('/signin')),
+    routeToSignUp: () => dispatch(push('/signup')),
     routeToProfile: () => dispatch(push('/profile')),
     routeToSearches: () => dispatch(push('/searches')),
+    signOut: bindActionCreators(actions.signOut, dispatch),
   };
 }
 

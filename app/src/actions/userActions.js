@@ -6,59 +6,87 @@ import { push } from 'react-router-redux';
 import * as actionTypes from '../constants/actionTypes';
 import { createHeaders } from '../utils/requestUtils';
 
-export function signin(payload) {
+export function signIn(payload) {
   return {
-    type: actionTypes.SIGNIN_PENDING,
+    type: actionTypes.SIGN_IN_PENDING,
     payload,
   };
 }
 
-function signinUser(action) {
+function signInUser(action) {
   const { payload } = action;
   const body = JSON.stringify(payload);
   const headers = createHeaders();
   return Observable.ajax.post(`${process.env.API_URL}/auth/signin`, body, headers);
 }
 
-export const signinEpic = (action$) => {
-  return action$.ofType(actionTypes.SIGNIN_PENDING)
+export const signInEpic = (action$) => {
+  return action$.ofType(actionTypes.SIGN_IN_PENDING)
     .switchMap(action =>
-      Observable.from(signinUser(action))
+      Observable.from(signInUser(action))
         .flatMap(payload =>
           Observable.concat(
-            Observable.of({ type: actionTypes.SIGNIN_SUCCESS, payload: payload.response }),
+            Observable.of({ type: actionTypes.SIGN_IN_SUCCESS, payload: payload.response }),
             Observable.of(push('/')),
           )
         )
-        .catch(error => Observable.of({ type: actionTypes.SIGNIN_FAILURE, payload: { error } }))
+        .catch(error => Observable.of({ type: actionTypes.SIGN_IN_FAILURE, payload: { error } }))
     )
 };
 
-export function signup(payload) {
+export function signUp(payload) {
   return {
-    type: actionTypes.SIGNUP_PENDING,
+    type: actionTypes.SIGN_UP_PENDING,
     payload,
   };
 }
 
-function signupUser(action) {
+function signUpUser(action) {
   const { payload } = action;
   const body = JSON.stringify(payload);
   const headers = createHeaders();
   return Observable.ajax.post(`${process.env.API_URL}/api/user`, body, headers);
 }
 
-export const signupEpic = (action$) => {
-  return action$.ofType(actionTypes.SIGNUP_PENDING)
+export const signUpEpic = (action$) => {
+  return action$.ofType(actionTypes.SIGN_UP_PENDING)
     .switchMap(action =>
-      Observable.from(signupUser(action))
+      Observable.from(signUpUser(action))
         .flatMap(payload =>
           Observable.concat(
-            Observable.of({ type: actionTypes.SIGNUP_SUCCESS, payload: payload.response }),
+            Observable.of({ type: actionTypes.SIGN_UP_SUCCESS, payload: payload.response }),
             Observable.of(push('/')),
           )
         )
-        .catch(error => Observable.of({ type: actionTypes.SIGNUP_FAILURE, payload: { error } }))
+        .catch(error => Observable.of({ type: actionTypes.SIGN_UP_FAILURE, payload: { error } }))
+    )
+};
+
+export function signOut(payload) {
+  return {
+    type: actionTypes.SIGN_OUT_PENDING,
+    payload,
+  }
+}
+
+function signOutUser(action) {
+  const { payload } = action;
+  const body = JSON.stringify({});
+  const headers = createHeaders(payload.token);
+  return Observable.ajax.post(`${process.env.API_URL}/auth/signout`, body, headers);
+}
+
+export const signOutEpic = (action$) => {
+  return action$.ofType(actionTypes.SIGN_OUT_PENDING)
+    .switchMap(action =>
+      Observable.from(signOutUser(action))
+        .flatMap(payload =>
+          Observable.concat(
+            Observable.of({ type: actionTypes.SIGN_OUT_SUCCESS }),
+            Observable.of(push('/')),
+          )
+        )
+        .catch(error => Observable.of({ type: actionTypes.SIGN_OUT_FAILURE, payload: { error } }))
     )
 };
 

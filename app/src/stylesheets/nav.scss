@@ -5,10 +5,16 @@
   padding: 10px;
   display: flex;
   flex-direction: row;
-  align-items: flex-end;
+  align-items: flex-start;
   background-color: #ffffff;
   font-size: 16px;
   z-index: 1;
+
+  .nav-cluster {
+    margin-left: auto;
+    display: flex;
+    flex-direction: row;
+  }
 
   li {
     width: 100px;
@@ -21,9 +27,5 @@
   li:hover {
     color: #d6e1ef;
     cursor: pointer;
-  }
-
-  .nav-home {
-    margin-right: auto;
   }
 }

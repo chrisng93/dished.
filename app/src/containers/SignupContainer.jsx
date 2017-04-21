@@ -2,13 +2,13 @@ import React, { Component, PropTypes as T } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as actions from '../actions';
-import Signup from '../components/Signup';
+import Signup from '../components/SignUp';
 
 const propTypes = {
-  signup: T.func,
+  signUp: T.func,
 };
 
-function SignupContainer(props) {
+function SignUpContainer(props) {
   return(
     <Signup {...props} />
   )
@@ -22,10 +22,10 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    signup: bindActionCreators(actions.signup, dispatch),
+    signUp: bindActionCreators(actions.signUp, dispatch),
   };
 }
 
-SignupContainer.propTypes = propTypes;
+SignUpContainer.propTypes = propTypes;
 
-export default connect(mapStateToProps, mapDispatchToProps)(SignupContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(SignUpContainer);

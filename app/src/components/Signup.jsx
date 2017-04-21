@@ -4,10 +4,10 @@
 import React, { Component, PropTypes as T } from 'react';
 
 const propTypes = {
-  signup: T.func,
+  signUp: T.func,
 };
 
-export default class Signup extends Component {
+export default class SignUp extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -15,7 +15,7 @@ export default class Signup extends Component {
       password: '',
     };
     this.onChangeInput = this.onChangeInput.bind(this);
-    this.onSignup = this.onSignup.bind(this);
+    this.onSignUp = this.onSignUp.bind(this);
   }
 
   onChangeInput(e, field) {
@@ -24,12 +24,12 @@ export default class Signup extends Component {
     this.setState(newState);
   }
 
-  onSignup() {
+  onSignUp() {
     // TODO: validate that both fields are filled
     // TODO: error handling (from server)
     const { email, password } = this.state;
-    const { signup } = this.props;
-    signup({ email, password });
+    const { signUp } = this.props;
+    signUp({ email, password });
   }
 
   render() {
@@ -51,7 +51,7 @@ export default class Signup extends Component {
             onChange={(e) => this.onChangeInput(e, 'password')}
           />
         </form>
-        <button className="signup-submit" onClick={this.onSignup}>
+        <button className="signup-submit" onClick={this.onSignUp}>
           Sign Up
         </button>
       </section>
@@ -59,4 +59,4 @@ export default class Signup extends Component {
   }
 }
 
-Signup.propTypes = propTypes;
+SignUp.propTypes = propTypes;
