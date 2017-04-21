@@ -12,8 +12,8 @@ export default class Map extends Component {
     super(props);
     this.geocoder = typeof google === 'object' ? new google.maps.Geocoder() : null;
     this.state = {
-      center: {},
-      zoom: 0,
+      center: { lat: 0, lng: 0 },
+      zoom: 15,
       error: '',
     };
     this.setCenter = this.setCenter.bind(this);

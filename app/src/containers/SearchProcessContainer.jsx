@@ -17,10 +17,12 @@ function SearchProcessContainer(props) {
   const { children, currentStep, location } = props;
   return (
     <section className="search-process">
-      <ProgressIndicator currentStep={currentStep} />
-      {children}
-      <section className="search-process-map" style={{width: '400px', height: '400px'}}>
-        <Map address={location} width={'400px'} height={'400px'} />
+      <section className="search-process-info">
+        <ProgressIndicator currentStep={currentStep} />
+        {children}
+      </section>
+      <section className="search-process-map">
+        <Map address={location || 'oracle arena'} width={'400px'} height={'400px'} />
       </section>
     </section>
   );

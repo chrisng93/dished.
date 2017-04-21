@@ -23,25 +23,25 @@ export default class Nav extends Component {
 
   renderSignin() {
     return (
-      <li onClick={this.props.routeToSignin}>Sign in</li>
+      <li className="nav-signin" onClick={this.props.routeToSignin}>Sign in</li>
     );
   }
 
   renderSignup() {
     return (
-      <li onClick={this.props.routeToSignup}>Sign up</li>
+      <li className="nav-signup" onClick={this.props.routeToSignup}>Sign up</li>
     );
   }
 
   renderProfile() {
     return (
-      <li onClick={this.props.routeToProfile}>Profile</li>
+      <li className="nav-profile" onClick={this.props.routeToProfile}>Profile</li>
     );
   }
 
   renderSearches() {
     return (
-      <li onClick={this.props.routeToSearches}>Searches</li>
+      <li className="nav-searches" onClick={this.props.routeToSearches}>Searches</li>
     );
   }
 
@@ -49,7 +49,7 @@ export default class Nav extends Component {
     const { isAuthenticated, routeToHome } = this.props;
     return (
       <ul className="nav">
-        <li onClick={routeToHome}>Home</li>
+        <li className="nav-home" onClick={routeToHome}>Home</li>
         {isAuthenticated ? null : this.renderSignin()}
         {isAuthenticated ? null : this.renderSignup()}
         {isAuthenticated ? this.renderProfile() : null}

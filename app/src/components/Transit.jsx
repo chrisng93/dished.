@@ -28,6 +28,7 @@ export default class Transit extends Component {
     // TODO: error checking to make sure fields are filled out and that transitTime is an int
     const { submitTransit } = this.props;
     let { transitMethod, transitTime } = this.state;
+    transitMethod = transitMethod.toUpperCase();
     transitTime = parseInt(transitTime);
     submitTransit({ transitMethod, transitTime });
   }

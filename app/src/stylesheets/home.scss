@@ -1,0 +1,32 @@
+.home {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+
+  .home-start-container {
+    width: 500px;
+    height: 240px;
+    margin-bottom: 150px;
+    border-radius: 3px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(246, 245, 243, 0.9);
+
+    .home-start-search {
+      width: 250px;
+      height: 80px;
+      border: none;
+      border-radius: 3px;
+      background-color: #222a3f;
+      font-size: 18px;
+      font-weight: 500;
+      letter-spacing: 2px;
+      color: #f6f5f3;
+    }
+  }
+}

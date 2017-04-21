@@ -29,6 +29,7 @@ const routes = (
       <Route path="/profile" component={ProfileContainer} />
     </Route>
     {/*<Route path="/searches" component={EnsureAuthenticationContainer}>*/}
+    {/*<IndexRoute component={SearchesContainer} />*/}
       {/*<Route path="/searches" component={SearchesContainer} />*/}
       {/*<Route path="/searches/:id" component={SearchContainer} />*/}
     {/*</Route>*/}
