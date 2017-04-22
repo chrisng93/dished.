@@ -7,7 +7,7 @@ from ..common.services import RestaurantSearch
 from ..common.exceptions import UnableToComplete
 from ..common.helpers import check_auth
 from . import route
-from ..restaurant_searches.helpers import get_radius
+from ..restaurant_searches.helpers import calculate_radius
 
 restaurant_search_bp = Blueprint('restaurant_search', __name__, url_prefix='/api/restaurant/search')
 
@@ -15,6 +15,16 @@ restaurant_search_bp = Blueprint('restaurant_search', __name__, url_prefix='/api
 @route(restaurant_search_bp, '/<int:id>', methods=['GET'])
 def get_search(id):
     return dict(search=RestaurantSearch.get(id).to_dict())
+
+
+@route(restaurant_search_bp, '/radius', methods=['GET'])
+def get_radius():
+    address = request.args.get('address')
+    transit_method = request.args.get('transit_method')
+    transit_time = request.args.get('transit_time')
+    if not address or not transit_method or not transit_time:
+        return dict(error='Please supply all necessary fields: address, transit_method, and transit_time'), 400
+    return calculate_radius(address, transit_method, transit_time)
 
 
 @route(restaurant_search_bp, '/', methods=['POST'])
