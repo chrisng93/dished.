@@ -5,7 +5,14 @@ from .. import config
 
 
 def calculate_distance(geocode1, geocode2):
-    return sqrt((geocode1[0]-geocode2[0])**2 + (geocode1[1]-geocode2[1])**2)
+    r = config.EARTH_RADIUS
+    phi1 = radians(geocode1[0])
+    phi2 = radians(geocode2[0])
+    delta_phi = radians(geocode2[0] - geocode1[0])
+    delta_lambda = radians(geocode2[1] - geocode1[1])
+    a = sin(delta_phi / 2) * sin(delta_phi / 2) + cos(phi1) * cos(phi2) * sin(delta_lambda / 2) * sin(delta_lambda / 2)
+    c = 2 * atan2(sqrt(a), sqrt(1 - a))
+    return r * c
 
 
 def calculate_haversine(origin_geocode, radius, angle):
@@ -13,7 +20,7 @@ def calculate_haversine(origin_geocode, radius, angle):
         Use Haversine formula to calculate distance between two points on a sphere. Since we're on earth.
         And it's round. Sorry Kyrie.
     """
-    r = 3963.1676  # radius of earth
+    r = config.EARTH_RADIUS
     bearing = radians(angle)
     lat1 = radians(origin_geocode[0])
     lng1 = radians(origin_geocode[1])
@@ -28,7 +35,6 @@ def parse_distance_json(url):
     """ Return addresses/durations given origin, destinations, and transit method """
     req = requests.get(url)
     results = req.json()
-    results = [result for result in results if result['status'] == 'OK']
     addresses = [address for address in results['destination_addresses'] if address != '']
     i = 0
     durations = [0] * len(addresses)
@@ -58,7 +64,6 @@ def get_destination(origin, radius, angle):
 
 
 def get_speed(transit_method):
-    transit_method = transit_method.lower()
     if transit_method == 'driving':
         return config.AVERAGE_CAR_SPEED
     elif transit_method == 'transit':
@@ -75,7 +80,8 @@ def build_url(origin, destination, transit_method):
     destination_str = str(destination).replace(' ', '')
     for element in destination:
         destination_str = '{0}|{1}'.format(destination_str, ','.join(map(str, element)))
-    url = urlparse('%s&origins=%s&destinations=%s&mode=%s&key=%s' % (prefix, origin, destination_str, transit_method, config.GOOGLE_API_KEY))
+    url = urlparse('%s&origins=%s&destinations=%s&mode=%s&key=%s' % (
+    prefix, origin, destination_str, transit_method, config.GOOGLE_API_KEY))
     return '%s://%s%s?%s' % (url.scheme, url.netloc, url.path, url.query)
 
 
@@ -84,16 +90,16 @@ def calculate_isochrone(origin, transit_method, transit_time, max_speed=75, num_
     duration = transit_time / speed
 
     rad1 = [duration] * num_of_angles
-    phi1 = [i * (360/num_of_angles) for i in range(num_of_angles)]
+    phi1 = [i * (360 / num_of_angles) for i in range(num_of_angles)]
     data0 = [0] * num_of_angles
     rad0 = [0] * num_of_angles
     rmin = [0] * num_of_angles
-    rmax = [(max_speed/60) * transit_time] * num_of_angles
+    rmax = [(max_speed / 60) * transit_time] * num_of_angles
     iso = [[0, 0]] * num_of_angles
 
     j = 0
 
-    while sum([a-b for a, b in zip(rad0, rad1)]) != 0:
+    while sum([a - b for a, b in zip(rad0, rad1)]) != 0:
         rad2 = [0] * num_of_angles
         for i in range(num_of_angles):
             iso[i] = get_destination(origin, rad1[i], phi1[i])
@@ -112,6 +118,7 @@ def calculate_isochrone(origin, transit_method, transit_time, max_speed=75, num_
         rad0 = rad1
         rad1 = rad2
         j += 1
+        print('attempt' + str(j))
         if j > 30:
             return dict(error='Taking too long'), 500
     return iso
@@ -121,7 +128,9 @@ def calculate_radius(origin, transit_method, transit_time):
     """ Calculate radius around address given transit method and time """
     origin = origin.replace(' ', '+')
     origin_geocode = get_geocode(origin)
-    isochrone = calculate_isochrone(origin, transit_method, float(transit_time))
+    isochrone = calculate_isochrone(origin, transit_method.lower(), float(transit_time))
     distances = [calculate_distance(origin_geocode, destination) for destination in isochrone]
+    print(distances)
     average_radius = sum(distances) / len(distances)
+    print(average_radius)
     return dict(radius=average_radius)
