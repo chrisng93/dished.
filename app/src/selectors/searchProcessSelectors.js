@@ -25,6 +25,11 @@ export const transitTimeSelector = createSelector(
   searchProcessState => searchProcessState.get('transitTime')
 );
 
+export const radiusSelector = createSelector(
+  searchProcessStateSelector,
+  searchProcessState => searchProcessState.get('radius')
+);
+
 export const foodTypeSelector = createSelector(
   searchProcessStateSelector,
   searchProcessState => searchProcessState.get('foodType')

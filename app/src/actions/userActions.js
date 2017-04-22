@@ -41,7 +41,7 @@ export function signUp(payload) {
   };
 }
 
-function signUpUser(action) {
+const signUpUser = (action) => {
   const { payload } = action;
   const body = JSON.stringify(payload);
   const headers = createHeaders();
@@ -69,7 +69,7 @@ export function signOut(payload) {
   }
 }
 
-function signOutUser(action) {
+const signOutUser = (action) => {
   const { payload } = action;
   const body = JSON.stringify({});
   const headers = createHeaders(payload.token);

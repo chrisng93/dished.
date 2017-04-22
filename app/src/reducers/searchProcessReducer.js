@@ -12,8 +12,12 @@ const initialError = fromJS({
 const initialState = fromJS({
   currentStep: '',
   location: '',
+
   transitMethod: '',
   transitTime: 0,
+  radius: 10,
+  isSubmittingTransit: false,
+
   foodType: '',
 
   choices: List(),
@@ -31,17 +35,29 @@ export default function searchProcess(state = initialState, action) {
     case actionTypes.START_SEARCH_PROCESS:
       return state
         .set('currentStep', 'location');
+
     case actionTypes.SUBMIT_LOCATION:
       return state
         .set('location', payload.location);
     case actionTypes.CONFIRM_LOCATION:
       return state
         .set('currentStep', 'transit');
-    case actionTypes.SUBMIT_TRANSIT:
+
+    case actionTypes.SUBMIT_TRANSIT_PENDING:
       return state
+        .set('isSubmittingTransit', true);
+    case actionTypes.SUBMIT_TRANSIT_SUCCESS:
+      return state
+        .set('isSubmittingTransit', false)
         .set('transitMethod', payload.transitMethod)
         .set('transitTime', payload.transitTime)
+        .set('radius', parseFloat(payload.radius))
         .set('currentStep', 'foodType');
+    case actionTypes.SUBMIT_TRANSIT_FAILURE:
+      return state
+        .set('isSubmittingTransit', false)
+        .set('error', Map({ status: true, error: payload.error }));
+
     case actionTypes.SUBMIT_FOOD_TYPE:
       return state
         .set('foodType', payload.foodType);

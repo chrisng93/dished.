@@ -26,15 +26,16 @@ export default class Transit extends Component {
 
   onSubmitTransit() {
     // TODO: error checking to make sure fields are filled out and that transitTime is an int
-    const { submitTransit } = this.props;
+    const { submitTransit, location } = this.props;
     let { transitMethod, transitTime } = this.state;
     transitMethod = transitMethod.toUpperCase();
     transitTime = parseInt(transitTime);
-    submitTransit({ transitMethod, transitTime });
+    submitTransit({ location, transitMethod, transitTime });
   }
 
   render() {
     // TODO: make transitMethod a dropdown with valid options
+    // TODO: add waiting indicator after submit
     return (
       <section className="transit">
         <form className="transit-form">

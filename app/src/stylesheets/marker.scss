@@ -1,13 +1,27 @@
 .marker {
   position: absolute;
-  width: 40px;
-  height: 40px;
-  border: 5px solid #f44336;
   border-radius: 50%;
   padding: 4px;
-  background-color: white;
   text-align: center;
-  color: #3f51b5;
   font-size: 16px;
   font-weight: bold;
+}
+
+.center {
+  border: 5px solid #f44336;
+  background-color: #ffffff;
+  color: #3f51b5;
+  z-index: 1;
+}
+
+.radius-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.radius {
+  border-color: #2b387c;
+  background-color: #3f51b5;
+  opacity: 0.6;
 }

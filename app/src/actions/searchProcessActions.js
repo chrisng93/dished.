@@ -28,14 +28,31 @@ export const confirmLocationEpic = (action$) => {
 
 export function submitTransit(payload) {
   return {
-    type: actionTypes.SUBMIT_TRANSIT,
+    type: actionTypes.SUBMIT_TRANSIT_PENDING,
     payload,
   }
 }
 
+const submitTransitApi = (payload) => {
+  const { location, transitMethod, transitTime } = payload;
+  const headers = createHeaders();
+  const address = location.split(' ').join('+');
+  const queryString = `address=${address}&transit_method=${transitMethod}&transit_time=${transitTime}`;
+  return Observable.ajax(`${process.env.API_URL}/api/restaurant/search/radius?${queryString}`, headers);
+};
+
 export const submitTransitEpic = (action$) => {
-  return action$.ofType(actionTypes.SUBMIT_TRANSIT)
-    .mapTo(push('/search/food'));
+  return action$.ofType(actionTypes.SUBMIT_TRANSIT_PENDING)
+    .switchMap(action =>
+      Observable.from(submitTransitApi(action.payload))
+        .switchMap(payload =>
+          Observable.concat(
+            Observable.of({ type: actionTypes.SUBMIT_TRANSIT_SUCCESS, payload: {...payload.response, ...action.payload } }),
+            Observable.of(push('/search/food')),
+          )
+        )
+        .catch(error => Observable.of({ type: actionTypes.SUBMIT_TRANSIT_FAILURE, payload: { error } }))
+    )
 };
 
 export function submitFoodType(payload) {
