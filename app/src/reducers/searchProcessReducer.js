@@ -32,9 +32,9 @@ const initialState = fromJS({
 export default function searchProcess(state = initialState, action) {
   const { type, payload } = action;
   switch (type) {
-    case actionTypes.START_SEARCH_PROCESS:
+    case actionTypes.CHANGE_STEP:
       return state
-        .set('currentStep', 'location');
+        .set('currentStep', payload.currentStep);
 
     case actionTypes.SUBMIT_LOCATION:
       return state

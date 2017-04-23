@@ -6,7 +6,6 @@ import React, { Component, PropTypes as T } from 'react';
 const propTypes = {
   submitLocation: T.func,
   confirmLocation: T.func,
-  startSearch: T.func,
 };
 
 export default class Location extends Component {
@@ -20,10 +19,6 @@ export default class Location extends Component {
     this.onSubmitLocation = this.onSubmitLocation.bind(this);
     this.onConfirmLocation = this.onConfirmLocation.bind(this);
     this.onUnconfirmLocation = this.onUnconfirmLocation.bind(this);
-  }
-
-  componentWillMount() {
-    this.props.startSearch();
   }
 
   onChangeLocation(e) {
