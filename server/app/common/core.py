@@ -15,6 +15,9 @@ def create_app(package_name, package_path):
     db.init_app(app)
     redis.init_app(app)
 
+    from ..restaurant_searches.api_helpers import get_yelp_access_token
+    get_yelp_access_token()
+
     register_blueprints(app, package_name, package_path)
 
     return app

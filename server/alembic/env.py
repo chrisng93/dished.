@@ -8,8 +8,8 @@ from alembic import context
 from sqlalchemy import engine_from_config, pool
 from logging.config import fileConfig
 
-from app.models import *
-from app.extensions import db
+from app.common.models import *
+from app.common.extensions import db
 from app.api import create_app
 
 app = create_app()

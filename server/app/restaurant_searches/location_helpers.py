@@ -4,6 +4,10 @@ from math import sqrt, cos, sin, radians, degrees, asin, atan2
 from .. import config
 
 
+def miles_to_meters(miles):
+    return int(miles * 1609.34)
+
+
 def calculate_distance(geocode1, geocode2):
     r = config.EARTH_RADIUS
     phi1 = radians(geocode1[0])
@@ -60,7 +64,7 @@ def get_geocode(address):
 
 def get_destination(origin, radius, angle):
     origin_geocode = get_geocode(origin)
-    return calculate_haversine(origin_geocode, radius, angle)
+    return calculate_haversine(origin_geocode=origin_geocode, radius=radius, angle=angle)
 
 
 def get_speed(transit_method):
@@ -103,7 +107,7 @@ def calculate_isochrone(origin, transit_method, transit_time, max_speed=75, num_
         rad2 = [0] * num_of_angles
         for i in range(num_of_angles):
             iso[i] = get_destination(origin, rad1[i], phi1[i])
-        full_url = build_url(origin, iso, transit_method)
+        full_url = build_url(origin=origin, destination=iso, transit_method=transit_method)
         data = parse_distance_json(full_url)
         for i in range(num_of_angles):
             if (data[1][i] < (transit_time - tolerance)) & (data0[i] != data[0][i]):
@@ -128,9 +132,7 @@ def calculate_radius(origin, transit_method, transit_time):
     """ Calculate radius around address given transit method and time """
     origin = origin.replace(' ', '+')
     origin_geocode = get_geocode(origin)
-    isochrone = calculate_isochrone(origin, transit_method.lower(), float(transit_time))
+    isochrone = calculate_isochrone(origin=origin, transit_method=transit_method.lower(), transit_time=float(transit_time))
     distances = [calculate_distance(origin_geocode, destination) for destination in isochrone]
-    print(distances)
     average_radius = sum(distances) / len(distances)
-    print(average_radius)
     return dict(radius=average_radius)

@@ -1,8 +1,8 @@
-"""create users + restaurant_searches tabables
+"""create user and restaurantsearch tables
 
-Revision ID: 97be14aa934e
-Revises:
-Create Date: 2017-04-09 20:54:32.052944
+Revision ID: 73ce6ae2ccba
+Revises: 
+Create Date: 2017-04-22 18:38:05.593080
 
 """
 from alembic import op
@@ -10,12 +10,12 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '97be14aa934e'
+revision = '73ce6ae2ccba'
 down_revision = None
 branch_labels = None
 depends_on = None
 
-TRANSPORT_METHODS = ('DRIVING', 'BICYCLING', 'TRANSIT', 'WALKING')
+TRANSIT_METHODS = ('DRIVING', 'BICYCLING', 'TRANSIT', 'WALKING')
 
 
 def upgrade():
@@ -33,8 +33,8 @@ def upgrade():
         sa.Column('id', sa.Integer(), nullable=False),
         sa.Column('created_at', sa.DateTime(), nullable=False),
         sa.Column('user_location', sa.String(length=400), nullable=False),
-        sa.Column('transport_method', sa.Enum(*TRANSPORT_METHODS), nullable=False),
-        sa.Column('desired_travel_time', sa.Integer(), nullable=False),
+        sa.Column('transit_method', sa.Enum(*TRANSIT_METHODS), nullable=False),
+        sa.Column('transit_time', sa.Integer(), nullable=False),
         sa.Column('food_type', sa.String(length=120), nullable=False),
         sa.Column('selection', sa.String(length=120), nullable=True),
         sa.Column('rating', sa.Integer(), nullable=True),

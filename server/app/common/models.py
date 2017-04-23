@@ -1,2 +1,2 @@
-from server.app.users.UserModel import User
-from server.app.restaurant_searches.RestaurantSearchModel import RestaurantSearch
+from ..users.UserModel import User
+from ..restaurant_searches.RestaurantSearchModel import RestaurantSearch
