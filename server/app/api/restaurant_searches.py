@@ -41,16 +41,13 @@ def create_search():
     if auth['status'] == 'success':
         request.json['user_id'] = auth['message']
     rs = RestaurantSearch.create(**request.json).to_dict()
-    try:
-        geocode = get_geocode(request.json['user_location'])
-        restaurants = hit_yelp(location=geocode, radius=request.json['radius'], food=request.json['food_type'],
-                               transit_time=request.json['transit_time'])
-        ranked_restaurants = rank_restaurants(restaurants)
-        return dict(restaurants=ranked_restaurants)
-        # hit yelp api to get restaurants w/ certain food_type within given radius of user_location
-        # run results through ranking algorithm and return to client
-    except UnableToComplete as e:
-        return dict(error=str(e))
+    geocode = get_geocode(request.json['user_location'])
+    restaurants = hit_yelp(location=geocode, radius=request.json['radius'], food=request.json['food_type'],
+                           transit_time=request.json['transit_time'])
+    if len(restaurants) < 3:
+        return dict(error='Not enough results'), 500
+    ranked_restaurants = rank_restaurants(restaurants)
+    return dict(restaurants=ranked_restaurants)
 
 
 @route(restaurant_search_bp, '/<int:id>', methods=['PUT'])

@@ -13,7 +13,6 @@ def calc_scores(restaurants, field):
 
 def calc_score(value, mean, stdev):
     delta = value - mean
-    print(value, delta, mean, stdev, delta/stdev)
     if delta == 0:
         return 50
     elif delta < 0:
