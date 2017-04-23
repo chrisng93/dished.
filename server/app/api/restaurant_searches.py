@@ -45,7 +45,8 @@ def create_search():
         geocode = get_geocode(request.json['user_location'])
         restaurants = hit_yelp(location=geocode, radius=request.json['radius'], food=request.json['food_type'],
                                transit_time=request.json['transit_time'])
-        return dict(restaurants=restaurants)
+        ranked_restaurants = rank_restaurants(restaurants)
+        return dict(restaurants=ranked_restaurants)
         # hit yelp api to get restaurants w/ certain food_type within given radius of user_location
         # run results through ranking algorithm and return to client
     except UnableToComplete as e:

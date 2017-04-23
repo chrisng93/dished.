@@ -1,6 +1,5 @@
 import requests
 from urllib.parse import urlparse
-from datetime import datetime, timedelta
 from .location_helpers import miles_to_meters
 from .. import config
 
