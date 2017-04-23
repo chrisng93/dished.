@@ -67,7 +67,7 @@ export default function searchProcess(state = initialState, action) {
         .set('isSubmittingSearch', true);
     case actionTypes.SUBMIT_SEARCH_SUCCESS:
       return state
-        .set('choices', fromJS(payload))
+        .set('choices', fromJS(payload.restaurants))
         .set('isSubmittingSearch', false)
         .set('error', initialError);
     case actionTypes.SUBMIT_SEARCH_FAILURE:

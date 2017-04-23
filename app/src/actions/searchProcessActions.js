@@ -74,9 +74,10 @@ export function submitSearch(store) {
   const searchProcess = store.getState().searchProcess;
   const body = JSON.stringify({
     user_location: searchProcess.get('location'),
-    transport_method: searchProcess.get('transitMethod'),
-    desired_travel_time: searchProcess.get('transitTime'),
+    transit_method: searchProcess.get('transitMethod'),
+    transit_time: searchProcess.get('transitTime'),
     food_type: searchProcess.get('foodType'),
+    radius: searchProcess.get('radius'),
   });
   const headers = createHeaders();
   return Observable.ajax.post(`${process.env.API_URL}/api/restaurant/search`, body, headers);
