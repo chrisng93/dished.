@@ -25,7 +25,7 @@ export default class Map extends Component {
     this.parseWidthHeight = this.parseWidthHeight.bind(this);
     this.setCenter = this.setCenter.bind(this);
     this.setRadius = this.setRadius.bind(this);
-    this.findzoom = this.findZoom.bind(this);
+    this.findZoom = this.findZoom.bind(this);
     this.findBounds = this.findBounds.bind(this);
     this.onChange = this.onChange.bind(this);
   }
