@@ -15,7 +15,7 @@ const initialState = fromJS({
 
   transitMethod: '',
   transitTime: 0,
-  radius: 10,
+  radius: 0,
   isSubmittingTransit: false,
 
   foodType: '',
