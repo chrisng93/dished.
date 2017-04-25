@@ -9,6 +9,7 @@ const propTypes = {
   width: T.string,
   height: T.string,
   radius: T.number,
+  choices: T.array,
 };
 
 export default class Map extends Component {
@@ -48,7 +49,7 @@ export default class Map extends Component {
   }
 
   setCenter(address) {
-    const { width, height, radius } = this.props;
+    const { width, height } = this.props;
     if (!this.geocoder) {
       return;
     }
@@ -69,7 +70,7 @@ export default class Map extends Component {
       };
       const size = { width: this.parseWidthHeight(width), height: this.parseWidthHeight(height) };
       const { center, zoom } = fitBounds(bounds, size);
-      this.setState({ center, zoom: zoom || this.state.zoom }, () => this.setRadius(radius, true));
+      this.setState({ center, zoom: zoom || this.state.zoom });
     });
   }
 
@@ -81,7 +82,9 @@ export default class Map extends Component {
     }
     const { lat, lng } = center;
     const { w, h } = meters2ScreenPixels(milesToMeters(radius), { lat, lng }, zoom);
-    this.setState({ radiusWidth: w, radiusHeight: h });
+    // meters2ScreenPixels is off by a ratio of 1.5
+    const ratio = 1.5;
+    this.setState({ radiusWidth: w * ratio, radiusHeight: h * ratio });
   }
 
   findZoom(center, radius) {
@@ -134,6 +137,10 @@ export default class Map extends Component {
 
   render() {
     const { center, zoom, radiusWidth, radiusHeight, error } = this.state;
+    const { choices, hoveredChoice, selectedChoice } = this.props;
+    const centerProps = { lat: center.lat, lng: center.lng, zoom };
+    const radiusProps = { lat: center.lat, lng: center.lng, width: radiusWidth, height: radiusHeight };
+    console.log(selectedChoice)
     return (
       <GoogleMapReact
         bootstrapURLKeys={{ key: process.env.GOOGLE_API_KEY }}
@@ -141,8 +148,27 @@ export default class Map extends Component {
         zoom={zoom}
         onChange={this.onChange}
       >
-        <Marker type={'center'} lat={center.lat} lng={center.lng} zoom={zoom} />
-        <Marker type={'radius'} lat={center.lat} lng={center.lng} width={radiusWidth} height={radiusHeight} />
+        {choices && !selectedChoice.get('id') ? choices.map(choice =>
+          <Marker
+            type="restaurant"
+            key={choice.get('id')}
+            lat={choice.get('coordinates').get('latitude')}
+            lng={choice.get('coordinates').get('longitude')}
+            zoom={zoom}
+            selected={choice.get('id') === hoveredChoice}
+          />
+        ) : null}
+        {selectedChoice.get('id') ?
+          <Marker
+            type="restaurant"
+            lat={selectedChoice.get('coordinates') ? selectedChoice.get('coordinates').get('latitude') : null}
+            lng={selectedChoice.get('coordinates') ? selectedChoice.get('coordinates').get('longitude') : null}
+            zoom={zoom}
+            selected={true}
+          />
+          : null}
+        <Marker type="center" {...centerProps} />
+        <Marker type="radius" {...radiusProps} />
       </GoogleMapReact>
     );
   }

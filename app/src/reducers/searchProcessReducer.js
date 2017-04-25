@@ -11,7 +11,7 @@ const initialError = fromJS({
 
 const initialState = fromJS({
   currentStep: '',
-  location: '',
+  location: 'oracle arena',
 
   transitMethod: '',
   transitTime: 0,
@@ -20,7 +20,9 @@ const initialState = fromJS({
 
   foodType: '',
 
+  searchId: '',
   choices: List(),
+  hoveredChoice: '',
   isSubmittingSearch: false,
 
   selectedChoice: Map(),
@@ -67,6 +69,7 @@ export default function searchProcess(state = initialState, action) {
         .set('isSubmittingSearch', true);
     case actionTypes.SUBMIT_SEARCH_SUCCESS:
       return state
+        .set('searchId', payload.id)
         .set('choices', fromJS(payload.restaurants))
         .set('isSubmittingSearch', false)
         .set('error', initialError);
@@ -76,12 +79,19 @@ export default function searchProcess(state = initialState, action) {
         .set('isSubmittingSearch', false)
         .set('error', Map({ status: true, error: payload.error }));
 
+    case actionTypes.MOUSE_ENTER_CHOICE:
+      return state
+        .set('hoveredChoice', payload);
+    case actionTypes.MOUSE_LEAVE_CHOICE:
+      return state
+        .set('hoveredChoice', '');
+
     case actionTypes.SELECT_CHOICE_PENDING:
       return state
         .set('isSelectingChoice', true);
     case actionTypes.SELECT_CHOICE_SUCCESS:
       return state
-        .set('selectedChoice', Map(payload.selectedChoice))
+        .set('selectedChoice', Map(payload.choice))
         .set('isSelectingChoice', false)
         .set('error', initialError);
     case actionTypes.SELECT_CHOICE_FAILURE:

@@ -35,9 +35,19 @@ export const foodTypeSelector = createSelector(
   searchProcessState => searchProcessState.get('foodType')
 );
 
+export const searchIdSelector = createSelector(
+  searchProcessStateSelector,
+  searchProcessState => searchProcessState.get('searchId')
+);
+
 export const choicesSelector = createSelector(
   searchProcessStateSelector,
   searchProcessState => searchProcessState.get('choices')
+);
+
+export const hoveredChoiceSelector = createSelector(
+  searchProcessStateSelector,
+  searchProcessState => searchProcessState.get('hoveredChoice')
 );
 
 export const isSubmittingSearchSelector = createSelector(

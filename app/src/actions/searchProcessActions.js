@@ -96,3 +96,42 @@ export const submitSearchEpic = (action$, store) => {
         .catch(error => Observable.of({ type: actionTypes.SUBMIT_SEARCH_FAILURE, payload: { error } }))
     )
 };
+
+export function onMouseEnterChoice(payload) {
+  return {
+    type: actionTypes.MOUSE_ENTER_CHOICE,
+    payload,
+  }
+}
+
+export function onMouseLeaveChoice(payload) {
+  return {
+    type: actionTypes.MOUSE_LEAVE_CHOICE,
+    payload,
+  }
+}
+
+export function selectChoice(payload) {
+  return {
+    type: actionTypes.SELECT_CHOICE_PENDING,
+    payload,
+  }
+}
+
+const selectChoiceApi = (payload) => {
+  const body = JSON.stringify(payload);
+  const headers = createHeaders(payload.token);
+  return Observable.ajax.put(`${process.env.API_URL}/api/restaurant/${payload.id}`, body, headers)
+    .catch(error => Observable.of({ type: actionTypes.SELECT_CHOICE_FAILURE, payload: { error } }));
+};
+
+export const selectChoiceEpic = (action$) => {
+  return action$.ofType(actionTypes.SELECT_CHOICE_PENDING)
+    .flatMap(action =>
+      Observable.concat(
+        Observable.of({ type: actionTypes.SELECT_CHOICE_SUCCESS, payload: { ...action.payload }}),
+        Observable.of(push('/search/selection')),
+        Observable.from(selectChoiceApi(action.payload)),
+      )
+    )
+};

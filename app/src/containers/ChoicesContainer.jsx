@@ -3,16 +3,35 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as actions from '../actions';
 import { choicesSelector } from '../selectors/searchProcessSelectors';
+import { tokenSelector } from '../selectors/userSelectors';
+import Choice from '../components/Choice';
 
 const propTypes = {
+  choices: T.array,
+  token: T.string,
 
+  onMouseEnterChoice: T.func,
+  onMouseLeaveChoice: T.func,
+  selectChoice: T.func,
 };
 
 class ChoicesContainer extends Component {
+  constructor(props) {
+    super(props);
+  }
+
   render() {
+    const { choices, token, onMouseEnterChoice, onMouseLeaveChoice, selectChoice } = this.props;
+    const choiceProps = { token, onMouseEnterChoice, onMouseLeaveChoice, selectChoice };
     return (
       <section>
-        {this.props.choices.map(choice => <div>{choice.get('name')}</div>)}
+        {choices.map(choice =>
+          <Choice
+            key={choice.get('id')}
+            choice={choice}
+            {...choiceProps}
+          />
+        )}
       </section>
     );
   }
@@ -21,11 +40,15 @@ class ChoicesContainer extends Component {
 function mapStateToProps(state) {
   return {
     choices: choicesSelector(state),
+    token: tokenSelector(state),
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
+    onMouseEnterChoice: bindActionCreators(actions.onMouseEnterChoice, dispatch),
+    onMouseLeaveChoice: bindActionCreators(actions.onMouseLeaveChoice, dispatch),
+    selectChoice: bindActionCreators(actions.selectChoice, dispatch),
   };
 }
 
