@@ -10,7 +10,7 @@ const propTypes = {
 export default function Home({ routeToLocation }) {
   return (
     <section className="home">
-      <img className="bg" src={'https://s3-us-west-1.amazonaws.com/dishassist/landing.jpg' || require('../../assets/landing.jpg')} />
+      <section className="bg" />
       <section className="home-start-container">
         <button className="home-start-search" onClick={routeToLocation}>
           Start your search
