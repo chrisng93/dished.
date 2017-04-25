@@ -17,13 +17,13 @@ def get_yelp_access_token():
 
 def hit_yelp(location, radius, food, transit_time):
     prefix = 'https://api.yelp.com/v3/businesses/search'
-    radius = miles_to_meters(int(radius))
+    radius_in_meters = miles_to_meters(radius)
     limit = 50
     url = urlparse('%s?term=%s&latitude=%s&longitude=%s&radius=%s&limit=%s' % (prefix, food, location[0], location[1],
-                                                                               radius, limit))
+                                                                               int(radius_in_meters), limit))
     full_url = '%s://%s%s?%s' % (url.scheme, url.netloc, url.path, url.query)
     headers = dict(authorization='Bearer %s' % config.YELP_ACCESS_TOKEN)
     req = requests.get(full_url, headers=headers)
     # TODO: check to see if access token is expired, if expired then get access token
     results = req.json()
-    return results['businesses']
+    return [r for r in results['businesses'] if r['distance'] < radius_in_meters]

@@ -2,10 +2,11 @@ import requests
 from urllib.parse import urlparse
 from math import sqrt, cos, sin, radians, degrees, asin, atan2
 from .. import config
+from ..common.exceptions import TakingTooLong, GoogleMapsError
 
 
 def miles_to_meters(miles):
-    return int(miles * 1609.34)
+    return miles * 1609.34
 
 
 def calculate_distance(geocode1, geocode2):
@@ -42,13 +43,14 @@ def parse_distance_json(url):
     addresses = [address for address in results['destination_addresses'] if address != '']
     i = 0
     durations = [0] * len(addresses)
-    for row in results['rows'][0]['elements']:
-        if row['status'] == 'OK':
-            if 'duration_in_traffic' in row:
-                durations[i] = row['duration_in_traffic']['value'] / 60
-            else:
-                durations[i] = row['duration']['value'] / 60
-            i += 1
+    if len(results['destination_addresses']):
+        for row in results['rows'][0]['elements']:
+            if row['status'] == 'OK':
+                if 'duration_in_traffic' in row:
+                    durations[i] = row['duration_in_traffic']['value'] / 60
+                else:
+                    durations[i] = row['duration']['value'] / 60
+                i += 1
     return [addresses, durations]
 
 
@@ -84,8 +86,8 @@ def build_url(origin, destination, transit_method):
     destination_str = str(destination).replace(' ', '')
     for element in destination:
         destination_str = '{0}|{1}'.format(destination_str, ','.join(map(str, element)))
-    url = urlparse('%s&origins=%s&destinations=%s&mode=%s&key=%s' % (
-    prefix, origin, destination_str, transit_method, config.GOOGLE_API_KEY))
+    url = urlparse('%s&origins=%s&destinations=%s&mode=%s&departure_time=%s&traffic_model=%s&key=%s' %
+                   (prefix, origin, destination_str, transit_method, 'now', 'pessimistic', config.GOOGLE_API_KEY))
     return '%s://%s%s?%s' % (url.scheme, url.netloc, url.path, url.query)
 
 
@@ -109,6 +111,8 @@ def calculate_isochrone(origin, transit_method, transit_time, max_speed=75, num_
             iso[i] = get_destination(origin, rad1[i], phi1[i])
         full_url = build_url(origin=origin, destination=iso, transit_method=transit_method)
         data = parse_distance_json(full_url)
+        if not len(data[0]) or not len(data[1]):
+            raise GoogleMapsError
         for i in range(num_of_angles):
             if (data[1][i] < (transit_time - tolerance)) & (data0[i] != data[0][i]):
                 rad2[i] = (rmax[i] + rad1[i]) / 2
@@ -124,7 +128,7 @@ def calculate_isochrone(origin, transit_method, transit_time, max_speed=75, num_
         j += 1
         print('attempt' + str(j))
         if j > 30:
-            return dict(error='Taking too long'), 500
+            raise TakingTooLong
     return iso
 
 
