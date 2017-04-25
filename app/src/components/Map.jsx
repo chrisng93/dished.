@@ -5,17 +5,15 @@ import { milesToMeters, metersToMiles, milesToDegreesLatitude } from '../utils/c
 import Marker from './Marker';
 
 const propTypes = {
-  address: T.string,
-  width: T.string,
-  height: T.string,
-  radius: T.number,
-  choices: T.array,
+
 };
 
 export default class Map extends Component {
   constructor(props) {
     super(props);
     this.geocoder = typeof google === 'object' ? new google.maps.Geocoder() : null;
+    this.directionsDisplay = typeof google === 'object' ? new google.maps.DirectionsRenderer : null;
+    this.directionsService = typeof google === 'object' ? new google.maps.DirectionsService : null;
     this.state = {
       mapCenter: { lat: 0, lng: 0 },
       center: { lat: 0, lng: 0 },
@@ -27,6 +25,7 @@ export default class Map extends Component {
     this.parseWidthHeight = this.parseWidthHeight.bind(this);
     this.setCenter = this.setCenter.bind(this);
     this.setRadius = this.setRadius.bind(this);
+    this.setDirections = this.setDirections.bind(this);
     this.findZoom = this.findZoom.bind(this);
     this.findBounds = this.findBounds.bind(this);
     this.onChange = this.onChange.bind(this);
@@ -44,12 +43,17 @@ export default class Map extends Component {
       this.setRadius(nextProps.radius, true);
     }
     if (this.props.selectedChoice !== nextProps.selectedChoice) {
+      const selectedChoiceCoordinates = nextProps.selectedChoice.get('coordinates');
       const mapCenter = {
-        lat: (this.state.mapCenter.lat + nextProps.selectedChoice.get('coordinates').get('latitude')) / 2,
-        lng: (this.state.mapCenter.lng + nextProps.selectedChoice.get('coordinates').get('longitude')) / 2,
+        lat: (this.state.mapCenter.lat + selectedChoiceCoordinates.get('latitude')) / 2,
+        lng: (this.state.mapCenter.lng + selectedChoiceCoordinates.get('longitude')) / 2,
       };
       const radius = parseFloat(metersToMiles(nextProps.selectedChoice.get('distance'))) / 2;
       const zoom = this.findZoom(mapCenter, radius);
+      this.setDirections({
+        lat: selectedChoiceCoordinates.get('latitude'),
+        lng: selectedChoiceCoordinates.get('longitude'),
+      });
       this.setState({ mapCenter, zoom });
     }
   }
@@ -61,11 +65,13 @@ export default class Map extends Component {
   setCenter(address) {
     const { width, height } = this.props;
     if (!this.geocoder) {
+      this.setState({ error: 'Unable to connect to Google Maps ' });
       return;
     }
     this.geocoder.geocode({ address }, (results, status) => {
       if (status !== google.maps.GeocoderStatus.OK) {
-        return this.setState({ error: status });
+        this.setState({ error: status });
+        return;
       }
       const geo = results[0].geometry.viewport;
       const bounds = {
@@ -95,6 +101,34 @@ export default class Map extends Component {
     // meters2ScreenPixels is off by a ratio of 1.5
     const ratio = 1.5;
     this.setState({ radiusWidth: w * ratio, radiusHeight: h * ratio });
+  }
+
+  setDirections(destination) {
+    const { center, zoom } = this.state;
+    const { transitMethod } = this.props;
+    if (!this.directionsDisplay || !this.directionsService) {
+      this.setState({ error: status });
+      return;
+    }
+    const map = new google.maps.Map(document.getElementById('map'), {
+      zoom,
+      center: {lat: center.lat, lng: center.lng}
+    });
+    this.directionsService.route({
+      origin: { lat: center.lat, lng: center.lng },
+      destination: { lat: destination.lat, lng: destination.lng },
+      travelMode: google.maps.TravelMode[transitMethod]
+    }, (response, status) => {
+      if (status === 'OK') {
+        this.directionsDisplay.setMap(map);
+        this.directionsDisplay.setDirections(response);
+        this.directionsDisplay.setPanel(document.getElementById('directions'));
+        google.maps.event.trigger(map, 'resize');
+        map.setZoom(map.getZoom());
+        return;
+      }
+      this.setState({ error: status });
+    });
   }
 
   findZoom(center, radius) {
@@ -149,7 +183,6 @@ export default class Map extends Component {
     const { mapCenter, center, zoom, radiusWidth, radiusHeight, error } = this.state;
     const { choices, hoveredChoice, selectedChoice } = this.props;
     const centerProps = { lat: center.lat, lng: center.lng, zoom };
-    console.log('center changed', center.lat, center.lng)
     const radiusProps = { lat: center.lat, lng: center.lng, width: radiusWidth, height: radiusHeight };
     return (
       <GoogleMapReact

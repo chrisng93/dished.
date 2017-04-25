@@ -2,15 +2,16 @@ import React, { Component, PropTypes as T } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as actions from '../actions';
-import { currentStepSelector, locationSelector, radiusSelector, searchIdSelector, choicesSelector,
-  hoveredChoiceSelector, selectedChoiceSelector } from '../selectors/searchProcessSelectors';
+import { currentStepSelector, locationSelector, transitMethodSelector, radiusSelector,
+  searchIdSelector, choicesSelector, hoveredChoiceSelector, selectedChoiceSelector } from '../selectors/searchProcessSelectors';
 import ProgressIndicator from '../components/ProgressIndicator';
 import Map from '../components/Map';
 
 const propTypes = {
   currentStep: T.string,
   location: T.string,
-  radius: T.number,
+  transitMethod: T.string,
+  radius: T.num,
   searchId: T.string,
   choices: T.array,
   hoveredChoice: T.string,
@@ -56,17 +57,19 @@ class SearchProcessContainer extends Component {
   render() {
     // TODO: have progress indicator above children showing where the user is in the process
     // TODO: map that shows updates (pin after location, radius after transit, restaurant pins after food)
-    const { children, currentStep, location, radius, choices, hoveredChoice, selectedChoice } = this.props;
-    const mapProps = { radius, choices, hoveredChoice, selectedChoice, address: location, width: '400px', height: '400px' };
+    const { children, currentStep, location, transitMethod, radius, choices, hoveredChoice, selectedChoice } = this.props;
+    const mapProps = { transitMethod, radius, choices, hoveredChoice, selectedChoice, address: location, width: '400px', height: '400px' };
     return (
       <section className="search-process">
         <section className="search-process-info">
           <ProgressIndicator currentStep={currentStep} />
           {children}
         </section>
-        <section className="search-process-map">
+        <section className={`search-process-map ${selectedChoice.get('id') ? 'hidden' : ''}`}>
           <Map {...mapProps} />
         </section>
+        <section id="directions" className={selectedChoice.get('id') ? '' : 'hidden'} />
+        <section id="map" className={selectedChoice.get('id') ? '' : 'hidden'} />
       </section>
     );
   }
@@ -76,6 +79,7 @@ function mapStateToProps(state) {
   return {
     currentStep: currentStepSelector(state),
     location: locationSelector(state),
+    transitMethod: transitMethodSelector(state),
     radius: radiusSelector(state),
     searchId: searchIdSelector(state),
     choices: choicesSelector(state),
