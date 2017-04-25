@@ -1,0 +1,55 @@
+.progress-indicator {
+  width: 100%;
+  margin: 25px 12.5% 25px 12.5%;
+  padding: 0;
+  list-style: none;
+
+  li {
+    min-width: 15%;
+    float: left;
+    text-align: center;
+    position: relative;
+
+    .step {
+      display: block;
+      vertical-align: bottom;
+      text-align: center;
+      margin-bottom: 10px;
+      color: #222a3f;
+    }
+
+    .dot {
+      width: 40px;
+      height: 40px;
+      border: 4px solid #566885;
+      border-radius: 50%;
+      display: inline-block;
+      background-color: #ffffff;
+      z-index: 2;
+    }
+
+    .dot:before {
+      content: '';
+      height: 5px;
+      width: 100%;
+      left: -50%;
+      bottom: 1.4em;
+      display: block;
+      background-color: #B2B2B2;
+      position: absolute;
+      z-index: -1;
+    }
+
+    .active {
+      background-color: #566885;
+    }
+  }
+
+  li:first-child .dot:before {
+    display: none;
+  }
+
+  .active + .active .dot:before {
+    background-color: #566885;
+  }
+}

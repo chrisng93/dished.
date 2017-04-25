@@ -9,24 +9,40 @@
   .home-start-container {
     width: 500px;
     height: 400px;
-    margin-bottom: 150px;
+    margin-bottom: 10%;
     border-radius: 3px;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     background-color: rgba(246, 245, 243, 0.9);
 
+    .home-start-title {
+      margin: 0;
+      font-size: 40px;
+    }
+
+    .home-start-blurb {
+      margin-bottom: 40px;
+      font-size: 22px;
+    }
+
     .home-start-search {
       width: 250px;
       height: 80px;
+      max-width: 100%;
+      max-height: 100%;
       border: none;
       border-radius: 3px;
       background-color: #222a3f;
-      font-size: 18px;
+      font-size: 20px;
       font-weight: 500;
       letter-spacing: 2px;
       color: #f6f5f3;
+    }
+
+    .home-start-search:hover {
+      cursor: pointer;
     }
   }
 }
