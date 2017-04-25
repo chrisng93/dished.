@@ -1,7 +1,7 @@
 import React, { Component, PropTypes as T } from 'react';
 import GoogleMapReact from 'google-map-react';
 import { fitBounds, meters2ScreenPixels } from 'google-map-react/utils';
-import { milesToMeters, milesToDegreesLatitude } from '../utils/conversionUtils';
+import { milesToMeters, metersToMiles, milesToDegreesLatitude } from '../utils/conversionUtils';
 import Marker from './Marker';
 
 const propTypes = {
@@ -17,6 +17,7 @@ export default class Map extends Component {
     super(props);
     this.geocoder = typeof google === 'object' ? new google.maps.Geocoder() : null;
     this.state = {
+      mapCenter: { lat: 0, lng: 0 },
       center: { lat: 0, lng: 0 },
       zoom: 12,
       error: '',
@@ -41,6 +42,15 @@ export default class Map extends Component {
     }
     if (this.props.radius !== nextProps.radius) {
       this.setRadius(nextProps.radius, true);
+    }
+    if (this.props.selectedChoice !== nextProps.selectedChoice) {
+      const mapCenter = {
+        lat: (this.state.mapCenter.lat + nextProps.selectedChoice.get('coordinates').get('latitude')) / 2,
+        lng: (this.state.mapCenter.lng + nextProps.selectedChoice.get('coordinates').get('longitude')) / 2,
+      };
+      const radius = parseFloat(metersToMiles(nextProps.selectedChoice.get('distance'))) / 2;
+      const zoom = this.findZoom(mapCenter, radius);
+      this.setState({ mapCenter, zoom });
     }
   }
 
@@ -70,7 +80,7 @@ export default class Map extends Component {
       };
       const size = { width: this.parseWidthHeight(width), height: this.parseWidthHeight(height) };
       const { center, zoom } = fitBounds(bounds, size);
-      this.setState({ center, zoom: zoom || this.state.zoom });
+      this.setState({ center, mapCenter: center, zoom: zoom || this.state.zoom });
     });
   }
 
@@ -89,7 +99,7 @@ export default class Map extends Component {
 
   findZoom(center, radius) {
     if (radius <= 60) {
-      if (radius === 1) {
+      if (radius <= 1) {
         return 15;
       } else if (radius <= 3) {
         return 14;
@@ -136,18 +146,19 @@ export default class Map extends Component {
   }
 
   render() {
-    const { center, zoom, radiusWidth, radiusHeight, error } = this.state;
+    const { mapCenter, center, zoom, radiusWidth, radiusHeight, error } = this.state;
     const { choices, hoveredChoice, selectedChoice } = this.props;
     const centerProps = { lat: center.lat, lng: center.lng, zoom };
+    console.log('center changed', center.lat, center.lng)
     const radiusProps = { lat: center.lat, lng: center.lng, width: radiusWidth, height: radiusHeight };
-    console.log(selectedChoice)
     return (
       <GoogleMapReact
         bootstrapURLKeys={{ key: process.env.GOOGLE_API_KEY }}
-        center={center}
+        center={mapCenter}
         zoom={zoom}
         onChange={this.onChange}
       >
+        <Marker type="center" {...centerProps} />
         {choices && !selectedChoice.get('id') ? choices.map(choice =>
           <Marker
             type="restaurant"
@@ -167,8 +178,7 @@ export default class Map extends Component {
             selected={true}
           />
           : null}
-        <Marker type="center" {...centerProps} />
-        <Marker type="radius" {...radiusProps} />
+        {!selectedChoice.get('id') ? <Marker type="radius" {...radiusProps} /> : null}
       </GoogleMapReact>
     );
   }

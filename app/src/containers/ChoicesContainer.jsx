@@ -2,13 +2,14 @@ import React, { Component, PropTypes as T } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as actions from '../actions';
-import { choicesSelector } from '../selectors/searchProcessSelectors';
+import { choicesSelector, searchIdSelector } from '../selectors/searchProcessSelectors';
 import { tokenSelector } from '../selectors/userSelectors';
 import Choice from '../components/Choice';
 
 const propTypes = {
   choices: T.array,
   token: T.string,
+  searchId: T.string,
 
   onMouseEnterChoice: T.func,
   onMouseLeaveChoice: T.func,
@@ -41,6 +42,7 @@ function mapStateToProps(state) {
   return {
     choices: choicesSelector(state),
     token: tokenSelector(state),
+    searchId: searchIdSelector(state),
   };
 }
 

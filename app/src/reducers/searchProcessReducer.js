@@ -11,11 +11,11 @@ const initialError = fromJS({
 
 const initialState = fromJS({
   currentStep: '',
-  location: 'oracle arena',
+  location: '383 king st san francisco',
 
-  transitMethod: '',
+  transitMethod: 'DRIVING',
   transitTime: 0,
-  radius: 0,
+  radius: 5,
   isSubmittingTransit: false,
 
   foodType: '',
@@ -91,12 +91,12 @@ export default function searchProcess(state = initialState, action) {
         .set('isSelectingChoice', true);
     case actionTypes.SELECT_CHOICE_SUCCESS:
       return state
-        .set('selectedChoice', Map(payload.choice))
+        .set('selectedChoice', fromJS(payload.choice))
         .set('isSelectingChoice', false)
         .set('error', initialError);
     case actionTypes.SELECT_CHOICE_FAILURE:
       return state
-        .set('selectedChoice', Map())
+        // .set('selectedChoice', Map())
         .set('isSelectingChoice', false)
         .set('error', Map({ status: true, error: payload.error }));
 
