@@ -1,23 +1,23 @@
-import React, { Component, PropTypes as T } from 'react';
+import React, { PropTypes as T } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as actions from '../actions';
+import { selectedChoiceSelector } from '../selectors/searchProcessSelectors';
+import Selection from '../components/Selection';
 
 const propTypes = {
-
+  selectedChoice: T.object,
 };
 
-class SelectionContainer extends Component {
-  render() {
-    return (
-      <section>Selection</section>
-    );
-  }
+function SelectionContainer(props) {
+  return (
+    <Selection {...props} />
+  );
 }
 
 function mapStateToProps(state) {
   return {
-
+    selectedChoice: selectedChoiceSelector(state),
   };
 }
 
