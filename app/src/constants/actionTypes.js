@@ -41,4 +41,7 @@ module.exports = {
   // mouse enter/leave choice
   MOUSE_ENTER_CHOICE: 'MOUSE_ENTER_CHOICE',
   MOUSE_LEAVE_CHOICE: 'MOUSE_LEAVE_CHOICE',
+
+  // change modal
+  CHANGE_MODAL: 'CHANGE_MODAL',
 };

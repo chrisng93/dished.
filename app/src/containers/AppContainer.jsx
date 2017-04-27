@@ -10,6 +10,7 @@ import * as actions from '../actions';
 import { isAuthenticatedSelector, tokenSelector } from '../selectors/userSelectors';
 import { isSubmittingTransitSelector, isSubmittingSearchSelector } from '../selectors/searchProcessSelectors';
 import Nav from '../components/Nav';
+import ModalCheckContainer from './ModalCheckContainer';
 
 const propTypes = {
   children: T.node,
@@ -20,10 +21,9 @@ const propTypes = {
   isSubmittingSearch: T.bool,
 
   routeToHome: T.func,
-  routeToSignIn: T.func,
-  routeToSignUp: T.func,
   routeToProfile: T.func,
   routeToSearches: T.func,
+  changeModal: T.func,
   signOut: T.func,
 };
 
@@ -48,6 +48,7 @@ class AppContainer extends Component {
     return (
       <section id="app">
         <Nav {...this.props} />
+        <ModalCheckContainer />
         <section className="children">
           {this.props.children}
         </section>
@@ -69,11 +70,10 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     routeToHome: () => dispatch(push('/')),
-    routeToSignIn: () => dispatch(push('/signin')),
-    routeToSignUp: () => dispatch(push('/signup')),
     routeToProfile: () => dispatch(push('/profile')),
     routeToSearches: () => dispatch(push('/searches')),
     signOut: bindActionCreators(actions.signOut, dispatch),
+    changeModal: bindActionCreators(actions.changeModal, dispatch),
   };
 }
 

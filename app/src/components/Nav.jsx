@@ -8,10 +8,9 @@ const propTypes = {
   token: T.string,
 
   routeToHome: T.func,
-  routeToSignIn: T.func,
-  routeToSignUp: T.func,
   routeToProfile: T.func,
   routeToSearches: T.func,
+  changeModal: T.func,
   signOut: T.func,
 };
 
@@ -23,11 +22,11 @@ export default class Nav extends Component {
   }
 
   renderUnauthed() {
-    const { routeToSignIn, routeToSignUp } = this.props;
+    const { changeModal } = this.props;
     return (
       <section className="nav-cluster">
-        <li className="nav-cluster-signin" onClick={routeToSignIn}>Sign in</li>
-        <li className="nav-cluster-signup" onClick={routeToSignUp}>Sign up</li>
+        <li className="nav-cluster-signin" onClick={() => changeModal({ currentModal: 'signIn' })}>Sign in</li>
+        <li className="nav-cluster-signup" onClick={() => changeModal({ currentModal: 'signUp' })}>Sign up</li>
       </section>
     );
   }

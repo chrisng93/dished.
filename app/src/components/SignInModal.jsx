@@ -1,45 +1,39 @@
 import React, { Component, PropTypes as T } from 'react';
 import Modal from 'react-modal';
-import SignIn from './SignIn';
+import SignInContainer from '../containers/SignInContainer';
 
 const propTypes = {
-  isAuthenticated: T.bool,
-
-  signIn: T.func,
+  changeModal: T.func,
 };
 
 export default class SignInModal extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isOpen: false,
+      modalIsOpen: false,
     };
-    this.openModal = this.openModal.bind(this);
-    this.closeModal = this.closeModal.bind(this);
+    this.onClose = this.onClose.bind(this);
   }
 
   componentWillMount() {
-    this.openModal();
+    this.setState({ modalIsOpen: true });
   }
 
-  openModal() {
-    this.setState({ isOpen: true });
-  }
-
-  closeModal() {
-    this.setState({ isOpen: false });
+  onClose() {
+    this.props.changeModal({ currentModal: '' });
+    this.setState({ modalIsOpen: false });
   }
 
   render() {
-    const { isOpen } = this.state;
+    const { modalIsOpen } = this.state;
     return (
       <Modal
-        className="modal"
-        isOpen={isOpen}
-        onRequestClose={this.closeModal}
-        contentLabel="sign-in-modal"
+        isOpen={modalIsOpen}
+        onRequestClose={this.onClose}
+        shouldCloseOnOverlayClick={true}
+        contentLabel="Modal"
       >
-        <SignIn {...this.props} />
+        <SignInContainer />
       </Modal>
     );
   }

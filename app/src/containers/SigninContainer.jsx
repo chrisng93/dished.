@@ -1,13 +1,13 @@
 /**
  * Stateful container for signin
  */
-import React, { PropTypes as T } from 'react';
+import React, { Component, PropTypes as T } from 'react';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
 import { bindActionCreators } from 'redux';
 import * as actions from '../actions';
 import { isAuthenticatedSelector } from '../selectors/userSelectors';
-import SignInModal from '../components/SignInModal';
+import SignIn from '../components/SignIn';
 
 const propTypes = {
   isAuthenticated: T.bool,
@@ -15,10 +15,16 @@ const propTypes = {
   signIn: T.func,
 };
 
-function SignInContainer(props) {
-  return (
-    <SignInModal {...props} />
-  );
+class SignInContainer extends Component {
+  componentWillMount() {
+    this.props.changeModal({ currentModal: 'signIn' });
+  }
+
+  render() {
+    return (
+      <SignIn {...this.props} />
+    );
+  };
 }
 
 function mapStateToProps(state) {
@@ -29,6 +35,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
+    changeModal: bindActionCreators(actions.changeModal, dispatch),
     signIn: bindActionCreators(actions.signIn, dispatch),
   };
 }

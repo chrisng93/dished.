@@ -1,13 +1,12 @@
 import React, { Component, PropTypes as T } from 'react';
 import Modal from 'react-modal';
-import NotFound from './NotFound';
+import SignUpContainer from '../containers/SignUpContainer';
 
 const propTypes = {
   changeModal: T.func,
-  routeToHome: T.func,
 };
 
-export default class NotFoundModal extends Component {
+export default class SignUpModal extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -17,20 +16,16 @@ export default class NotFoundModal extends Component {
   }
 
   componentWillMount() {
-    this.props.changeModal({ currentModal: 'notFound' });
     this.setState({ modalIsOpen: true });
   }
 
   onClose() {
-    const { changeModal, routeToHome } = this.props;
-    changeModal({ currentModal: '' });
-    routeToHome();
+    this.props.changeModal({ currentModal: '' });
     this.setState({ modalIsOpen: false });
   }
 
   render() {
     const { modalIsOpen } = this.state;
-    const { routeToHome } = this.props;
     return (
       <Modal
         isOpen={modalIsOpen}
@@ -38,10 +33,10 @@ export default class NotFoundModal extends Component {
         shouldCloseOnOverlayClick={true}
         contentLabel="Modal"
       >
-        <NotFound routeToHome={routeToHome} />
+        <SignUpContainer />
       </Modal>
     );
   }
 }
 
-NotFoundModal.propTypes = propTypes;
+SignUpModal.propTypes = propTypes;
