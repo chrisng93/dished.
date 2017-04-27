@@ -50,7 +50,7 @@ export default class Transit extends Component {
       <section className="transit container">
         <form className="transit-form">
           <input
-            className="transit-form-method"
+            className="transit-form-method input"
             type="text"
             name="transit-method"
             placeholder="How are you trying to get there?"
@@ -58,7 +58,7 @@ export default class Transit extends Component {
             onKeyDown={e => this.onKeyDown(e)}
           />
           <input
-            className="transit-form-time"
+            className="transit-form-time input"
             type="text"
             name="transit-time"
             placeholder="How far do you want to go? (minutes)"

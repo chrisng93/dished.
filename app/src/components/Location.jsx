@@ -60,7 +60,7 @@ export default class Location extends Component {
       <section className="location container">
         <form className="location-form">
           <input
-            className="location-form-address"
+            className="location-form-address input"
             name="location-address"
             placeholder="Where are you?"
             value={location}

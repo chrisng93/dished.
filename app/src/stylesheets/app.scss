@@ -1,4 +1,6 @@
 // color palette: http://colorpalettes.net/color-palette-1439/
+@import 'signin';
+@import 'signup';
 @import 'marker';
 @import 'nav';
 @import 'home';
@@ -17,6 +19,7 @@ body {
   max-height: 100vh;
   margin: 0;
   font-family: 'Quicksand', sans-serif;
+  cursor: default;
 }
 
 #app {
@@ -39,6 +42,19 @@ body {
   font-weight: 500;
   letter-spacing: 2px;
   color: #f6f5f3;
+}
+
+.input {
+  height: 40px;
+  padding: 4px;
+  border: 1px solid #222a3f;
+  border-radius: 3px;
+  box-shadow: none;
+  text-align: center;
+}
+
+.error {
+  color: red;
 }
 
 .hidden {

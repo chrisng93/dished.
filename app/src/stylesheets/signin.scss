@@ -1,0 +1,43 @@
+.signin {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  .signin-form {
+    margin-bottom: 16px;
+    display: flex;
+    flex-direction: column;
+    font-size: 24px;
+
+    .signin-form-email {
+      margin-bottom: 16px;
+    }
+
+    .signin-form-password {
+
+    }
+
+    input {
+      width: 300px;
+      font-size: 20px;
+    }
+  }
+
+  .signin-submit {
+    width: 311px;
+    height: 48px;
+    padding: 4px;
+    font-size: 20px;
+  }
+
+  .signin-route-signup {
+    margin-top: 16px;
+  }
+
+  .signin-route-signup:hover {
+    cursor: pointer;
+  }
+}

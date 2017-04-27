@@ -44,7 +44,7 @@ export default class FoodType extends Component {
       <section className="food-type container">
         <form className="food-type-form">
           <input
-            className="food-type-form-input"
+            className="food-type-form-input input"
             name="food-type"
             placeholder="What are you feeling?"
             onChange={e => this.onChangeInput(e)}

@@ -6,6 +6,7 @@ import React, { Component, PropTypes as T } from 'react';
 const propTypes = {
   isAuthenticated: T.bool,
 
+  changeModal: T.func,
   signIn: T.func,
 };
 
@@ -17,6 +18,7 @@ export default class SignIn extends Component {
       password: '',
     };
     this.onChangeInput = this.onChangeInput.bind(this);
+    this.onKeyDown = this.onKeyDown.bind(this);
     this.onSignIn = this.onSignIn.bind(this);
   }
 
@@ -26,6 +28,13 @@ export default class SignIn extends Component {
     this.setState(newState);
   }
 
+  onKeyDown(e) {
+    if (e.keyCode === 13) {
+      e.preventDefault();
+      this.onSubmit();
+    }
+  }
+
   onSignIn() {
     const { email, password } = this.state;
     const { signIn } = this.props;
@@ -33,27 +42,33 @@ export default class SignIn extends Component {
   }
 
   render() {
+    const { changeModal } = this.props;
     return (
       <section className="signin">
         <form className="signin-form">
           <input
-            className="signin-form-email"
+            className="signin-form-email input"
             type="text"
             name="email"
             placeholder="email"
-            onChange={(e) => this.onChangeInput(e, 'email')}
+            onChange={e => this.onChangeInput(e, 'email')}
+            onKeyDown={e => this.onKeyDown(e)}
           />
           <input
-            className="signin-form-password"
+            className="signin-form-password input"
             type="password"
             name="password"
             placeholder="password"
-            onChange={(e) => this.onChangeInput(e, 'password')}
+            onChange={e => this.onChangeInput(e, 'password')}
+            onKeyDown={e => this.onKeyDown(e)}
           />
         </form>
-        <button className="signin-submit" onClick={this.onSignIn}>
+        <button className="signin-submit button" onClick={this.onSignIn}>
           Sign In
         </button>
+        <section className="signin-route-signup">
+          <a onClick={() => changeModal({ currentModal: 'signUp' })}>Don't have an account?</a>
+        </section>
       </section>
     );
   }

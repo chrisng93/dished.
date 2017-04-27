@@ -4,6 +4,7 @@
 import React, { Component, PropTypes as T } from 'react';
 
 const propTypes = {
+  changeModal: T.func,
   signUp: T.func,
 };
 
@@ -15,6 +16,7 @@ export default class SignUp extends Component {
       password: '',
     };
     this.onChangeInput = this.onChangeInput.bind(this);
+    this.onKeyDown = this.onKeyDown.bind(this);
     this.onSignUp = this.onSignUp.bind(this);
   }
 
@@ -22,6 +24,13 @@ export default class SignUp extends Component {
     const newState = this.state;
     newState[field] = e.target.value;
     this.setState(newState);
+  }
+
+  onKeyDown(e) {
+    if (e.keyCode === 13) {
+      e.preventDefault();
+      this.onSubmit();
+    }
   }
 
   onSignUp() {
@@ -33,27 +42,33 @@ export default class SignUp extends Component {
   }
 
   render() {
+    const { changeModal } = this.props;
     return (
       <section className="signup">
         <form className="signup-form">
           <input
-            className="signup-form-email"
+            className="signup-form-email input"
             type="text"
             name="email"
             placeholder="email"
-            onChange={(e) => this.onChangeInput(e, 'email')}
+            onChange={e => this.onChangeInput(e, 'email')}
+            onKeyDown={e => this.onKeyDown(e)}
           />
           <input
-            className="signup-form-password"
+            className="signup-form-password input"
             type="password"
             name="password"
             placeholder="password"
-            onChange={(e) => this.onChangeInput(e, 'password')}
+            onChange={e => this.onChangeInput(e, 'password')}
+            onKeyDown={e => this.onKeyDown(e)}
           />
         </form>
-        <button className="signup-submit" onClick={this.onSignUp}>
+        <button className="signup-submit button" onClick={this.onSignUp}>
           Sign Up
         </button>
+        <section className="signup-route-signin">
+          <a onClick={() => changeModal({ currentModal: 'signIn' })}>Already have an account?</a>
+        </section>
       </section>
     );
   }

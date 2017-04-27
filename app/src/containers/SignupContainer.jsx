@@ -1,10 +1,11 @@
-import React, { Component, PropTypes as T } from 'react';
+import React, { PropTypes as T } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as actions from '../actions';
 import SignUp from '../components/SignUp';
 
 const propTypes = {
+  changeModal: T.func,
   signUp: T.func,
 };
 
@@ -22,6 +23,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
+    changeModal: bindActionCreators(actions.changeModal, dispatch),
     signUp: bindActionCreators(actions.signUp, dispatch),
   };
 }

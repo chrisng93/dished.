@@ -9,9 +9,14 @@ const propTypes = {
 
 export default function NotFound({ routeToHome }) {
   return (
-    <a className="not-found" onClick={routeToHome}>
-      Please go back to home page.
-    </a>
+    <section className="not-found">
+      <h1>
+        Page not found.
+      </h1>
+      <a onClick={routeToHome}>
+        Please go back to the home page.
+      </a>
+    </section>
   );
 }
 
