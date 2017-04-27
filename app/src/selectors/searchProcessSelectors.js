@@ -50,6 +50,11 @@ export const hoveredChoiceSelector = createSelector(
   searchProcessState => searchProcessState.get('hoveredChoice')
 );
 
+export const isSubmittingTransitSelector = createSelector(
+  searchProcessStateSelector,
+  searchProcessState => searchProcessState.get('isSubmittingTransit')
+);
+
 export const isSubmittingSearchSelector = createSelector(
   searchProcessStateSelector,
   searchProcessState => searchProcessState.get('isSubmittingSearch')

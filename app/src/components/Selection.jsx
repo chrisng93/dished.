@@ -17,7 +17,7 @@ export default class Selection extends Component {
   render() {
     const { selectedChoice, fromUserSearches } = this.props;
     return (
-      <section className="selection">
+      <section className={`selection ${selectedChoice.get('id') ? '' : 'hidden'}`}>
         <section className="left">
           <section className="section-1">
             <section className="selection-image-container">

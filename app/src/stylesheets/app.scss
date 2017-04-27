@@ -1,5 +1,4 @@
 // color palette: http://colorpalettes.net/color-palette-1439/
-@import 'notfound';
 @import 'marker';
 @import 'nav';
 @import 'home';
@@ -10,6 +9,8 @@
 @import 'foodtype';
 @import 'choices';
 @import 'selection';
+@import 'notfound';
+@import 'spinner';
 
 body {
   max-width: 100vw;
