@@ -4,6 +4,8 @@
 import React, { Component, PropTypes as T } from 'react';
 
 const propTypes = {
+  location: T.string,
+
   submitTransit: T.func,
 };
 
@@ -16,6 +18,7 @@ export default class Transit extends Component {
     };
     this.onChangeInput = this.onChangeInput.bind(this);
     this.onSubmitTransit = this.onSubmitTransit.bind(this);
+    this.onKeyDown = this.onKeyDown.bind(this);
   }
 
   onChangeInput(e, field) {
@@ -33,28 +36,37 @@ export default class Transit extends Component {
     submitTransit({ location, transitMethod, transitTime });
   }
 
+  onKeyDown(e) {
+    if (e.keyCode === 13) {
+      e.preventDefault();
+      this.onSubmitTransit();
+    }
+  }
+
   render() {
     // TODO: make transitMethod a dropdown with valid options
     // TODO: add waiting indicator after submit
     return (
-      <section className="transit">
+      <section className="transit container">
         <form className="transit-form">
           <input
             className="transit-form-method"
             type="text"
             name="transit-method"
             placeholder="How are you trying to get there?"
-            onChange={(e) => this.onChangeInput(e, 'transitMethod')}
+            onChange={e => this.onChangeInput(e, 'transitMethod')}
+            onKeyDown={e => this.onKeyDown(e)}
           />
           <input
             className="transit-form-time"
             type="text"
             name="transit-time"
             placeholder="How far do you want to go? (minutes)"
-            onChange={(e) => this.onChangeInput(e, 'transitTime')}
+            onChange={e => this.onChangeInput(e, 'transitTime')}
+            onKeyDown={e => this.onKeyDown(e)}
           />
         </form>
-        <button className="transit-button" onClick={this.onSubmitTransit}>
+        <button className="transit-button button" onClick={this.onSubmitTransit}>
           Send transit info
         </button>
       </section>

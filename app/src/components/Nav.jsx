@@ -4,7 +4,7 @@
 import React, { Component, PropTypes as T } from 'react';
 
 const propTypes = {
-  isAuthenticated: T.boolean,
+  isAuthenticated: T.bool,
   token: T.string,
 
   routeToHome: T.func,

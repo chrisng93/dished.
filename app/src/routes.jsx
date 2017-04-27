@@ -1,6 +1,7 @@
 import React from 'react';
 import { Route, IndexRoute } from 'react-router';
 import AppContainer from './containers/AppContainer';
+import NotFoundContainer from './containers/NotFoundContainer';
 import HomeContainer from './containers/HomeContainer';
 import SignInContainer from './containers/SignInContainer';
 import SignUpContainer from './containers/SignUpContainer';
@@ -35,7 +36,7 @@ const routes = (
       {/*<Route path="/searches" component={SearchesContainer} />*/}
       {/*<Route path="/searches/:id" component={SearchContainer} />*/}
     {/*</Route>*/}
-    {/*<Route path="*" component={NotFoundContainer} />*/}
+    <Route path="*" component={NotFoundContainer} />
   </Route>
 );
 

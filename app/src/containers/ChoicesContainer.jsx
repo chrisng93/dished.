@@ -7,9 +7,9 @@ import { tokenSelector } from '../selectors/userSelectors';
 import Choice from '../components/Choice';
 
 const propTypes = {
-  choices: T.array,
+  choices: T.object,
   token: T.string,
-  searchId: T.string,
+  searchId: T.number,
 
   onMouseEnterChoice: T.func,
   onMouseLeaveChoice: T.func,
@@ -22,14 +22,15 @@ class ChoicesContainer extends Component {
   }
 
   render() {
-    const { choices, token, onMouseEnterChoice, onMouseLeaveChoice, selectChoice } = this.props;
-    const choiceProps = { token, onMouseEnterChoice, onMouseLeaveChoice, selectChoice };
+    const { choices, token, searchId, onMouseEnterChoice, onMouseLeaveChoice, selectChoice } = this.props;
+    const choiceProps = { token, searchId, onMouseEnterChoice, onMouseLeaveChoice, selectChoice };
     return (
-      <section>
-        {choices.map(choice =>
+      <section className="choices">
+        {choices.map((choice, index) =>
           <Choice
             key={choice.get('id')}
             choice={choice}
+            rank={index + 1}
             {...choiceProps}
           />
         )}

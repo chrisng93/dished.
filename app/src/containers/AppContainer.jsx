@@ -12,7 +12,7 @@ import Nav from '../components/Nav';
 const propTypes = {
   children: T.node,
 
-  isAuthenticated: T.boolean,
+  isAuthenticated: T.bool,
   token: T.string,
 
   routeToHome: T.func,
@@ -27,7 +27,9 @@ function AppContainer(props) {
   return (
     <section id="app">
       <Nav {...props} />
-      {props.children}
+      <section className="children">
+        {props.children}
+      </section>
     </section>
   );
 }

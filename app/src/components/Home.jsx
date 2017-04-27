@@ -18,7 +18,7 @@ export default function Home({ routeToLocation }) {
         <h3 className="home-start-blurb">
           Find out what to eat near you
         </h3>
-        <button className="home-start-search" onClick={routeToLocation}>
+        <button className="home-start-search button" onClick={routeToLocation}>
           Start your search
         </button>
       </section>

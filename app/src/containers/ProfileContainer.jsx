@@ -8,6 +8,7 @@ import Profile from '../components/Profile';
 const propTypes = {
   user: T.object,
   token: T.string,
+
   editUser: T.func,
 };
 

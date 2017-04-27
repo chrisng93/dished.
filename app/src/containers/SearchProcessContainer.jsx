@@ -11,9 +11,9 @@ const propTypes = {
   currentStep: T.string,
   location: T.string,
   transitMethod: T.string,
-  radius: T.num,
-  searchId: T.string,
-  choices: T.array,
+  radius: T.number,
+  searchId: T.number,
+  choices: T.object,
   hoveredChoice: T.string,
   selectedChoice: T.object,
 
@@ -41,7 +41,7 @@ class SearchProcessContainer extends Component {
     if (path.indexOf('transit') > -1) {
       currentStep = 'transit';
     } else if (path.indexOf('food') > -1) {
-      currentStep = 'foodType';
+      currentStep = 'food';
     } else if (path.indexOf('choices') > -1) {
       currentStep = 'choices';
     } else if (path.indexOf('selection') > -1) {
@@ -68,8 +68,7 @@ class SearchProcessContainer extends Component {
         <section className={`search-process-map ${selectedChoice.get('id') ? 'hidden' : ''}`}>
           <Map {...mapProps} />
         </section>
-        <section id="directions" className={selectedChoice.get('id') ? '' : 'hidden'} />
-        <section id="map" className={selectedChoice.get('id') ? '' : 'hidden'} />
+        <section id="map-search-process" className={selectedChoice.get('id') ? '' : 'hidden'} />
       </section>
     );
   }

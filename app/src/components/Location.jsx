@@ -16,6 +16,7 @@ export default class Location extends Component {
       hasSetLocation: false,
     };
     this.onChangeLocation = this.onChangeLocation.bind(this);
+    this.onKeyDown = this.onKeyDown.bind(this);
     this.onSubmitLocation = this.onSubmitLocation.bind(this);
     this.onConfirmLocation = this.onConfirmLocation.bind(this);
     this.onUnconfirmLocation = this.onUnconfirmLocation.bind(this);
@@ -25,9 +26,18 @@ export default class Location extends Component {
     this.setState({ location: e.target.value });
   }
 
+  onKeyDown(e) {
+    if (e.keyCode === 13) {
+      e.preventDefault();
+      if (!this.state.hasSetLocation) {
+        this.onSubmitLocation();
+      } else {
+        this.onConfirmLocation();
+      }
+    }
+  }
+
   onSubmitLocation() {
-    // TODO: error checking to make sure location is valid (API call to gmaps?)
-    // TODO: add confirmation that this is where the user is
     const { submitLocation } = this.props;
     const { location } = this.state;
     submitLocation({ location });
@@ -47,26 +57,26 @@ export default class Location extends Component {
   render() {
     const { location, hasSetLocation } = this.state;
     return (
-      <section className="location">
+      <section className="location container">
         <form className="location-form">
           <input
             className="location-form-address"
             name="location-address"
             placeholder="Where are you?"
             value={location}
-            onChange={(e) => this.onChangeLocation(e)}
+            onChange={e => this.onChangeLocation(e)}
+            onKeyDown={e => this.onKeyDown(e)}
           />
         </form>
-        <button className="location-submit" onClick={this.onSubmitLocation}>
+        <button className="location-submit button" onClick={this.onSubmitLocation}>
           Send location
         </button>
-        <section className="location-confirm">
-          <title>Is this where you're at?</title>
-          <button className={`location-confirm-yes ${hasSetLocation ? '' : 'hidden'}`} onClick={this.onConfirmLocation}>
-            Yes
+        <section className={`location-confirm ${hasSetLocation ? '' : 'hidden'}`}>
+          <button className={"location-confirm-continue button"} onClick={this.onConfirmLocation}>
+            Continue
           </button>
-          <button className={`location-confirm-no ${hasSetLocation ? '' : 'hidden'}`} onClick={this.onUnconfirmLocation}>
-            No
+          <button className={"location-confirm-cancel button"} onClick={this.onUnconfirmLocation}>
+            Cancel
           </button>
         </section>
       </section>

@@ -5,6 +5,7 @@ import React, { Component, PropTypes as T } from 'react';
 
 const propTypes = {
   isAuthenticated: T.bool,
+
   signIn: T.func,
 };
 

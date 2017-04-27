@@ -19,13 +19,15 @@
   li {
     width: 100px;
     margin: 15px;
+    text-align: center;
+    color: #222a3f;
     list-style-type: none;
-    -webkit-transition: color 1s;
-    transition: color 1s;
+    -webkit-transition: color 0.5s;
+    transition: color 0.5s;
   }
 
   li:hover {
-    color: #d6e1ef;
+    color: #566885;
     cursor: pointer;
   }
 }

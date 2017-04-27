@@ -15,6 +15,7 @@ export default class FoodType extends Component {
     };
     this.onChangeInput = this.onChangeInput.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
+    this.onKeyDown = this.onKeyDown.bind(this);
   }
 
   onChangeInput(e) {
@@ -29,20 +30,28 @@ export default class FoodType extends Component {
     submitFoodType({ foodType });
   }
 
+  onKeyDown(e) {
+    if (e.keyCode === 13) {
+      e.preventDefault();
+      this.onSubmit();
+    }
+  }
+
   render() {
     // TODO: dropdown w/ food type options
     // TODO: suggestions/popular
     return (
-      <section className="food-type">
+      <section className="food-type container">
         <form className="food-type-form">
           <input
             className="food-type-form-input"
             name="food-type"
             placeholder="What are you feeling?"
-            onChange={(e) => this.onChangeInput(e)}
+            onChange={e => this.onChangeInput(e)}
+            onKeyDown={e => this.onKeyDown(e)}
           />
         </form>
-        <button className="food-type-submit" onClick={this.onSubmit}>
+        <button className="food-type-submit button" onClick={this.onSubmit}>
           Submit food type
         </button>
       </section>

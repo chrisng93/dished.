@@ -110,7 +110,7 @@ export default class Map extends Component {
       this.setState({ error: status });
       return;
     }
-    const map = new google.maps.Map(document.getElementById('map'), {
+    const map = new google.maps.Map(document.getElementById('map-search-process'), {
       zoom,
       center: {lat: center.lat, lng: center.lng}
     });

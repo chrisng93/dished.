@@ -11,6 +11,7 @@ import SignInModal from '../components/SignInModal';
 
 const propTypes = {
   isAuthenticated: T.bool,
+
   signIn: T.func,
 };
 

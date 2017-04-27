@@ -6,6 +6,7 @@ import React, { Component, PropTypes as T } from 'react';
 const propTypes = {
   user: T.object,
   token: T.string,
+
   editUser: T.func,
 };
 

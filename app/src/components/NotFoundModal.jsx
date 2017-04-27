@@ -1,14 +1,10 @@
 import React, { Component, PropTypes as T } from 'react';
 import Modal from 'react-modal';
-import SignIn from './SignIn';
+import NotFound from './NotFound';
 
-const propTypes = {
-  isAuthenticated: T.bool,
+const propTypes = {};
 
-  signIn: T.func,
-};
-
-export default class SignInModal extends Component {
+export default class NotFoundModal extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -37,12 +33,12 @@ export default class SignInModal extends Component {
         className="modal"
         isOpen={isOpen}
         onRequestClose={this.closeModal}
-        contentLabel="sign-in-modal"
+        contentLabel="not-found-modal"
       >
-        <SignIn {...this.props} />
+        <NotFound {...this.props} />
       </Modal>
     );
   }
 }
 
-SignInModal.propTypes = propTypes;
+NotFoundModal.propTypes = propTypes;
