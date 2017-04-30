@@ -1,5 +1,6 @@
 import React, { Component, PropTypes as T } from 'react';
 import Modal from 'react-modal';
+import modalStyle from '../utils/modalStyle';;
 import NotFound from './NotFound';
 
 const propTypes = {
@@ -36,6 +37,7 @@ export default class NotFoundModal extends Component {
         isOpen={modalIsOpen}
         onRequestClose={this.onClose}
         shouldCloseOnOverlayClick={true}
+        style={modalStyle}
         contentLabel="Modal"
       >
         <NotFound routeToHome={routeToHome} />

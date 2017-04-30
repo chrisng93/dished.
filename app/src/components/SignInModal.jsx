@@ -1,10 +1,12 @@
 import React, { Component, PropTypes as T } from 'react';
 import Modal from 'react-modal';
+import modalStyle from '../utils/modalStyle';;
 import SignInContainer from '../containers/SignInContainer';
 
 const propTypes = {
   changeModal: T.func,
 };
+
 
 export default class SignInModal extends Component {
   constructor(props) {
@@ -31,6 +33,7 @@ export default class SignInModal extends Component {
         isOpen={modalIsOpen}
         onRequestClose={this.onClose}
         shouldCloseOnOverlayClick={true}
+        style={modalStyle}
         contentLabel="Modal"
       >
         <SignInContainer />

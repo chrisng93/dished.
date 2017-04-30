@@ -12,6 +12,7 @@ export default class FoodType extends Component {
     super(props);
     this.state = {
       foodType: '',
+      error: '',
     };
     this.onChangeInput = this.onChangeInput.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
@@ -23,11 +24,14 @@ export default class FoodType extends Component {
   }
 
   onSubmit() {
-    // TODO: make sure food type selected
-    // TODO: handle errors from server
+    // TODO: handle api errors
     const { submitFoodType } = this.props;
     const { foodType } = this.state;
-    submitFoodType({ foodType });
+    if (foodType) {
+      submitFoodType({ foodType });
+      return;
+    }
+    this.setState({ error: 'Please enter food type' })
   }
 
   onKeyDown(e) {
@@ -38,8 +42,8 @@ export default class FoodType extends Component {
   }
 
   render() {
-    // TODO: dropdown w/ food type options
     // TODO: suggestions/popular
+    const { error } = this.state;
     return (
       <section className="food-type container">
         <form className="food-type-form">
@@ -51,6 +55,9 @@ export default class FoodType extends Component {
             onKeyDown={e => this.onKeyDown(e)}
           />
         </form>
+        <div className={`error ${error ? '' : 'hidden'}`}>
+          {error}
+        </div>
         <button className="food-type-submit button" onClick={this.onSubmit}>
           Submit food type
         </button>

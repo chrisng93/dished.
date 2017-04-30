@@ -35,7 +35,6 @@
 
     form {
       width: 400px;
-      margin-bottom: 28px;
       display: flex;
       flex-direction: column;
 
@@ -52,6 +51,7 @@
     button {
       width: 250px;
       height: 80px;
+      margin-top: 28px;
       font-size: 20px;
     }
   }

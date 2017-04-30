@@ -14,6 +14,7 @@ export default class Location extends Component {
     this.state = {
       location: '',
       hasSetLocation: false,
+      error: '',
     };
     this.onChangeLocation = this.onChangeLocation.bind(this);
     this.onKeyDown = this.onKeyDown.bind(this);
@@ -40,8 +41,12 @@ export default class Location extends Component {
   onSubmitLocation() {
     const { submitLocation } = this.props;
     const { location } = this.state;
-    submitLocation({ location });
-    this.setState({ hasSetLocation: true });
+    if (location) {
+      submitLocation({ location });
+      this.setState({ hasSetLocation: true });
+      return;
+    }
+    this.setState({ error: 'Please enter location' });
   }
 
   onConfirmLocation() {
@@ -55,7 +60,7 @@ export default class Location extends Component {
   }
 
   render() {
-    const { location, hasSetLocation } = this.state;
+    const { location, hasSetLocation, error } = this.state;
     return (
       <section className="location container">
         <form className="location-form">
@@ -68,6 +73,9 @@ export default class Location extends Component {
             onKeyDown={e => this.onKeyDown(e)}
           />
         </form>
+        <div className={`error ${error ? '' : 'hidden'}`}>
+          {error}
+        </div>
         <button className="location-submit button" onClick={this.onSubmitLocation}>
           Send location
         </button>

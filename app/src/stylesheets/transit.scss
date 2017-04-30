@@ -1,11 +1,14 @@
 .transit {
   .transit-form {
     .transit-form-method {
-      margin-bottom: 14px;
+      width: 400px;
+      height: 48px;
+      border: #222a3f solid 1px;
+      line-height: 14px;
     }
 
     .transit-form-time {
-
+      margin-top: 14px;
     }
   }
 }

@@ -44,6 +44,10 @@ body {
   color: #f6f5f3;
 }
 
+.button:hover {
+  cursor: pointer;
+}
+
 .input {
   height: 40px;
   padding: 4px;
@@ -51,14 +55,60 @@ body {
   border-radius: 3px;
   box-shadow: none;
   text-align: center;
+  background-color: #f6f5f3;
 }
 
 .error {
-  color: red;
+  margin-top: 8px;
+  color: #ff2015;
 }
 
 .hidden {
   display: none;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+
+  .dropdown-button {
+    background-color: #d6e1ef;
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+  }
+
+  .dropdown-content {
+    width: 100%;
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+    display: none;
+    position: absolute;
+    background-color: #d6e1ef;
+    z-index: 1;
+
+    option {
+      height: 32px;
+      min-width: 100%;
+      line-height: 32px;
+      display: block;
+      text-decoration: none;
+      background-clip: content-box;
+    }
+
+    option:hover {
+      background-color: #eef3f8;
+      cursor: pointer;
+    }
+  }
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+.dropdown:hover .dropdown-button {
+  background-color: #eef3f8;
 }
 
 .bg {

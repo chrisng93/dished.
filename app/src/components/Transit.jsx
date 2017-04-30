@@ -14,11 +14,15 @@ export default class Transit extends Component {
     super(props);
     this.state = {
       transitMethod: '',
+      transitMethodOptions: ['Driving', 'Walking', 'Bicycling', 'Transit'],
       transitTime: 0,
+      dropdownActive: false,
+      error: '',
     };
     this.onChangeInput = this.onChangeInput.bind(this);
     this.onSubmitTransit = this.onSubmitTransit.bind(this);
     this.onKeyDown = this.onKeyDown.bind(this);
+    this.onClickDropdown = this.onClickDropdown.bind(this);
   }
 
   onChangeInput(e, field) {
@@ -28,12 +32,22 @@ export default class Transit extends Component {
   }
 
   onSubmitTransit() {
-    // TODO: error checking to make sure fields are filled out and that transitTime is an int
+    // TODO: handle api errors
     const { submitTransit, location } = this.props;
     let { transitMethod, transitTime } = this.state;
-    transitMethod = transitMethod.toUpperCase();
-    transitTime = parseInt(transitTime);
-    submitTransit({ location, transitMethod, transitTime });
+    if (transitMethod && transitTime && parseInt(transitTime)) {
+      transitMethod = transitMethod.toUpperCase();
+      transitTime = parseInt(transitTime);
+      submitTransit({ location, transitMethod: transitMethod.toUpperCase(), transitTime });
+      return;
+    }
+    if (!transitMethod || !transitTime) {
+      this.setState({ error: 'Please fill in all fields' });
+      return;
+    }
+    if (!parseInt(transitTime)) {
+      this.setState({ error: 'Please set transit time to a number' });
+    }
   }
 
   onKeyDown(e) {
@@ -43,20 +57,25 @@ export default class Transit extends Component {
     }
   }
 
+  onClickDropdown(e) {
+    this.setState({ transitMethod: e.target.value });
+  }
+
   render() {
-    // TODO: make transitMethod a dropdown with valid options
-    // TODO: add waiting indicator after submit
+    const { transitMethod, transitMethodOptions, error } = this.state;
     return (
       <section className="transit container">
         <form className="transit-form">
-          <input
-            className="transit-form-method input"
-            type="text"
-            name="transit-method"
-            placeholder="How are you trying to get there?"
-            onChange={e => this.onChangeInput(e, 'transitMethod')}
-            onKeyDown={e => this.onKeyDown(e)}
-          />
+          <div className="dropdown">
+            <button
+              className="transit-form-method dropdown-button input"
+              type="text"
+              name="transit-method"
+            >{transitMethod || 'How are you trying to get there?'}</button>
+            <div className="dropdown-content">
+              {transitMethodOptions.map(method => <option value={method} onClick={e => this.onClickDropdown(e)}>{method}</option>)}
+            </div>
+          </div>
           <input
             className="transit-form-time input"
             type="text"
@@ -66,6 +85,9 @@ export default class Transit extends Component {
             onKeyDown={e => this.onKeyDown(e)}
           />
         </form>
+        <div className={`error ${error ? '' : 'hidden'}`}>
+          {error}
+        </div>
         <button className="transit-button button" onClick={this.onSubmitTransit}>
           Send transit info
         </button>

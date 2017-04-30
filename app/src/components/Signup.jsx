@@ -14,6 +14,7 @@ export default class SignUp extends Component {
     this.state = {
       email: '',
       password: '',
+      error: '',
     };
     this.onChangeInput = this.onChangeInput.bind(this);
     this.onKeyDown = this.onKeyDown.bind(this);
@@ -34,14 +35,19 @@ export default class SignUp extends Component {
   }
 
   onSignUp() {
-    // TODO: validate that both fields are filled
-    // TODO: error handling (from server)
+    // TODO: handle api errors
     const { email, password } = this.state;
-    const { signUp } = this.props;
-    signUp({ email, password });
+    const { signUp, changeModal } = this.props;
+    if (email && password) {
+      signUp({ email, password });
+      changeModal({ currentModal: '' });
+      return;
+    }
+    this.setState({ error: 'Please fill in all of the fields' });
   }
 
   render() {
+    const { error } = this.state;
     const { changeModal } = this.props;
     return (
       <section className="signup">
@@ -66,9 +72,12 @@ export default class SignUp extends Component {
         <button className="signup-submit button" onClick={this.onSignUp}>
           Sign Up
         </button>
-        <section className="signup-route-signin">
+        <div className={`error ${error ? '' : 'hidden'}`}>
+          {error}
+        </div>
+        <div className="signup-route-signin">
           <a onClick={() => changeModal({ currentModal: 'signIn' })}>Already have an account?</a>
-        </section>
+        </div>
       </section>
     );
   }
