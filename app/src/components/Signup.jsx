@@ -4,6 +4,9 @@
 import React, { Component, PropTypes as T } from 'react';
 
 const propTypes = {
+  isSigningUp: T.bool,
+  error: T.object,
+
   changeModal: T.func,
   signUp: T.func,
 };
@@ -21,6 +24,16 @@ export default class SignUp extends Component {
     this.onSignUp = this.onSignUp.bind(this);
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (this.props.isSigningUp && !nextProps.isSigningUp) {
+      if (nextProps.error.get('status') === false) {
+        nextProps.changeModal({currentModal: ''});
+        return;
+      }
+      this.setState({ error: 'Error. Please try again' });
+    }
+  }
+
   onChangeInput(e, field) {
     const newState = this.state;
     newState[field] = e.target.value;
@@ -35,12 +48,10 @@ export default class SignUp extends Component {
   }
 
   onSignUp() {
-    // TODO: handle api errors
     const { email, password } = this.state;
-    const { signUp, changeModal } = this.props;
+    const { signUp } = this.props;
     if (email && password) {
       signUp({ email, password });
-      changeModal({ currentModal: '' });
       return;
     }
     this.setState({ error: 'Please fill in all of the fields' });

@@ -52,9 +52,8 @@ export default class SignIn extends Component {
   }
 
   onSignIn() {
-    // TODO: handle api errors
     const { email, password } = this.state;
-    const { signIn, changeModal } = this.props;
+    const { signIn } = this.props;
     if (email && password) {
       signIn({email, password});
       return;
