@@ -52,4 +52,8 @@
   .active + .active .dot:before {
     background-color: #566885;
   }
+
+  .active:hover {
+    cursor: pointer;
+  }
 }

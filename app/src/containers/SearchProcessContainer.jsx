@@ -1,9 +1,10 @@
 import React, { Component, PropTypes as T } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { push } from 'react-router-redux';
 import * as actions from '../actions';
 import { currentStepSelector, locationSelector, transitMethodSelector, radiusSelector,
-  searchIdSelector, choicesSelector, hoveredChoiceSelector, selectedChoiceSelector } from '../selectors/searchProcessSelectors';
+  foodTypeSelector, choicesSelector, hoveredChoiceSelector, selectedChoiceSelector } from '../selectors/searchProcessSelectors';
 import ProgressIndicator from '../components/ProgressIndicator';
 import Map from '../components/Map';
 
@@ -12,26 +13,33 @@ const propTypes = {
   location: T.string,
   transitMethod: T.string,
   radius: T.number,
-  searchId: T.string,
+  foodType: T.string,
   choices: T.object,
   hoveredChoice: T.string,
   selectedChoice: T.object,
 
   changeStep: T.func,
+  routeToLocation: T.func,
+  routeToTransit: T.func,
+  routeToFood: T.func,
+  routeToChoices: T.func,
 };
 
 class SearchProcessContainer extends Component {
   constructor(props) {
     super(props);
     this.updateStep = this.updateStep.bind(this);
+    this.checkRouteStatus = this.checkRouteStatus.bind(this);
   }
 
   componentDidMount() {
-    this.updateStep(this.props)
+    this.updateStep(this.props);
+    this.checkRouteStatus(this.props);
   }
 
   componentWillReceiveProps(nextProps) {
     this.updateStep(nextProps);
+    this.checkRouteStatus(nextProps);
   }
 
   updateStep(props) {
@@ -54,15 +62,29 @@ class SearchProcessContainer extends Component {
     }
   }
 
+  checkRouteStatus(props) {
+    const { currentStep, location, transitMethod, radius, foodType, choices, selectedChoice,
+      routeToLocation, routeToTransit, routeToFood, routeToChoices } = props;
+    if (currentStep === 'transit' && !location) {
+      routeToLocation();
+    } else if (currentStep === 'food' && (!transitMethod || !radius)) {
+      routeToTransit();
+    } else if (currentStep === 'choices' && !foodType) {
+      routeToFood();
+    } else if (currentStep === 'selection' && !selectedChoice.get('id')) {
+      routeToChoices();
+    }
+  }
+
   render() {
-    // TODO: have progress indicator above children showing where the user is in the process
-    // TODO: map that shows updates (pin after location, radius after transit, restaurant pins after food)
-    const { children, currentStep, location, transitMethod, radius, choices, hoveredChoice, selectedChoice } = this.props;
+    const { children, currentStep, location, transitMethod, radius, choices, hoveredChoice, selectedChoice,
+      routeToLocation, routeToTransit, routeToFood, routeToChoices} = this.props;
+    const progressIndicatorProps = { currentStep, routeToLocation, routeToTransit, routeToFood, routeToChoices };
     const mapProps = { transitMethod, radius, choices, hoveredChoice, selectedChoice, address: location, width: '400px', height: '400px' };
     return (
       <section className="search-process">
         <section className="search-process-info">
-          <ProgressIndicator currentStep={currentStep} />
+          <ProgressIndicator {...progressIndicatorProps} />
           {children}
         </section>
         <section className={`search-process-map ${selectedChoice.get('id') ? 'hidden' : ''}`}>
@@ -80,7 +102,7 @@ function mapStateToProps(state) {
     location: locationSelector(state),
     transitMethod: transitMethodSelector(state),
     radius: radiusSelector(state),
-    searchId: searchIdSelector(state),
+    foodType: foodTypeSelector(state),
     choices: choicesSelector(state),
     hoveredChoice: hoveredChoiceSelector(state),
     selectedChoice: selectedChoiceSelector(state),
@@ -90,6 +112,10 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     changeStep: bindActionCreators(actions.changeStep, dispatch),
+    routeToLocation: () => dispatch(push('/search/location')),
+    routeToTransit: () => dispatch(push('/search/transit')),
+    routeToFood: () => dispatch(push('/search/food')),
+    routeToChoices: () => dispatch(push('/search/choices')),
   };
 }
 

@@ -7,7 +7,7 @@ import Choice from '../components/Choice';
 
 const propTypes = {
   choices: T.object,
-  searchId: T.number,
+  searchId: T.string,
 
   onMouseEnterChoice: T.func,
   onMouseLeaveChoice: T.func,

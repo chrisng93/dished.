@@ -6,7 +6,7 @@ import ReactStars from 'react-stars';
 
 const propTypes = {
   choice: T.object,
-  searchId: T.number,
+  searchId: T.string,
   rank: T.number,
 
   onMouseEnterChoice: T.func,
