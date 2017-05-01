@@ -1,7 +1,7 @@
 """
     User CRUD
 """
-from flask import Blueprint, request, abort, g
+from flask import Blueprint, request
 from ..common.services import User, RestaurantSearch
 from ..common.helpers import check_auth
 from ..common.extensions import redis

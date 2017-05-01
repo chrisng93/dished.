@@ -2,7 +2,7 @@
     RestaurantSearch CRUD
 """
 from functools import reduce
-from flask import Blueprint, request, g
+from flask import Blueprint, request
 from ..common.services import RestaurantSearch
 from ..common.exceptions import TakingTooLong, GoogleMapsError
 from ..common.helpers import check_auth

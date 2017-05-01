@@ -1,7 +1,7 @@
 """
     Manage authentication
 """
-from flask import Blueprint, request, session, g
+from flask import Blueprint, request
 from ..common.services import User
 from ..common.helpers import check_auth
 from ..common.extensions import redis

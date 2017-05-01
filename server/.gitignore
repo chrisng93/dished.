@@ -1,6 +1,6 @@
 .idea/
 flask/
-app.db
+app/app.db
 db_repository/
 *.pyc
 app/config.py
