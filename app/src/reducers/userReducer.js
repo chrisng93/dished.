@@ -1,7 +1,7 @@
 /**
  * Reducers should change state based on action type/payload
  */
-import { Map, fromJS } from 'immutable';
+import { Map, List, fromJS } from 'immutable';
 import * as actionTypes from '../constants/actionTypes';
 
 const initialError = fromJS({
@@ -13,11 +13,13 @@ const initialState = fromJS({
   user: Map(),
   token: '',
   isAuthenticated: false,
+  userSearches: List(),
 
   isSigningIn: false,
   isSigningUp: false,
   isSigningOut: false,
   isEditingUser: false,
+  isGettingUserSearches: false,
 
   error: initialError,
 });
@@ -84,9 +86,21 @@ export default function user(state = initialState, action) {
         .set('isEditingUser', false)
         .set('error', initialError);
     case actionTypes.EDIT_USER_FAILURE:
-      console.log(payload)
       return state
         .set('isEditingUser', false)
+        .set('error', Map({ status: true, message: payload.error }));
+
+    case actionTypes.GET_USER_SEARCHES_PENDING:
+      return state
+        .set('isGettingUserSearches', true);
+    case actionTypes.GET_USER_SEARCHES_SUCCESS:
+      return state
+        .set('userSearches', fromJS(payload.searches))
+        .set('isGettingUserSearches', false)
+        .set('error', initialError);
+    case actionTypes.GET_USER_SEARCHES_FAILURE:
+      return state
+        .set('isGettingUserSearches', false)
         .set('error', Map({ status: true, message: payload.error }));
 
     default:

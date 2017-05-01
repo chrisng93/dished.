@@ -1,0 +1,43 @@
+.search {
+  width: 600px;
+  min-height: 120px;
+  margin: 12px auto 12px auto;
+  border-radius: 3px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-color: #dddcda;
+  -webkit-transition: background-color 0.5s;
+  transition: background-color 0.5s;
+
+  .section-1 {
+    h1 {
+      margin: 10px;
+      text-align: center;
+      font-size: 24px;
+    }
+  }
+
+  .section-2 {
+    display: flex;
+
+    .section-2-1 {
+      display: flex;
+      flex-direction: column;
+      font-size: 16px;
+      margin: 12px;
+    }
+
+    .section-2-2 {
+      display: flex;
+      flex-direction: column;
+      font-size: 16px;
+      margin: 12px;
+    }
+  }
+}
+
+.choice:hover {
+  background-color: #fafaf9;
+}

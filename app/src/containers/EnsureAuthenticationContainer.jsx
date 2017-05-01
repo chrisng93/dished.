@@ -19,7 +19,7 @@ class EnsureAuthenticationContainer extends Component {
 
   render() {
     return (
-      <section>
+      <section className="ensure-authentication">
         {this.props.children}
       </section>
     );

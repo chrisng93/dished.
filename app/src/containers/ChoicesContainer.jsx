@@ -3,12 +3,10 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as actions from '../actions';
 import { choicesSelector, searchIdSelector } from '../selectors/searchProcessSelectors';
-import { tokenSelector } from '../selectors/userSelectors';
 import Choice from '../components/Choice';
 
 const propTypes = {
   choices: T.object,
-  token: T.string,
   searchId: T.number,
 
   onMouseEnterChoice: T.func,
@@ -22,8 +20,8 @@ class ChoicesContainer extends Component {
   }
 
   render() {
-    const { choices, token, searchId, onMouseEnterChoice, onMouseLeaveChoice, selectChoice } = this.props;
-    const choiceProps = { token, searchId, onMouseEnterChoice, onMouseLeaveChoice, selectChoice };
+    const { choices, searchId, onMouseEnterChoice, onMouseLeaveChoice, selectChoice } = this.props;
+    const choiceProps = { searchId, onMouseEnterChoice, onMouseLeaveChoice, selectChoice };
     return (
       <section className="choices">
         {choices.map((choice, index) =>
@@ -42,7 +40,6 @@ class ChoicesContainer extends Component {
 function mapStateToProps(state) {
   return {
     choices: choicesSelector(state),
-    token: tokenSelector(state),
     searchId: searchIdSelector(state),
   };
 }

@@ -10,7 +10,11 @@
 @import 'transit';
 @import 'foodtype';
 @import 'choices';
+@import 'choice';
 @import 'selection';
+@import 'profile';
+@import 'searches';
+@import 'search';
 @import 'notfound';
 @import 'spinner';
 
@@ -20,6 +24,7 @@ body {
   margin: 0;
   font-family: 'Quicksand', sans-serif;
   cursor: default;
+  overflow: hidden;
 }
 
 #app {
@@ -30,6 +35,11 @@ body {
   .children {
     height: calc(100vh - 73px);
     overflow: hidden;
+  }
+
+  .ensure-authentication {
+    width: 100%;
+    height: 100%;
   }
 }
 

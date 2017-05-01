@@ -13,6 +13,7 @@ import EnsureAuthenticationContainer from './containers/EnsureAuthenticationCont
 import ProfileContainer from './containers/ProfileContainer';
 import ChoicesContainer from './containers/ChoicesContainer';
 import SelectionContainer from './containers/SelectionContainer';
+import SearchesContainer from './containers/SearchesContainer';
 
 const routes = (
   <Route path="/" component={AppContainer}>
@@ -31,11 +32,10 @@ const routes = (
       <IndexRoute component={ProfileContainer} />
       <Route path="/profile" component={ProfileContainer} />
     </Route>
-    {/*<Route path="/searches" component={EnsureAuthenticationContainer}>*/}
-    {/*<IndexRoute component={SearchesContainer} />*/}
-      {/*<Route path="/searches" component={SearchesContainer} />*/}
-      {/*<Route path="/searches/:id" component={SearchContainer} />*/}
-    {/*</Route>*/}
+    <Route path="/searches" component={EnsureAuthenticationContainer}>
+      <IndexRoute component={SearchesContainer} />
+      <Route path="/searches" component={SearchesContainer} />
+    </Route>
     <Route path="*" component={NotFoundContainer} />
   </Route>
 );

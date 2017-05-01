@@ -20,9 +20,29 @@ export const isAuthenticatedSelector = createSelector(
   userState => userState.get('isAuthenticated')
 );
 
+export const userSearchesSelector = createSelector(
+  userStateSelector,
+  userState => userState.get('userSearches')
+);
+
 export const isSigningInSelector = createSelector(
   userStateSelector,
   userState => userState.get('isSigningIn')
+);
+
+export const isSigningUpSelector = createSelector(
+  userStateSelector,
+  userState => userState.get('isSigningUp')
+);
+
+export const isSigningOutSelector = createSelector(
+  userStateSelector,
+  userState => userState.get('isSigningOut')
+);
+
+export const isEditingUserSelector = createSelector(
+  userStateSelector,
+  userState => userState.get('isEditingUser')
 );
 
 export const userErrorSelector = createSelector(

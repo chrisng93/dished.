@@ -6,7 +6,6 @@ import ReactStars from 'react-stars';
 
 const propTypes = {
   choice: T.object,
-  token: T.string,
   searchId: T.number,
   rank: T.number,
 
@@ -21,13 +20,13 @@ export default class Choice extends Component {
   }
 
   render() {
-    const { choice, token, searchId, rank, onMouseEnterChoice, onMouseLeaveChoice, selectChoice } = this.props;
+    const { choice, searchId, rank, onMouseEnterChoice, onMouseLeaveChoice, selectChoice } = this.props;
     return (
       <section
         className="choice"
         onMouseEnter={() => onMouseEnterChoice(choice.get('id'))}
         onMouseLeave={() => onMouseLeaveChoice(choice.get('id'))}
-        onClick={() => selectChoice({ token, choice: JSON.parse(JSON.stringify(choice)), id: searchId })}
+        onClick={() => selectChoice({ choice: JSON.parse(JSON.stringify(choice)), id: searchId })}
       >
         <section className="choice-rank">
           {rank}.

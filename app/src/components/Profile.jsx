@@ -6,6 +6,8 @@ import React, { Component, PropTypes as T } from 'react';
 const propTypes = {
   user: T.object,
   token: T.string,
+  isEditingUser: T.bool,
+  error: T.object,
 
   editUser: T.func,
 };
@@ -19,9 +21,20 @@ export default class Profile extends Component {
       password: '',
       name: user.get('name') || '',
       location: user.get('location') || '',
+      message: '',
+      isError: false,
     };
     this.onChangeInput = this.onChangeInput.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (this.props.isEditingUser && !nextProps.isEditingUser) {
+      this.setState({ message: 'Profile successfully updated', isError: false });
+    }
+    if (nextProps.error.get('status') === true) {
+      this.setState({ message: nextProps.error.get('message'), isError: true });
+    }
   }
 
   onChangeInput(e, field) {
@@ -42,50 +55,52 @@ export default class Profile extends Component {
   }
 
   render() {
-    const { email, password, name, location } = this.state;
+    const { email, password, name, location, message, isError } = this.state;
     return (
-      <form className="profile">
-        <label className="profile-email">
-          Email:
-          <input
-            className="profile-email-input"
-            placeholder={email}
-            value={email}
-            onChange={(e) => this.onChangeInput(e, 'email')}
-          />
-        </label>
-        <label className="profile-password">
-          Password:
-          <input
-            className="profile-password-input"
-            type="password"
-            placeholder="*********"
-            value={password}
-            onChange={(e) => this.onChangeInput(e, 'password')}
-          />
-        </label>
-        <label className="profile-name">
-          Name:
-          <input
-            className="profile-name-input"
-            placeholder={name}
-            value={name}
-            onChange={(e) => this.onChangeInput(e, 'name')}
-          />
-        </label>
-        <label className="profile-location">
-          Location:
-          <input
-            className="profile-location-input"
-            placeholder={location}
-            value={location}
-            onChange={(e) => this.onChangeInput(e, 'location')}
-          />
-        </label>
-        <button className="profile-submit" onClick={(e) => this.onSubmit(e)}>
-          Submit
-        </button>
-      </form>
+      <section className="profile">
+        <form>
+          <label className="profile-email">
+            <input
+              className="profile-email-input input"
+              placeholder={email || 'Email'}
+              value={email}
+              onChange={e => this.onChangeInput(e, 'email')}
+            />
+          </label>
+          <label className="profile-password">
+            <input
+              className="profile-password-input input"
+              type="password"
+              placeholder="*********"
+              value={password}
+              onChange={e => this.onChangeInput(e, 'password')}
+            />
+          </label>
+          <label className="profile-name">
+            <input
+              className="profile-name-input input"
+              placeholder={name || 'Name'}
+              value={name}
+              onChange={e => this.onChangeInput(e, 'name')}
+            />
+          </label>
+          <label className="profile-location">
+            <input
+              className="profile-location-input input"
+              placeholder={location || 'Location'}
+              value={location}
+              onChange={e => this.onChangeInput(e, 'location')}
+            />
+          </label>
+          <button className="profile-submit button" onClick={(e) => this.onSubmit(e)}>
+            Submit
+          </button>
+          <div className={`message ${isError ? 'error': ''}`}>
+            {message}
+          </div>
+        </form>
+        <img src="https://s3-us-west-1.amazonaws.com/dishassist/profile.jpg" />
+      </section>
     );
   }
 }

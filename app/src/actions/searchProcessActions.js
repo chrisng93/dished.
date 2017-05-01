@@ -38,10 +38,13 @@ export function submitTransit(payload) {
 
 const submitTransitApi = (payload) => {
   const { location, transitMethod, transitTime } = payload;
-  const headers = createHeaders();
   const address = location.split(' ').join('+');
   const queryString = `address=${address}&transit_method=${transitMethod}&transit_time=${transitTime}`;
-  return Observable.ajax(`${process.env.API_URL}/api/restaurant/search/radius?${queryString}`, headers);
+  const settings = {
+    url: `${process.env.API_URL}/api/restaurant/search/radius?${queryString}`,
+    headers: createHeaders(),
+  };
+  return Observable.ajax(settings);
 };
 
 export const submitTransitEpic = (action$) => {
@@ -72,6 +75,7 @@ export const submitFoodTypeEpic = (action$) => {
 
 export function submitSearch(store) {
   const searchProcess = store.getState().searchProcess;
+  const user = store.getState().user;
   const body = JSON.stringify({
     user_location: searchProcess.get('location'),
     transit_method: searchProcess.get('transitMethod'),
@@ -79,7 +83,7 @@ export function submitSearch(store) {
     food_type: searchProcess.get('foodType'),
     radius: searchProcess.get('radius'),
   });
-  const headers = createHeaders();
+  const headers = createHeaders(user.get('token'));
   return Observable.ajax.post(`${process.env.API_URL}/api/restaurant/search`, body, headers);
 }
 
@@ -120,8 +124,8 @@ export function selectChoice(payload) {
 
 const selectChoiceApi = (payload) => {
   const body = JSON.stringify(payload);
-  const headers = createHeaders(payload.token);
-  return Observable.ajax.put(`${process.env.API_URL}/api/restaurant/${payload.id}`, body, headers)
+  const headers = createHeaders();
+  return Observable.ajax.put(`${process.env.API_URL}/api/restaurant/search/${payload.id}`, body, headers)
     .catch(error => Observable.of({ type: actionTypes.SELECT_CHOICE_FAILURE, payload: { error } }));
 };
 
