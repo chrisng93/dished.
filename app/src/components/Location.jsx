@@ -81,10 +81,10 @@ export default class Location extends Component {
           Send location
         </button>
         <section className={`location-confirm ${hasSetLocation ? '' : 'hidden'}`}>
-          <button className={"location-confirm-continue button"} onClick={this.onConfirmLocation}>
+          <button className="location-confirm-continue button" onClick={this.onConfirmLocation}>
             Continue
           </button>
-          <button className={"location-confirm-cancel button"} onClick={this.onUnconfirmLocation}>
+          <button className="location-confirm-cancel button" onClick={this.onUnconfirmLocation}>
             Cancel
           </button>
         </section>
