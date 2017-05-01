@@ -2,7 +2,7 @@
     User CRUD
 """
 from flask import Blueprint, request, abort, g
-from ..common.services import User
+from ..common.services import User, RestaurantSearch
 from ..common.helpers import check_auth
 from ..common.extensions import redis
 from .. import config
@@ -80,3 +80,12 @@ def delete_user(id):
         return dict(error='Permission denied'), 401
     User.delete(id)
     return dict(message='User %d successfully deleted' % id)
+
+
+@route(user_bp, '/searches', methods=['GET'])
+def get_searches():
+    auth = check_auth(request.headers.get('Authorization'))
+    if auth['status'] == 'failure':
+        return dict(error=auth['message']), 401
+    searches = RestaurantSearch.get_user_searches(auth['message'])
+    return dict(searches=[search.to_dict() for search in searches])

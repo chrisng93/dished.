@@ -45,7 +45,7 @@ def create_search():
         geocode = get_geocode(request.json['user_location'])
         restaurants = hit_yelp(location=geocode, radius=request.json['radius'], food=request.json['food_type'],
                                transit_time=request.json['transit_time'])
-        if len(restaurants) < 2:
+        if len(restaurants) == 0:
             return dict(error='Not enough results'), 500
         restaurant_rankings = rank_restaurants(restaurants)[0:20]
         return dict(restaurants=restaurant_rankings, id=rs['id'])
@@ -53,12 +53,17 @@ def create_search():
         return dict(error='Request taking too long'), 500
     except GoogleMapsError as e:
         return dict(error='Error getting data from Google Maps API'), 500
+    except Exception as e:
+        return dict(error=str(e)), 500
 
 
 @route(restaurant_search_bp, '/<int:id>', methods=['PUT'])
 def update_search(id):
     if not request.json:
         return dict(error='Please send updated fields and values'), 400
+    request.json['id'] = id
+    if request.json['choice']:
+        request.json['selection'] = request.json['choice']['name']
     return dict(search=RestaurantSearch.update(**request.json).to_dict())
 
 

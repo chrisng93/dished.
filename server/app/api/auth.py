@@ -26,7 +26,7 @@ def signin():
             redis.expire(token, config.TOKEN_EXPIRY)
             return dict(user=user.to_dict(), token=token)
         except Exception as e:
-            return dict(error=str(e))
+            return dict(error=str(e)), 500
     return dict(error='Password incorrect'), 401
 
 
@@ -35,7 +35,6 @@ def signout():
     auth_header = request.headers.get('Authorization')
     auth = check_auth(auth_header)
     if auth['status'] == 'failure':
-        # TODO: manage specific errors
         return dict(error=auth['message']), 500
     token = auth_header.split(' ')[1]
     redis.set(token, False)

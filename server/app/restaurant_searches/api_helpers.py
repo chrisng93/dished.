@@ -24,6 +24,8 @@ def hit_yelp(location, radius, food, transit_time):
     full_url = '%s://%s%s?%s' % (url.scheme, url.netloc, url.path, url.query)
     headers = dict(authorization='Bearer %s' % config.YELP_ACCESS_TOKEN)
     req = requests.get(full_url, headers=headers)
-    # TODO: check to see if access token is expired, if expired then get access token
+    if req.status_code != 200:
+        get_yelp_access_token()
+        hit_yelp(location, radius, food, transit_time)
     results = req.json()
     return [r for r in results['businesses'] if r['distance'] < radius_in_meters]
