@@ -7,11 +7,17 @@ import ReactStars from 'react-stars';
 const propTypes = {
   selectedChoice: T.object,
   fromUserSearches: T.bool,
+
+  clearSearchInfo: T.func,
 };
 
 export default class Selection extends Component {
   constructor(props) {
     super(props);
+  }
+
+  componentWillUnmount() {
+    this.props.clearSearchInfo();
   }
 
   render() {

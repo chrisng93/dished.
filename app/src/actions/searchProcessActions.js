@@ -129,3 +129,11 @@ export const selectChoiceEpic = (action$) => {
       )
     )
 };
+
+export function clearChoices() {
+  return { type: actionTypes.CLEAR_CHOICES };
+}
+
+export function clearSearchInfo() {
+  return { type: actionTypes.CLEAR_SEARCH_INFO };
+}

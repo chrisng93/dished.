@@ -7,6 +7,8 @@ import Selection from '../components/Selection';
 
 const propTypes = {
   selectedChoice: T.object,
+
+  clearSearchInfo: T.func,
 };
 
 function SelectionContainer(props) {
@@ -23,7 +25,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-
+    clearSearchInfo: bindActionCreators(actions.clearSearchInfo, dispatch),
   };
 }
 

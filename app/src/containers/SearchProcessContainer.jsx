@@ -19,6 +19,7 @@ const propTypes = {
   selectedChoice: T.object,
 
   changeStep: T.func,
+  clearChoices: T.func,
   routeToLocation: T.func,
   routeToTransit: T.func,
   routeToFood: T.func,
@@ -63,13 +64,14 @@ class SearchProcessContainer extends Component {
   }
 
   checkRouteStatus(props) {
-    const { currentStep, location, transitMethod, radius, foodType, choices, selectedChoice,
+    const { currentStep, location, transitMethod, radius, foodType, choices, selectedChoice, clearChoices,
       routeToLocation, routeToTransit, routeToFood, routeToChoices } = props;
     if (currentStep === 'transit' && !location) {
       routeToLocation();
     } else if (currentStep === 'food' && (!transitMethod || !radius)) {
       routeToTransit();
     } else if (currentStep === 'choices' && !foodType) {
+      clearChoices();
       routeToFood();
     } else if (currentStep === 'selection' && !selectedChoice.get('id')) {
       routeToChoices();
@@ -112,6 +114,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     changeStep: bindActionCreators(actions.changeStep, dispatch),
+    clearChoices: bindActionCreators(actions.clearChoices, dispatch),
     routeToLocation: () => dispatch(push('/search/location')),
     routeToTransit: () => dispatch(push('/search/transit')),
     routeToFood: () => dispatch(push('/search/food')),

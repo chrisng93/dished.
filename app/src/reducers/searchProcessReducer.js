@@ -107,6 +107,12 @@ export default function searchProcess(state = initialState, action) {
       return state
         .set('location', payload.user.location || state.get('location'));
 
+    case actionTypes.CLEAR_CHOICES:
+      return state
+        .set('choices', List());
+    case actionTypes.CLEAR_SEARCH_INFO:
+      return initialState;
+
     default:
       return state;
   }

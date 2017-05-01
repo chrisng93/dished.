@@ -45,6 +45,10 @@ module.exports = {
   // mouse enter/leave choice
   MOUSE_ENTER_CHOICE: 'MOUSE_ENTER_CHOICE',
   MOUSE_LEAVE_CHOICE: 'MOUSE_LEAVE_CHOICE',
+  // clear choices
+  CLEAR_CHOICES: 'CLEAR_CHOICES',
+  // clear search info
+  CLEAR_SEARCH_INFO: 'CLEAR_SEARCH_INFO',
 
   // change modal
   CHANGE_MODAL: 'CHANGE_MODAL',

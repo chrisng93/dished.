@@ -6,7 +6,7 @@ import { signIn, signInEpic, signUp, signUpEpic, signOut, signOutEpic, editUser,
   getUserSearches, getUserSearchesEpic } from './userActions';
 import { changeStep, submitLocation, confirmLocation, confirmLocationEpic, submitTransit,
   submitTransitEpic, submitFoodType, submitFoodTypeEpic, submitSearchEpic, onMouseEnterChoice,
-  onMouseLeaveChoice, selectChoice, selectChoiceEpic } from './searchProcessActions';
+  onMouseLeaveChoice, selectChoice, selectChoiceEpic, clearChoices, clearSearchInfo } from './searchProcessActions';
 import { changeModal } from './modalActions';
 
 const rootEpic = combineEpics(
@@ -42,6 +42,8 @@ module.exports = {
   submitFoodType,
   onMouseEnterChoice,
   onMouseLeaveChoice,
+  clearChoices,
+  clearSearchInfo,
 
   // modal
   changeModal,
