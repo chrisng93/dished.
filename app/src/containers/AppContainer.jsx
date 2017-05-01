@@ -30,11 +30,10 @@ const propTypes = {
 class AppContainer extends Component {
   constructor(props) {
     super(props);
-    this.onLoad = this.onLoad.bind(this);
     this.renderSpinner = this.renderSpinner.bind(this);
   }
 
-  onLoad() {
+  componentDidMount() {
     document.body.style.visibility = 'visible';
   }
 
@@ -51,7 +50,7 @@ class AppContainer extends Component {
 
   render() {
     return (
-      <section id="app" onLoad={this.onLoad}>
+      <section id="app">
         <Nav {...this.props} />
         <ModalCheckContainer />
         <section className="children">
