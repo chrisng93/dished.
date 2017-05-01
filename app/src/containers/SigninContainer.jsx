@@ -5,11 +5,13 @@ import React, { PropTypes as T } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as actions from '../actions';
-import { isAuthenticatedSelector } from '../selectors/userSelectors';
+import { isAuthenticatedSelector, isSigningInSelector, userErrorSelector } from '../selectors/userSelectors';
 import SignIn from '../components/SignIn';
 
 const propTypes = {
   isAuthenticated: T.bool,
+  isSigningIn: T.bool,
+  error: T.object,
 
   changeModal: T.func,
   signIn: T.func,
@@ -24,6 +26,8 @@ function SignInContainer(props) {
 function mapStateToProps(state) {
   return {
     isAuthenticated: isAuthenticatedSelector(state),
+    isSigningIn: isSigningInSelector(state),
+    error: userErrorSelector(state),
   };
 }
 

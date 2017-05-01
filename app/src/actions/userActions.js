@@ -2,7 +2,6 @@
  * Created by chrisng on 4/11/17.
  */
 import { Observable } from 'rxjs';
-import { push } from 'react-router-redux';
 import * as actionTypes from '../constants/actionTypes';
 import { createHeaders } from '../utils/requestUtils';
 
@@ -24,12 +23,7 @@ export const signInEpic = (action$) => {
   return action$.ofType(actionTypes.SIGN_IN_PENDING)
     .switchMap(action =>
       Observable.from(signInUser(action))
-        .flatMap(payload =>
-          Observable.concat(
-            Observable.of({ type: actionTypes.SIGN_IN_SUCCESS, payload: payload.response }),
-            Observable.of(push('/')),
-          )
-        )
+        .map(payload => ({ type: actionTypes.SIGN_IN_SUCCESS, payload: payload.response }))
         .catch(error => Observable.of({ type: actionTypes.SIGN_IN_FAILURE, payload: { error } }))
     )
 };
@@ -52,12 +46,7 @@ export const signUpEpic = (action$) => {
   return action$.ofType(actionTypes.SIGN_UP_PENDING)
     .switchMap(action =>
       Observable.from(signUpUser(action))
-        .flatMap(payload =>
-          Observable.concat(
-            Observable.of({ type: actionTypes.SIGN_UP_SUCCESS, payload: payload.response }),
-            Observable.of(push('/')),
-          )
-        )
+        .map(payload => ({ type: actionTypes.SIGN_UP_SUCCESS, payload: payload.response }))
         .catch(error => Observable.of({ type: actionTypes.SIGN_UP_FAILURE, payload: { error } }))
     )
 };
@@ -80,12 +69,7 @@ export const signOutEpic = (action$) => {
   return action$.ofType(actionTypes.SIGN_OUT_PENDING)
     .switchMap(action =>
       Observable.from(signOutUser(action))
-        .flatMap(payload =>
-          Observable.concat(
-            Observable.of({ type: actionTypes.SIGN_OUT_SUCCESS }),
-            Observable.of(push('/')),
-          )
-        )
+        .map(() => ({ type: actionTypes.SIGN_OUT_SUCCESS }))
         .catch(error => Observable.of({ type: actionTypes.SIGN_OUT_FAILURE, payload: { error } }))
     )
 };

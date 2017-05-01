@@ -5,6 +5,8 @@ import React, { Component, PropTypes as T } from 'react';
 
 const propTypes = {
   isAuthenticated: T.bool,
+  isSigningIn: T.bool,
+  error: T.object,
 
   changeModal: T.func,
   signIn: T.func,
@@ -21,6 +23,19 @@ export default class SignIn extends Component {
     this.onChangeInput = this.onChangeInput.bind(this);
     this.onKeyDown = this.onKeyDown.bind(this);
     this.onSignIn = this.onSignIn.bind(this);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (this.props.isSigningIn && !nextProps.isSigningIn) {
+      if (nextProps.error.get('status') === false) {
+        nextProps.changeModal({currentModal: ''});
+        return;
+      }
+      if (nextProps.error.get('message') === 'ajax error 401') {
+        this.setState({ error: 'Incorrect email or password' });
+      }
+      this.setState({ error: 'Error. Please try again' });
+    }
   }
 
   onChangeInput(e, field) {
@@ -42,7 +57,6 @@ export default class SignIn extends Component {
     const { signIn, changeModal } = this.props;
     if (email && password) {
       signIn({email, password});
-      changeModal({currentModal: ''});
       return;
     }
     this.setState({ error: 'Please fill in all of the fields' });
