@@ -114,10 +114,10 @@ def calculate_isochrone(origin, transit_method, transit_time, max_speed=75, num_
         if not len(data[0]) or not len(data[1]):
             raise GoogleMapsError
         for i in range(num_of_angles):
-            if (data[1][i] < (transit_time - tolerance)) & (data0[i] != data[0][i]):
+            if (data[1][i] < (transit_time - transit_time*tolerance)) & (data0[i] != data[0][i]):
                 rad2[i] = (rmax[i] + rad1[i]) / 2
                 rmin[i] = rad1[i]
-            elif (data[1][i] > (transit_time + tolerance)) & (data0[i] != data[0][i]):
+            elif (data[1][i] > (transit_time + transit_time*tolerance)) & (data0[i] != data[0][i]):
                 rad2[i] = (rmin[i] + rad1[i]) / 2
                 rmax[i] = rad1[i]
             else:
@@ -126,7 +126,7 @@ def calculate_isochrone(origin, transit_method, transit_time, max_speed=75, num_
         rad0 = rad1
         rad1 = rad2
         j += 1
-        print('attempt' + str(j))
+        print('attempt ' + str(j))
         if j > 30:
             raise TakingTooLong
     return iso
