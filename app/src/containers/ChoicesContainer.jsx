@@ -1,4 +1,4 @@
-import React, { Component, PropTypes as T } from 'react';
+import React, { PropTypes as T } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as actions from '../actions';
@@ -14,27 +14,21 @@ const propTypes = {
   selectChoice: T.func,
 };
 
-class ChoicesContainer extends Component {
-  constructor(props) {
-    super(props);
-  }
-
-  render() {
-    const { choices, searchId, onMouseEnterChoice, onMouseLeaveChoice, selectChoice } = this.props;
-    const choiceProps = { searchId, onMouseEnterChoice, onMouseLeaveChoice, selectChoice };
-    return (
-      <section className="choices">
-        {choices.map((choice, index) =>
-          <Choice
-            key={choice.get('id')}
-            choice={choice}
-            rank={index + 1}
-            {...choiceProps}
-          />
-        )}
-      </section>
-    );
-  }
+function ChoicesContainer(props) {
+  const { choices, searchId, onMouseEnterChoice, onMouseLeaveChoice, selectChoice } = props;
+  const choiceProps = { searchId, onMouseEnterChoice, onMouseLeaveChoice, selectChoice };
+  return (
+    <section className="choices">
+      {choices.map((choice, index) =>
+        <Choice
+          key={choice.get('id')}
+          choice={choice}
+          rank={index + 1}
+          {...choiceProps}
+        />
+      )}
+    </section>
+  );
 }
 
 function mapStateToProps(state) {

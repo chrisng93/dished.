@@ -6,7 +6,6 @@ import ReactStars from 'react-stars';
 
 const propTypes = {
   selectedChoice: T.object,
-  fromUserSearches: T.bool,
 
   clearSearchInfo: T.func,
 };
@@ -21,7 +20,7 @@ export default class Selection extends Component {
   }
 
   render() {
-    const { selectedChoice, fromUserSearches } = this.props;
+    const { selectedChoice } = this.props;
     return (
       <section className={`selection ${selectedChoice.get('id') ? '' : 'hidden'}`}>
         <div className="left">
@@ -71,9 +70,6 @@ export default class Selection extends Component {
           <div className="section-2">
             <div id="directions" />
           </div>
-        </div>
-        <div className={`right ${fromUserSearches ? '' : 'hidden'}`}>
-          <div id="map-user-search" />
         </div>
       </section>
     );

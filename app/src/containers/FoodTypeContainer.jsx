@@ -1,4 +1,4 @@
-import React, { Component, PropTypes as T } from 'react';
+import React, { PropTypes as T } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { push } from 'react-router-redux';
@@ -14,12 +14,10 @@ const propTypes = {
   routeToChoices: T.func,
 };
 
-class FoodTypeContainer extends Component {
-  render() {
-    return (
-      <FoodType {...this.props} />
-    );
-  }
+function FoodTypeContainer(props) {
+  return (
+    <FoodType {...props} />
+  );
 }
 
 function mapStateToProps(state) {

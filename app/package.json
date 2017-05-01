@@ -1,7 +1,7 @@
 {
-  "name": "restaurant-picker-frontend",
+  "name": "dished.-frontend",
   "version": "1.0.0",
-  "description": "Frontend for the restaurant picker",
+  "description": "Frontend for dished.",
   "scripts": {
     "build": "webpack -p --config webpack.config.babel.js --progress --profile --colors",
     "start": "webpack-dev-server --progress --profile --colors"

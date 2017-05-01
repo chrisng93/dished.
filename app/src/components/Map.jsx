@@ -5,7 +5,14 @@ import { milesToMeters, metersToMiles, milesToDegreesLatitude } from '../utils/c
 import Marker from './Marker';
 
 const propTypes = {
-
+  address: T.string,
+  transitMethod: T.string,
+  radius: T.number,
+  choices: T.object,
+  hoveredChoice: T.string,
+  selectedChoice: T.object,
+  width: T.string,
+  height: T.string,
 };
 
 export default class Map extends Component {
@@ -180,7 +187,7 @@ export default class Map extends Component {
   }
 
   render() {
-    const { mapCenter, center, zoom, radiusWidth, radiusHeight, error } = this.state;
+    const { mapCenter, center, zoom, radiusWidth, radiusHeight } = this.state;
     const { choices, hoveredChoice, selectedChoice } = this.props;
     const centerProps = { lat: center.lat, lng: center.lng, zoom };
     const radiusProps = { lat: center.lat, lng: center.lng, width: radiusWidth, height: radiusHeight };

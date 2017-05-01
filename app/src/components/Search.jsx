@@ -5,8 +5,6 @@ import React, { PropTypes as T } from 'react';
 
 const propTypes = {
   search: T.object,
-
-  routeToSearchPage: T.func,
 };
 
 const formatTransitMethod = (str) => {

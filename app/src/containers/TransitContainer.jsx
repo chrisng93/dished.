@@ -1,4 +1,4 @@
-import React, { Component, PropTypes as T } from 'react';
+import React, { PropTypes as T } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { push } from 'react-router-redux';
@@ -15,12 +15,10 @@ const propTypes = {
   routeToFood: T.func,
 };
 
-class TransitContainer extends Component {
-  render() {
-    return (
-      <Transit {...this.props} />
-    );
-  }
+function TransitContainer(props) {
+  return (
+    <Transit {...props} />
+  );
 }
 
 function mapStateToProps(state) {

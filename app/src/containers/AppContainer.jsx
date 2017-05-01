@@ -49,9 +49,11 @@ class AppContainer extends Component {
   }
 
   render() {
+    const { isAuthenticated, token, routeToHome, routeToProfile, routeToSearches, changeModal, signOut } = this.props;
+    const navProps = { isAuthenticated, token, routeToHome, routeToProfile, routeToSearches, changeModal, signOut };
     return (
       <section id="app">
-        <Nav {...this.props} />
+        <Nav {...navProps} />
         <ModalCheckContainer />
         <section className="children">
           {this.props.children}

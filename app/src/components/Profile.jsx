@@ -33,7 +33,7 @@ export default class Profile extends Component {
       this.setState({ message: 'Profile successfully updated', isError: false });
     }
     if (nextProps.error.get('status') === true) {
-      this.setState({ message: nextProps.error.get('message'), isError: true });
+      this.setState({ message: 'Error updating profile', isError: true });
     }
   }
 

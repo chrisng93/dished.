@@ -20,11 +20,6 @@ export const transitMethodSelector = createSelector(
   searchProcessState => searchProcessState.get('transitMethod')
 );
 
-export const transitTimeSelector = createSelector(
-  searchProcessStateSelector,
-  searchProcessState => searchProcessState.get('transitTime')
-);
-
 export const radiusSelector = createSelector(
   searchProcessStateSelector,
   searchProcessState => searchProcessState.get('radius')
@@ -63,11 +58,6 @@ export const isSubmittingSearchSelector = createSelector(
 export const selectedChoiceSelector = createSelector(
   searchProcessStateSelector,
   searchProcessState => searchProcessState.get('selectedChoice')
-);
-
-export const isSelectingChoiceSelector = createSelector(
-  searchProcessStateSelector,
-  searchProcessState => searchProcessState.get('isSelectingChoice')
 );
 
 export const searchProcessErrorSelector = createSelector(

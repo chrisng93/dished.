@@ -35,11 +35,6 @@ export const isSigningUpSelector = createSelector(
   userState => userState.get('isSigningUp')
 );
 
-export const isSigningOutSelector = createSelector(
-  userStateSelector,
-  userState => userState.get('isSigningOut')
-);
-
 export const isEditingUserSelector = createSelector(
   userStateSelector,
   userState => userState.get('isEditingUser')
