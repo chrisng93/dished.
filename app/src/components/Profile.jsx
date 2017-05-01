@@ -64,6 +64,7 @@ export default class Profile extends Component {
               className="profile-email-input input"
               placeholder={email || 'Email'}
               value={email}
+              autoComplete="off"
               onChange={e => this.onChangeInput(e, 'email')}
             />
           </label>
@@ -73,6 +74,7 @@ export default class Profile extends Component {
               type="password"
               placeholder="*********"
               value={password}
+              autoComplete="off"
               onChange={e => this.onChangeInput(e, 'password')}
             />
           </label>
@@ -81,6 +83,7 @@ export default class Profile extends Component {
               className="profile-name-input input"
               placeholder={name || 'Name'}
               value={name}
+              autoComplete="off"
               onChange={e => this.onChangeInput(e, 'name')}
             />
           </label>
@@ -89,6 +92,7 @@ export default class Profile extends Component {
               className="profile-location-input input"
               placeholder={location || 'Location'}
               value={location}
+              autoComplete="off"
               onChange={e => this.onChangeInput(e, 'location')}
             />
           </label>

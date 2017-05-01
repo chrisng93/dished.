@@ -51,12 +51,7 @@ export const submitTransitEpic = (action$) => {
   return action$.ofType(actionTypes.SUBMIT_TRANSIT_PENDING)
     .switchMap(action =>
       Observable.from(submitTransitApi(action.payload))
-        .switchMap(payload =>
-          Observable.concat(
-            Observable.of({ type: actionTypes.SUBMIT_TRANSIT_SUCCESS, payload: {...payload.response, ...action.payload } }),
-            Observable.of(push('/search/food')),
-          )
-        )
+        .map(payload => ({ type: actionTypes.SUBMIT_TRANSIT_SUCCESS, payload: {...payload.response, ...action.payload } }))
         .catch(error => Observable.of({ type: actionTypes.SUBMIT_TRANSIT_FAILURE, payload: { error } }))
     )
 };
@@ -91,12 +86,7 @@ export const submitSearchEpic = (action$, store) => {
   return action$.ofType(actionTypes.SUBMIT_SEARCH_PENDING)
     .switchMap(action =>
       Observable.from(submitSearch(store))
-        .flatMap(payload =>
-          Observable.concat(
-            Observable.of({ type: actionTypes.SUBMIT_SEARCH_SUCCESS, payload: payload.response }),
-            Observable.of(push('/search/choices')),
-          )
-        )
+        .map(payload => ({ type: actionTypes.SUBMIT_SEARCH_SUCCESS, payload: payload.response }))
         .catch(error => Observable.of({ type: actionTypes.SUBMIT_SEARCH_FAILURE, payload: { error } }))
     )
 };

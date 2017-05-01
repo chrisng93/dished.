@@ -40,7 +40,7 @@ export default class Choice extends Component {
               <a href={choice.get('url')} target="_blank">{choice.get('name')}</a>
             </section>
             <section className="choice-info-rating">
-              <ReactStars count={5} value={choice.get('rating')} />
+              <ReactStars count={5} value={choice.get('rating')} edit={false} />
             </section>
             <section className="choice-info-review-count">
               {choice.get('review_count')} reviews

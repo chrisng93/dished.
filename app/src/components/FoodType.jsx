@@ -4,7 +4,11 @@
 import React, { Component, PropTypes as T } from 'react';
 
 const propTypes = {
+  error: T.object,
+  isSubmittingSearch: T.bool,
+
   submitFoodType: T.func,
+  routeToChoices: T.func,
 };
 
 export default class FoodType extends Component {
@@ -19,19 +23,28 @@ export default class FoodType extends Component {
     this.onKeyDown = this.onKeyDown.bind(this);
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (this.props.isSubmittingSearch && !nextProps.isSubmittingSearch) {
+      if (nextProps.error.get('status') === false) {
+        nextProps.routeToChoices();
+        return;
+      }
+      this.setState({ error: 'Error. Please try again' });
+    }
+  }
+
   onChangeInput(e) {
     this.setState({ foodType: e.target.value });
   }
 
   onSubmit() {
-    // TODO: handle api errors
     const { submitFoodType } = this.props;
     const { foodType } = this.state;
     if (foodType) {
       submitFoodType({ foodType });
       return;
     }
-    this.setState({ error: 'Please enter food type' })
+    this.setState({ error: 'Please enter food type' });
   }
 
   onKeyDown(e) {
@@ -51,6 +64,7 @@ export default class FoodType extends Component {
             className="food-type-form-input input"
             name="food-type"
             placeholder="What are you feeling?"
+            autoComplete="off"
             onChange={e => this.onChangeInput(e)}
             onKeyDown={e => this.onKeyDown(e)}
           />

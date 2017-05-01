@@ -5,8 +5,11 @@ import React, { Component, PropTypes as T } from 'react';
 
 const propTypes = {
   location: T.string,
+  isSubmittingTransit: T.bool,
+  error: T.object,
 
   submitTransit: T.func,
+  routeToFood: T.func,
 };
 
 export default class Transit extends Component {
@@ -25,6 +28,16 @@ export default class Transit extends Component {
     this.onClickDropdown = this.onClickDropdown.bind(this);
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (this.props.isSubmittingTransit && !nextProps.isSubmittingTransit) {
+      if (nextProps.error.get('status') === false) {
+        nextProps.routeToFood();
+        return;
+      }
+      this.setState({ error: 'Error. Please try again' });
+    }
+  }
+
   onChangeInput(e, field) {
     const newState = this.state;
     newState[field] = e.target.value;
@@ -32,7 +45,6 @@ export default class Transit extends Component {
   }
 
   onSubmitTransit() {
-    // TODO: handle api errors
     const { submitTransit, location } = this.props;
     let { transitMethod, transitTime } = this.state;
     if (transitMethod && transitTime && parseInt(transitTime)) {
@@ -81,7 +93,8 @@ export default class Transit extends Component {
             className="transit-form-time input"
             type="text"
             name="transit-time"
-            placeholder="How far do you want to go? (minutes)"
+            placeholder="How many minutes do you want to travel?"
+            autoComplete="off"
             onChange={e => this.onChangeInput(e, 'transitTime')}
             onKeyDown={e => this.onKeyDown(e)}
           />

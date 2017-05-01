@@ -67,8 +67,9 @@ export default class Location extends Component {
           <input
             className="location-form-address input"
             name="location-address"
-            placeholder="Where are you?"
             value={location}
+            placeholder="Where are you?"
+            autoComplete="off"
             onChange={e => this.onChangeLocation(e)}
             onKeyDown={e => this.onKeyDown(e)}
           />

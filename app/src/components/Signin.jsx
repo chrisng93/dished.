@@ -59,6 +59,7 @@ export default class SignIn extends Component {
             type="text"
             name="email"
             placeholder="email"
+            autoComplete="off"
             onChange={e => this.onChangeInput(e, 'email')}
             onKeyDown={e => this.onKeyDown(e)}
           />
@@ -67,6 +68,7 @@ export default class SignIn extends Component {
             type="password"
             name="password"
             placeholder="password"
+            autoComplete="off"
             onChange={e => this.onChangeInput(e, 'password')}
             onKeyDown={e => this.onKeyDown(e)}
           />

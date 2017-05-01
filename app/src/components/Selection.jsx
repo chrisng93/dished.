@@ -29,7 +29,7 @@ export default class Selection extends Component {
               </section>
               <section className="section-1-1">
                 <section className="selection-info-rating">
-                  <ReactStars count={5} value={selectedChoice.get('rating')} />
+                  <ReactStars count={5} value={selectedChoice.get('rating')} edit={false} />
                 </section>
                 <section className="selection-info-review-count">
                   {selectedChoice.get('review_count')} Reviews

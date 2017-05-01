@@ -12,7 +12,7 @@ const propTypes = {
   location: T.string,
   transitMethod: T.string,
   radius: T.number,
-  searchId: T.number,
+  searchId: T.string,
   choices: T.object,
   hoveredChoice: T.string,
   selectedChoice: T.object,

@@ -70,7 +70,7 @@ export const isSelectingChoiceSelector = createSelector(
   searchProcessState => searchProcessState.get('isSelectingChoice')
 );
 
-export const errorSelector = createSelector(
+export const searchProcessErrorSelector = createSelector(
   searchProcessStateSelector,
   searchProcessState => searchProcessState.get('error')
 );
