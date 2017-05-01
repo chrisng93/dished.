@@ -1,6 +1,7 @@
 import React, { Component, PropTypes as T } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { push } from 'react-router-redux';
 import * as actions from '../actions';
 import { tokenSelector, userSearchesSelector } from '../selectors/userSelectors';
 import Search from '../components/Search';
@@ -10,6 +11,7 @@ const propTypes = {
   searches: T.array,
 
   getUserSearches: T.func,
+  routeToSearch: T.func,
 };
 
 class SearchesContainer extends Component {
@@ -60,17 +62,20 @@ class SearchesContainer extends Component {
 
   render() {
     const { visibleSearches, pages } = this.state;
-    const { routeToSearchPage } = this.props;
+    const { searches, routeToSearch } = this.props;
     return (
       <section className="searches">
-        <section className="searches-info">
-          <section className="searches-info-search">
-            {visibleSearches.map(search => <Search key={search.get('id')} search={search} routeToSearchPage={routeToSearchPage} />)}
-          </section>
-          <section className="searches-info-pages">
+        <div className="searches-info">
+          <div className="searches-info-search">
+            {visibleSearches.map(search => <Search key={search.get('id')} search={search} />)}
+            <h2 className={`searches-info-get-started ${searches.size ? 'hidden' : ''}`}>
+              No searches yet? <a onClick={routeToSearch}>Get started!</a>
+            </h2>
+          </div>
+          <div className="searches-info-pages">
             {pages.map(page => <div key={page} onClick={() => this.switchPage(page)}>{page}</div>)}
-          </section>
-        </section>
+          </div>
+        </div>
         <img src="https://s3-us-west-1.amazonaws.com/dishassist/searches.jpg" />
       </section>
     );
@@ -87,6 +92,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     getUserSearches: bindActionCreators(actions.getUserSearches, dispatch),
+    routeToSearch: () => dispatch(push('/search')),
   };
 }
 

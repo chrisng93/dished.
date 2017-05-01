@@ -10,8 +10,8 @@ const propTypes = {
 export default function Home({ routeToLocation }) {
   return (
     <section className="home">
-      <section className="bg" />
-      <section className="home-start-container">
+      <div className="bg" />
+      <div className="home-start-container">
         <h1 className="home-start-title">
           dished.
         </h1>
@@ -21,7 +21,7 @@ export default function Home({ routeToLocation }) {
         <button className="home-start-search button" onClick={routeToLocation}>
           Start your search
         </button>
-      </section>
+      </div>
     </section>
   );
 }

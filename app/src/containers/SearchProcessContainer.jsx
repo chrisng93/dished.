@@ -83,14 +83,14 @@ class SearchProcessContainer extends Component {
     const mapProps = { transitMethod, radius, choices, hoveredChoice, selectedChoice, address: location, width: '400px', height: '400px' };
     return (
       <section className="search-process">
-        <section className="search-process-info">
+        <div className="search-process-info">
           <ProgressIndicator {...progressIndicatorProps} />
           {children}
-        </section>
-        <section className={`search-process-map ${selectedChoice.get('id') ? 'hidden' : ''}`}>
+        </div>
+        <div className={`search-process-map ${selectedChoice.get('id') ? 'hidden' : ''}`}>
           <Map {...mapProps} />
-        </section>
-        <section id="map-search-process" className={selectedChoice.get('id') ? '' : 'hidden'} />
+        </div>
+        <div id="map-search-process" className={selectedChoice.get('id') ? '' : 'hidden'} />
       </section>
     );
   }

@@ -26,7 +26,7 @@ export default class Marker extends Component {
       height = height / Math.pow(2, (12 - zoom));
     }
     return (
-      <section
+      <div
         className={lat && lng ? "marker center" : "hidden"}
         style={{ width: `${width}px`, height: `${height}px`, marginLeft: `-${width/2}px`, marginTop: `-${height/2}px` }}
       />
@@ -36,7 +36,7 @@ export default class Marker extends Component {
   renderRadius() {
     const { lat, lng, width, height } = this.props;
     return (
-        <section
+        <div
           className={lat && lng ? "marker radius" : "hidden"}
           style={{ width: `${width}px`, height: `${height}px`, marginLeft: `-${width/2}px`, marginTop: `-${height/2}px` }}
         />
@@ -52,7 +52,7 @@ export default class Marker extends Component {
       height = height / Math.pow(2, (12 - zoom));
     }
     return (
-      <section
+      <div
         className={`marker restaurant ${selected ? 'selected' : ''}`}
         style={{ width: `${width}px`, height: `${height}px`, marginLeft: `-${width/2}px`, marginTop: `-${height/2}px` }}
       />
@@ -62,11 +62,11 @@ export default class Marker extends Component {
   render() {
     const { type } = this.props;
     return (
-      <section>
+      <div>
         {type === 'center' ? this.renderCenter() : null}
         {type === 'radius' ? this.renderRadius() : null}
         {type === 'restaurant' ? this.renderRestaurant() : null}
-      </section>
+      </div>
     );
   }
 }

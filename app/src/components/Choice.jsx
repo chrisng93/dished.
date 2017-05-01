@@ -28,44 +28,44 @@ export default class Choice extends Component {
         onMouseLeave={() => onMouseLeaveChoice(choice.get('id'))}
         onClick={() => selectChoice({ choice: JSON.parse(JSON.stringify(choice)), id: searchId })}
       >
-        <section className="choice-rank">
+        <div className="choice-rank">
           {rank}.
-        </section>
-        <section className="choice-thumbnail">
+        </div>
+        <div className="choice-thumbnail">
           <img src={choice.get('image_url')} />
-        </section>
-        <section className="choice-info">
+        </div>
+        <div className="choice-info">
           <h1>
-            <section className="choice-info-name">
+            <div className="choice-info-name">
               <a href={choice.get('url')} target="_blank">{choice.get('name')}</a>
-            </section>
-            <section className="choice-info-rating">
+            </div>
+            <div className="choice-info-rating">
               <ReactStars count={5} value={choice.get('rating')} edit={false} />
-            </section>
-            <section className="choice-info-review-count">
+            </div>
+            <div className="choice-info-review-count">
               {choice.get('review_count')} reviews
-            </section>
-            <section className="choice-info-price">
+            </div>
+            <div className="choice-info-price">
               {choice.get('price')}
-            </section>
+            </div>
           </h1>
           <h3>
-            <section className="choice-info-phone">
+            <div className="choice-info-phone">
               {choice.get('display_phone')}
-            </section>
-            <section className="choice-info-categories">
+            </div>
+            <div className="choice-info-categories">
               {choice.get('categories').map((category, index) => {
                 if (index !== choice.get('categories').size - 1) {
                   return category.get('title') + ', ';
                 }
                 return category.get('title');
               })}
-            </section>
-            <section className="choice-info-location">
+            </div>
+            <div className="choice-info-location">
               {choice.get('location').get('display_address').join(', ')}
-            </section>
+            </div>
           </h3>
-        </section>
+        </div>
       </section>
     );
   }

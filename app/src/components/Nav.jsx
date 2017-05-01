@@ -24,21 +24,21 @@ export default class Nav extends Component {
   renderUnauthed() {
     const { changeModal } = this.props;
     return (
-      <section className="nav-cluster">
+      <div className="nav-cluster">
         <li className="nav-cluster-signin" onClick={() => changeModal({ currentModal: 'signIn' })}>Sign in</li>
         <li className="nav-cluster-signup" onClick={() => changeModal({ currentModal: 'signUp' })}>Sign up</li>
-      </section>
+      </div>
     );
   }
 
   renderAuthed() {
     const { token, routeToProfile, routeToSearches, signOut } = this.props;
     return (
-      <section className="nav-cluster">
+      <div className="nav-cluster">
         <li className="nav-cluster-profile" onClick={routeToProfile}>Profile</li>
         <li className="nav-cluster-searches" onClick={routeToSearches}>Searches</li>
         <li className="nav-cluster-signout" onClick={() => signOut({ token })}>Sign out</li>
-      </section>
+      </div>
     );
   }
 
