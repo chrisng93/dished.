@@ -5,7 +5,6 @@
 const webpack = require('webpack');
 const webpackDevServer = require('webpack-dev-server');
 const path = require('path');
-const fs = require('fs');
 const webpackConfig = require('../webpack.config.js');
 const config = require('../src/constants/config.js');
 

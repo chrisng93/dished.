@@ -25,5 +25,5 @@
   2. In a new terminal window run the following command to start the application:
 
   ```sh
-  $ npm start
+  $ npm run dev
   ```

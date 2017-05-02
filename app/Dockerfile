@@ -13,7 +13,7 @@ WORKDIR /usr/src/dished.-frontend
 COPY package.json /usr/src/dished.-frontend
 RUN npm install
 
-# Bundle app source
+# Copy app source
 COPY . /usr/src/dished.-frontend/
 
 # Expose port

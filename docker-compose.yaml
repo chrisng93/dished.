@@ -1,0 +1,33 @@
+version: "2.1"
+services:
+  app:
+    build: ./app
+    restart: always
+    depends_on:
+      - server
+    volumes:
+      - .:/dished.-frontend/
+    ports:
+      - "3001:3001"
+
+  # server:
+  #   build: ./server
+  #   restart: always
+  #   volumes:
+  #     - .:/hypeset-backend/
+  #   env_file:
+  #     - ./server/.env
+  #   links:
+  #     - redis:redis
+  #   depends_on:
+  #     - redis
+  #   ports:
+  #     - "8000:8000"
+
+  redis:
+    image: redis:latest
+    restart: always
+    volumes:
+      - ./data/redis:/var/lib/redisql/data
+    ports:
+      - "6379:6379"

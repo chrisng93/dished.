@@ -6,8 +6,7 @@ const config = require('./src/constants/config.js');
 const mainPath = path.resolve(__dirname, 'src', 'index.jsx');
 const buildPath = path.resolve(__dirname, 'public', 'build');
 
-let HOST;
-config.HOST === 'http://localhost' ? HOST = '0.0.0.0' : HOST = config.HOST;
+const HOST = (config.HOST.indexOf('localhost') === -1 && config.HOST) ? config.HOST : '0.0.0.0';
 const PORT = config.PORT || '3001';
 
 module.exports = {
@@ -34,9 +33,6 @@ module.exports = {
     inline: true,
     noInfo: true,
     historyApiFallback: true,
-  },
-  eslint: {
-    configFile: './.eslintrc',
   },
   plugins: [
     new webpack.NoErrorsPlugin(),
