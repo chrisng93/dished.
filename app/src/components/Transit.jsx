@@ -86,7 +86,7 @@ export default class Transit extends Component {
               onClick={(e) => e.preventDefault()}
             >{transitMethod || 'How are you trying to get there?'}</button>
             <div className="dropdown-content">
-              {transitMethodOptions.map(method => <option value={method} onClick={e => this.onClickDropdown(e)}>{method}</option>)}
+              {transitMethodOptions.map(method => <option key={method} value={method} onClick={e => this.onClickDropdown(e)}>{method}</option>)}
             </div>
           </div>
           <input

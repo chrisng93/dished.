@@ -3,7 +3,6 @@
  */
 import { compose, createStore, applyMiddleware } from 'redux';
 import createLogger from 'redux-logger';
-import { autoRehydrate } from 'redux-persist';
 import { browserHistory } from 'react-router';
 import { createEpicMiddleware } from 'redux-observable';
 import { routerMiddleware } from 'react-router-redux';
@@ -21,7 +20,10 @@ const logger = createLogger({
 const router = routerMiddleware(browserHistory);
 
 const epicMiddleware = createEpicMiddleware(rootEpic);
-const createStoreWithMiddleware = compose(applyMiddleware(epicMiddleware, router, logger), autoRehydrate())(createStore);
+
+const createStoreWithMiddleware = compose(
+  applyMiddleware(epicMiddleware, router, logger)
+)(createStore);
 
 export default function configureStore(initialState) {
   return createStoreWithMiddleware(rootReducer, initialState);

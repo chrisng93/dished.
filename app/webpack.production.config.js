@@ -1,3 +1,6 @@
+/**
+ * Created by chrisng on 4/5/17.
+ */
 const webpack = require('webpack');
 const path = require('path');
 const loaders = require('./webpack.loaders');
@@ -6,34 +9,17 @@ const config = require('./src/constants/config.js');
 const mainPath = path.resolve(__dirname, 'src', 'index.jsx');
 const buildPath = path.resolve(__dirname, 'public', 'build');
 
-let HOST;
-config.HOST === 'http://localhost' ? HOST = '0.0.0.0' : HOST = config.HOST;
-const PORT = config.PORT || '3001';
-
 module.exports = {
-  entry: [
-    `webpack-dev-server/client?http://${HOST}:${PORT}`,
-    mainPath,
-  ],
-  devtool: 'source-map',
+  entry: mainPath,
   output: {
     path: buildPath,
     filename: 'bundle.js',
-    publicPath: '/build/',
   },
   resolve: {
     extensions: ['', '.js', '.jsx'],
   },
   module: {
     loaders,
-  },
-  devServer: {
-    contentBase: './public',
-    host: HOST,
-    port: PORT,
-    inline: true,
-    noInfo: true,
-    historyApiFallback: true,
   },
   eslint: {
     configFile: './.eslintrc',
