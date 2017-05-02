@@ -1,5 +1,6 @@
-#!flask/bin/python3.6
 from app.api import create_app
 
 app = create_app()
-app.run(debug=True)
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', debug=True)

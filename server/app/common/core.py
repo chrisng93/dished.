@@ -1,4 +1,4 @@
-from flask import Flask, g
+from flask import Flask
 from flask_cors import CORS
 from .. import config
 from .extensions import db, redis
