@@ -10,18 +10,18 @@ export function changeStep(payload) {
   return {
     type: actionTypes.CHANGE_STEP,
     payload,
-  }
+  };
 }
 
 export function submitLocation(payload) {
   return {
     type: actionTypes.SUBMIT_LOCATION,
     payload,
-  }
+  };
 }
 
 export function confirmLocation() {
-  return { type: actionTypes.CONFIRM_LOCATION }
+  return { type: actionTypes.CONFIRM_LOCATION };
 }
 
 export const confirmLocationEpic = (action$) => {
@@ -33,7 +33,7 @@ export function submitTransit(payload) {
   return {
     type: actionTypes.SUBMIT_TRANSIT_PENDING,
     payload,
-  }
+  };
 }
 
 const submitTransitApi = (payload) => {
@@ -53,14 +53,14 @@ export const submitTransitEpic = (action$) => {
       Observable.from(submitTransitApi(action.payload))
         .map(payload => ({ type: actionTypes.SUBMIT_TRANSIT_SUCCESS, payload: {...payload.response, ...action.payload } }))
         .catch(error => Observable.of({ type: actionTypes.SUBMIT_TRANSIT_FAILURE, payload: { error } }))
-    )
+    );
 };
 
 export function submitFoodType(payload) {
   return {
     type: actionTypes.SUBMIT_FOOD_TYPE,
     payload,
-  }
+  };
 }
 
 export const submitFoodTypeEpic = (action$) => {
@@ -84,50 +84,52 @@ export function submitSearch(store) {
 
 export const submitSearchEpic = (action$, store) => {
   return action$.ofType(actionTypes.SUBMIT_SEARCH_PENDING)
-    .switchMap(action =>
+    .switchMap(() =>
       Observable.from(submitSearch(store))
         .map(payload => ({ type: actionTypes.SUBMIT_SEARCH_SUCCESS, payload: payload.response }))
         .catch(error => Observable.of({ type: actionTypes.SUBMIT_SEARCH_FAILURE, payload: { error } }))
-    )
+    );
 };
 
 export function onMouseEnterChoice(payload) {
   return {
     type: actionTypes.MOUSE_ENTER_CHOICE,
     payload,
-  }
+  };
 }
 
 export function onMouseLeaveChoice(payload) {
   return {
     type: actionTypes.MOUSE_LEAVE_CHOICE,
     payload,
-  }
+  };
 }
 
 export function selectChoice(payload) {
   return {
     type: actionTypes.SELECT_CHOICE_PENDING,
     payload,
-  }
+  };
 }
 
 const selectChoiceApi = (payload) => {
   const body = JSON.stringify(payload);
   const headers = createHeaders();
-  return Observable.ajax.put(`${process.env.API_URL}/api/restaurant/search/${payload.id}`, body, headers)
-    .catch(error => Observable.of({ type: actionTypes.SELECT_CHOICE_FAILURE, payload: { error } }));
+  return Observable.ajax.put(`${process.env.API_URL}/api/restaurant/search/${payload.id}`, body, headers);
 };
 
 export const selectChoiceEpic = (action$) => {
   return action$.ofType(actionTypes.SELECT_CHOICE_PENDING)
-    .flatMap(action =>
-      Observable.concat(
-        Observable.of({ type: actionTypes.SELECT_CHOICE_SUCCESS, payload: { ...action.payload }}),
-        Observable.of(push('/search/selection')),
-        Observable.from(selectChoiceApi(action.payload)),
-      )
-    )
+    .switchMap((action) =>
+      Observable.from(selectChoiceApi(action.payload))
+        .flatMap(payload =>
+          Observable.concat(
+            Observable.of({ type: actionTypes.SELECT_CHOICE_SUCCESS, payload: { ...action.payload }}),
+            Observable.of(push('/search/selection')),
+          )
+        )
+        .catch(error => Observable.of({ type: actionTypes.SELECT_CHOICE_FAILURE, payload: { error } }))
+    );
 };
 
 export function clearChoices() {

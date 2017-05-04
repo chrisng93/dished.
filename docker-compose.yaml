@@ -2,7 +2,7 @@ version: "2.1"
 services:
   app:
     build: ./app
-    restart: always
+    # restart: always
     depends_on:
       - server
     volumes:
@@ -10,19 +10,17 @@ services:
     ports:
       - "3001:3001"
 
-  # server:
-  #   build: ./server
-  #   restart: always
-  #   volumes:
-  #     - .:/hypeset-backend/
-  #   env_file:
-  #     - ./server/.env
-  #   links:
-  #     - redis:redis
-  #   depends_on:
-  #     - redis
-  #   ports:
-  #     - "8000:8000"
+  server:
+    build: ./server
+    # restart: always
+    volumes:
+      - .:/dished.-backend/
+    links:
+      - redis:redis
+    depends_on:
+      - redis
+    ports:
+      - "5000:5000"
 
   redis:
     image: redis:latest

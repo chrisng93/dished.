@@ -29,4 +29,9 @@ COPY . /usr/src/dished.-server
 EXPOSE 5000
 
 # Initialize db and run app
-CMD /bin/bash -c "cd flask && source bin/activate && cd .. && alembic upgrade head && chmod +x run.py && flask/bin/python3 ./run.py"
+CMD /bin/bash -c "cd flask \
+    && source bin/activate \
+    && cd .. \
+    && alembic upgrade head \
+    && chmod +x run.py \
+    && python3 ./run.py"

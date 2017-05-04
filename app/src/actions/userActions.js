@@ -117,7 +117,7 @@ function getUserSearchesFetch(action) {
 export const getUserSearchesEpic = (action$) => {
   return action$.ofType(actionTypes.GET_USER_SEARCHES_PENDING)
     .switchMap(action =>
-      getUserSearchesFetch(action)
+      Observable.from(getUserSearchesFetch(action))
         .map(payload => ({ type: actionTypes.GET_USER_SEARCHES_SUCCESS, payload: payload.response }))
         .catch(error => Observable.of({ type: actionTypes.GET_USER_SEARCHES_FAILURE, payload: { error } }))
     )

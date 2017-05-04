@@ -51,14 +51,8 @@
 
   1. Within the server/app directory, create a config.py file using the config.example.py file as a guide
 
-  2. From within the server directory, run the following command to make the run.py file executable
+  2. In a new terminal window, run the following command to start the application:
 
   ```sh
-  $ chmod +x run.py
-  ```
-
-  3. In a new terminal window, run the following command to start the application:
-
-  ```sh
-  $ ./run.py
+  $ python3 run.py
   ```

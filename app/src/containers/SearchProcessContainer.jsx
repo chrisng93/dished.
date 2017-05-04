@@ -9,6 +9,8 @@ import ProgressIndicator from '../components/ProgressIndicator';
 import Map from '../components/Map';
 
 const propTypes = {
+  children: T.node,
+
   currentStep: T.string,
   location: T.string,
   transitMethod: T.string,
@@ -24,6 +26,7 @@ const propTypes = {
   routeToTransit: T.func,
   routeToFood: T.func,
   routeToChoices: T.func,
+  clearSearchInfo: T.func,
 };
 
 class SearchProcessContainer extends Component {
@@ -41,6 +44,10 @@ class SearchProcessContainer extends Component {
   componentWillReceiveProps(nextProps) {
     this.updateStep(nextProps);
     this.checkRouteStatus(nextProps);
+  }
+
+  componentWillUnmount() {
+    this.props.clearSearchInfo();
   }
 
   updateStep(props) {
@@ -64,7 +71,7 @@ class SearchProcessContainer extends Component {
   }
 
   checkRouteStatus(props) {
-    const { currentStep, location, transitMethod, radius, foodType, choices, selectedChoice, clearChoices,
+    const { currentStep, location, transitMethod, radius, foodType, selectedChoice, clearChoices,
       routeToLocation, routeToTransit, routeToFood, routeToChoices } = props;
     if (currentStep === 'transit' && !location) {
       routeToLocation();
@@ -80,7 +87,7 @@ class SearchProcessContainer extends Component {
 
   render() {
     const { children, currentStep, location, transitMethod, radius, choices, hoveredChoice, selectedChoice,
-      routeToLocation, routeToTransit, routeToFood, routeToChoices} = this.props;
+      routeToLocation, routeToTransit, routeToFood, routeToChoices } = this.props;
     const progressIndicatorProps = { currentStep, routeToLocation, routeToTransit, routeToFood, routeToChoices };
     const mapProps = { transitMethod, radius, choices, hoveredChoice, selectedChoice, address: location, width: '400px', height: '400px' };
     return (
@@ -119,6 +126,7 @@ function mapDispatchToProps(dispatch) {
     routeToTransit: () => dispatch(push('/search/transit')),
     routeToFood: () => dispatch(push('/search/food')),
     routeToChoices: () => dispatch(push('/search/choices')),
+    clearSearchInfo: bindActionCreators(actions.clearSearchInfo, dispatch),
   };
 }
 

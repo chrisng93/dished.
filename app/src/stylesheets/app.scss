@@ -113,11 +113,11 @@ body {
   }
 }
 
-.dropdown:hover .dropdown-content {
+.dropdown.active .dropdown-content {
   display: block;
 }
 
-.dropdown:hover .dropdown-button {
+.dropdown.active .dropdown-button {
   background-color: #eef3f8;
 }
 

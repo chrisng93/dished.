@@ -25,7 +25,8 @@ export default class Transit extends Component {
     this.onChangeInput = this.onChangeInput.bind(this);
     this.onSubmitTransit = this.onSubmitTransit.bind(this);
     this.onKeyDown = this.onKeyDown.bind(this);
-    this.onClickDropdown = this.onClickDropdown.bind(this);
+    this.onClickDropdownButton = this.onClickDropdownButton.bind(this);
+    this.onClickDropdownOption = this.onClickDropdownOption.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -69,24 +70,42 @@ export default class Transit extends Component {
     }
   }
 
-  onClickDropdown(e) {
-    this.setState({ transitMethod: e.target.value });
+  onClickDropdownButton(e) {
+    e.preventDefault();
+    this.setState({ dropdownActive: !this.state.dropdownActive });
+  }
+
+  onClickDropdownOption(e) {
+    this.setState({
+      transitMethod: e.target.value,
+      dropdownActive: false,
+    });
   }
 
   render() {
-    const { transitMethod, transitMethodOptions, error } = this.state;
+    const { transitMethod, transitMethodOptions, dropdownActive, error } = this.state;
     return (
       <section className="transit container">
         <form className="transit-form">
-          <div className="dropdown">
+          <div className={`dropdown ${dropdownActive ? 'active' : ''}`}>
             <button
               className="transit-form-method dropdown-button input"
               type="text"
               name="transit-method"
-              onClick={(e) => e.preventDefault()}
-            >{transitMethod || 'How are you trying to get there?'}</button>
+              onClick={e => this.onClickDropdownButton(e)}
+            >
+              {transitMethod || 'How are you trying to get there?'}
+            </button>
             <div className="dropdown-content">
-              {transitMethodOptions.map(method => <option key={method} value={method} onClick={e => this.onClickDropdown(e)}>{method}</option>)}
+              {transitMethodOptions.map(method =>
+                <option
+                  key={method}
+                  value={method}
+                  onClick={e => this.onClickDropdownOption(e)}
+                >
+                  {method}
+                </option>
+              )}
             </div>
           </div>
           <input
