@@ -32,6 +32,6 @@ def hit_yelp(location, radius, food, transit_time):
             get_yelp_access_token()
             hit_yelp(location, radius, food, transit_time)
         results = req.json()
-        return [r for r in results['businesses'] if r['distance'] < radius_in_meters]
+        return [r for r in results['businesses'] if r['distance'] < radius_in_meters and food.lower() in [category['alias'].lower() for category in r['categories']]]
     except Exception as e:
         print('Error connecting to Yelp API: %s' % str(e))

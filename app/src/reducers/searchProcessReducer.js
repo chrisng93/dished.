@@ -54,7 +54,8 @@ export default function searchProcess(state = initialState, action) {
         .set('transitMethod', payload.transitMethod)
         .set('transitTime', payload.transitTime)
         .set('radius', parseFloat(payload.radius))
-        .set('currentStep', 'foodType');
+        .set('currentStep', 'foodType')
+        .set('error', initialError);
     case actionTypes.SUBMIT_TRANSIT_FAILURE:
       return state
         .set('isSubmittingTransit', false)
@@ -102,10 +103,12 @@ export default function searchProcess(state = initialState, action) {
 
     case actionTypes.SIGN_IN_SUCCESS:
       return state
-        .set('location', payload.user.location || state.get('location'));
+        .set('location', payload.user.location || state.get('location'))
+        .set('error', initialError);;
     case actionTypes.EDIT_USER_SUCCESS:
       return state
-        .set('location', payload.user.location || state.get('location'));
+        .set('location', payload.user.location || state.get('location'))
+        .set('error', initialError);;
 
     case actionTypes.CLEAR_CHOICES:
       return state

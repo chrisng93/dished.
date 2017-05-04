@@ -43,7 +43,7 @@ export default class ProgressIndicator extends Component {
       <li
         className={`progress-indicator-${step}`}
         key={step}
-        onClick={routeFunc}
+        onClick={currentStep !== 'selection' ? routeFunc : null}
       >
         <span className="step">{capitalizeFirstLetter(step)}</span>
         <span className={`dot ${stepOrder.indexOf(step) <= currentStepOrder ? 'active' : ''}`} />

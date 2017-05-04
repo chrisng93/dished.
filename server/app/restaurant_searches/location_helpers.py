@@ -91,7 +91,7 @@ def build_url(origin, destination, transit_method):
     return '%s://%s%s?%s' % (url.scheme, url.netloc, url.path, url.query)
 
 
-def calculate_isochrone(origin, transit_method, transit_time, max_speed=75, num_of_angles=6, tolerance=0.25):
+def calculate_isochrone(origin, transit_method, transit_time, max_speed=75, num_of_angles=6, tolerance=0.33):
     speed = get_speed(transit_method)
     duration = transit_time / speed
 
