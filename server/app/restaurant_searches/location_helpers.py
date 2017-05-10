@@ -1,3 +1,6 @@
+"""
+    Helpers for calculating radius around user given various inputs
+"""
 import requests
 from urllib.parse import urlparse
 from math import sqrt, cos, sin, radians, degrees, asin, atan2

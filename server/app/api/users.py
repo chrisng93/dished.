@@ -1,5 +1,5 @@
 """
-    User CRUD
+    User CRUD and endpoint for user searches
 """
 from flask import Blueprint, request
 from ..common.services import User, RestaurantSearch

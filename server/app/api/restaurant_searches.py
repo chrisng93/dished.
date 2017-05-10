@@ -1,5 +1,5 @@
 """
-    RestaurantSearch CRUD
+    RestaurantSearch CRUD and endpoint for getting radius
 """
 from functools import reduce
 from flask import Blueprint, request

@@ -1,3 +1,6 @@
+"""
+    Helpers for Yelp API
+"""
 import requests
 from urllib.parse import urlparse
 from .location_helpers import miles_to_meters

@@ -1,5 +1,5 @@
 """
-    Define helpers
+    Define helpers for Blueprints and auth
 """
 import pkgutil
 import importlib

@@ -1,3 +1,6 @@
+"""
+    Core functions/classes to define the app itself and the model service
+"""
 from flask import Flask
 from flask_cors import CORS
 from .. import config

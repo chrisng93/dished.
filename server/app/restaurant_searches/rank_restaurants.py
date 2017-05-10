@@ -1,3 +1,6 @@
+"""
+    Restaurant ranking algorithm
+"""
 import statistics as s
 from operator import itemgetter
 

@@ -1,3 +1,6 @@
+"""
+    Customizations for user service
+"""
 from ..common.core import ModelService
 from .UserModel import User
 

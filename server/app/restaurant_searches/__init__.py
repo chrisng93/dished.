@@ -1,3 +1,6 @@
+"""
+    Customizations for restaurant search service
+"""
 from ..common.core import ModelService
 from .RestaurantSearchModel import RestaurantSearch
 from ..users.UserModel import User
