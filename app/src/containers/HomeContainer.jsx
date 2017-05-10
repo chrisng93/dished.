@@ -1,3 +1,6 @@
+/**
+ * Stateful container for home page
+ */
 import React, { PropTypes as T } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';

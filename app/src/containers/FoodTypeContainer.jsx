@@ -1,3 +1,6 @@
+/**
+ * Stateful component for food type page
+ */
 import React, { PropTypes as T } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';

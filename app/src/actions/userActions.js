@@ -1,5 +1,5 @@
 /**
- * Created by chrisng on 4/11/17.
+ * Actions for user state
  */
 import { Observable } from 'rxjs';
 import * as actionTypes from '../constants/actionTypes';

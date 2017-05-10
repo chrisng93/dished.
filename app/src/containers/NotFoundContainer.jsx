@@ -1,3 +1,6 @@
+/**
+ * Stateful container for invalid routes
+ */
 import React, { Component, PropTypes as T } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';

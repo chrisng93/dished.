@@ -1,5 +1,5 @@
 /**
- * Store config w/ logger, persist, and router
+ * Store config w/ logger, epic, and router middleware
  */
 import { compose, createStore, applyMiddleware } from 'redux';
 import createLogger from 'redux-logger';

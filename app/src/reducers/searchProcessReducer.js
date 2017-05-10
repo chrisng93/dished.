@@ -1,5 +1,5 @@
 /**
- * Created by chrisng on 4/18/17.
+ * Reducer for search process state
  */
 import { fromJS, Map, List } from 'immutable';
 import * as actionTypes from '../constants/actionTypes';

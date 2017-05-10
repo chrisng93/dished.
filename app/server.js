@@ -1,7 +1,6 @@
 /**
  * Set up server for hosting static assets
  */
-
 const express = require('express');
 const path = require('path');
 const httpProxy = require('http-proxy');

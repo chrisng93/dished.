@@ -1,3 +1,6 @@
+/**
+ * Dumb component for rendering map/markers
+ */
 import React, { Component, PropTypes as T } from 'react';
 import GoogleMapReact from 'google-map-react';
 import { fitBounds, meters2ScreenPixels } from 'google-map-react/utils';

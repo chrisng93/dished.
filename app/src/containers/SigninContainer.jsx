@@ -1,5 +1,5 @@
 /**
- * Stateful container for signin
+ * Stateful container for sign in
  */
 import React, { PropTypes as T } from 'react';
 import { connect } from 'react-redux';

@@ -1,3 +1,6 @@
+/**
+ * Dumb component for sign in modal
+ */
 import React, { Component, PropTypes as T } from 'react';
 import Modal from 'react-modal';
 import modalStyle from '../utils/modalStyle';;

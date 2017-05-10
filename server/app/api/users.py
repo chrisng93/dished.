@@ -4,7 +4,7 @@
 from flask import Blueprint, request
 from ..common.services import User, RestaurantSearch
 from ..common.helpers import check_auth
-from ..common.extensions import redis
+from ..common.extensions import redis_store
 from .. import config
 from . import route
 
@@ -42,10 +42,11 @@ def create_user():
     try:
         user = User.create(**request.json)
         token = user.encode_auth_token().decode()
-        redis.set(token, True)
-        redis.expire(token, config.TOKEN_EXPIRY)
+        redis_store.set(token, True)
+        redis_store.expire(token, config.TOKEN_EXPIRY)
         return dict(user=user.to_dict(), token=token)
     except Exception as e:
+        print('error', str(e))
         return dict(error=str(e)), 500
 
 

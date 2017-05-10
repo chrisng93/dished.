@@ -1,3 +1,6 @@
+/**
+ * Aggregate reducers
+ */
 import { combineReducers } from 'redux';
 import { routerReducer } from 'react-router-redux';
 import user from './userReducer';

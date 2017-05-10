@@ -1,5 +1,5 @@
 /**
- * Reducers should change state based on action type/payload
+ * Reducer for modal state
  */
 import { fromJS } from 'immutable';
 import * as actionTypes from '../constants/actionTypes';

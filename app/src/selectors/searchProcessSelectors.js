@@ -1,5 +1,5 @@
 /**
- * Created by chrisng on 4/20/17.
+ * Selectors for state related to the search process
  */
 import { createSelector } from 'reselect';
 

@@ -1,3 +1,6 @@
+/**
+ * Modal styling
+ */
 const modalStyle = {
   content: {
     width: '500px',

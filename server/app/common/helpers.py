@@ -6,7 +6,7 @@ import importlib
 import jwt
 from flask import Blueprint
 from .. import config
-from ..common.extensions import redis
+from ..common.extensions import redis_store
 
 
 def register_blueprints(app, package_name, package_path):
@@ -36,7 +36,7 @@ def check_auth(auth_header):
     if not auth_header:
         return dict(status='failure', message='Permission denied. Please include authorization header.')
     token = auth_header.split(' ')[1]
-    if redis.get(token).decode('utf-8') == 'False':
+    if redis_store.get(token).decode('utf-8') == 'False':
         return dict(status='failure', message='Invalid token')
     try:
         resp = decode_auth_token(token)

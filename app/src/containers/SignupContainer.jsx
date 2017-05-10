@@ -1,3 +1,6 @@
+/**
+ * Stateful container for sign up
+ */
 import React, { PropTypes as T } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';

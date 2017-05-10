@@ -1,5 +1,5 @@
 /**
- * Created by chrisng on 4/22/17.
+ * Utils for distance conversions
  */
 export const milesToMeters = miles => miles * 1609.34;
 

@@ -1,6 +1,3 @@
-/**
- * Created by chrisng on 4/5/17.
- */
 const webpack = require('webpack');
 const path = require('path');
 const loaders = require('./webpack.loaders');

@@ -1,5 +1,5 @@
 /**
- * Created by chrisng on 4/18/17.
+ * Actions for search process state
  */
 import { Observable } from 'rxjs';
 import { push } from 'react-router-redux';

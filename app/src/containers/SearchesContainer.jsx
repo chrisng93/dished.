@@ -1,3 +1,6 @@
+/**
+ * Stateful container for searches
+ */
 import React, { Component, PropTypes as T } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';

@@ -1,5 +1,5 @@
 /**
- * Stateless component for ___
+ * Dumb component for selected restaurant
  */
 import React, { Component, PropTypes as T } from 'react';
 import ReactStars from 'react-stars';

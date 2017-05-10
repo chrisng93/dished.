@@ -1,5 +1,5 @@
 /**
- * All action names should be defined here
+ * All actions and epics should be defined here
  */
 import { combineEpics } from 'redux-observable';
 import { signIn, signInEpic, signUp, signUpEpic, signOut, signOutEpic, editUser, editUserEpic,

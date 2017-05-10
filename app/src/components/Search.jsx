@@ -1,5 +1,5 @@
 /**
- * Stateless component for ___
+ * Dumb component for search item
  */
 import React, { PropTypes as T } from 'react';
 

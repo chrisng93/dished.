@@ -1,5 +1,5 @@
 /**
- * Stateless component for ___
+ * Dumb component for managing location
  */
 import React, { Component, PropTypes as T } from 'react';
 

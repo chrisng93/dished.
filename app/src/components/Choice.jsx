@@ -1,5 +1,5 @@
 /**
- * Stateless component for ___
+ * Dumb component for rendering choice
  */
 import React, { PropTypes as T } from 'react';
 import ReactStars from 'react-stars';

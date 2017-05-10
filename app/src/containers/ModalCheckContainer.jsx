@@ -1,3 +1,6 @@
+/**
+ * Stateful container for selecting modal to render
+ */
 import React, { Component, PropTypes as T } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';

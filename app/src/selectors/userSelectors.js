@@ -1,5 +1,5 @@
 /**
- * Created by chrisng on 4/17/17.
+ * Selectors for state related to users
  */
 import { createSelector } from 'reselect';
 

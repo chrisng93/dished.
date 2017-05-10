@@ -1,5 +1,5 @@
 /**
- * Reducers should change state based on action type/payload
+ * Reducer for user state
  */
 import { Map, List, fromJS } from 'immutable';
 import * as actionTypes from '../constants/actionTypes';

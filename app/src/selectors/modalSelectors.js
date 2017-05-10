@@ -1,5 +1,5 @@
 /**
- * Created by chrisng on 4/26/17.
+ * Selectors for modal state
  */
 import { createSelector } from 'reselect';
 

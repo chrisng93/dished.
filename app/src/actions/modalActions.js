@@ -1,5 +1,5 @@
 /**
- * Created by chrisng on 4/26/17.
+ * Actions for modal state
  */
 import { push } from 'react-router-redux';
 import * as actionTypes from '../constants/actionTypes';

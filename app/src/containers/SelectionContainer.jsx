@@ -1,3 +1,6 @@
+/**
+ * Stateful container for selected restaurant
+ */
 import React, { PropTypes as T } from 'react';
 import { connect } from 'react-redux';
 import { selectedChoiceSelector } from '../selectors/searchProcessSelectors';

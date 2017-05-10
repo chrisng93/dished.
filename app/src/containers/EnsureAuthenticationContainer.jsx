@@ -1,3 +1,6 @@
+/**
+ * Stateful container for wrapping authenticated components
+ */
 import React, { Component, PropTypes as T } from 'react';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
