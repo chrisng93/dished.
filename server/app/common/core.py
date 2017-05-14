@@ -16,7 +16,6 @@ def create_app(package_name, package_path):
     app.secret_key = config.SECRET_KEY
 
     db.init_app(app)
-    print(app.config)
     redis_store.init_app(app)
 
     from ..restaurant_searches.api_helpers import get_yelp_access_token

@@ -1,6 +1,7 @@
 """
     User CRUD and endpoint for user searches
 """
+import redis
 from flask import Blueprint, request
 from ..common.services import User, RestaurantSearch
 from ..common.helpers import check_auth
@@ -39,14 +40,21 @@ def create_user():
         return dict(error='Please include email and password in body'), 400
     if User.get(request.json['email']):
         return dict(error='User already exists'), 400
+
     try:
         user = User.create(**request.json)
+    except Exception as e:
+        return dict(error=str(e)), 500
+
+    try:
         token = user.encode_auth_token().decode()
         redis_store.set(token, True)
         redis_store.expire(token, config.TOKEN_EXPIRY)
         return dict(user=user.to_dict(), token=token)
+    except redis.exceptions.ConnectionError as e:
+        token = user.encode_auth_token().decode()
+        return dict(user=user.to_dict(), token=token)
     except Exception as e:
-        print('error', str(e))
         return dict(error=str(e)), 500
 
 

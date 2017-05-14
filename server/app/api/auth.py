@@ -1,6 +1,7 @@
 """
     Manage authentication
 """
+import redis
 from flask import Blueprint, request
 from ..common.services import User
 from ..common.helpers import check_auth
@@ -25,8 +26,10 @@ def signin():
             redis_store.set(token, True)
             redis_store.expire(token, config.TOKEN_EXPIRY)
             return dict(user=user.to_dict(), token=token)
+        except redis.exceptions.ConnectionError as e:
+            token = user.encode_auth_token().decode()
+            return dict(user=user.to_dict(), token=token)
         except Exception as e:
-            print('error', str(e))
             return dict(error=str(e)), 500
     return dict(error='Password incorrect'), 401
 
@@ -38,5 +41,8 @@ def signout():
     if auth['status'] == 'failure':
         return dict(error=auth['message']), 500
     token = auth_header.split(' ')[1]
-    redis_store.set(token, False)
+    try:
+        redis_store.set(token, False)
+    except redis.exceptions.ConnectionError as e:
+        pass
     return dict(message='User %d successfully logged out' % auth['message'])

@@ -1,6 +1,7 @@
 """
     Define helpers for Blueprints and auth
 """
+import redis
 import pkgutil
 import importlib
 import jwt
@@ -36,10 +37,18 @@ def check_auth(auth_header):
     if not auth_header:
         return dict(status='failure', message='Permission denied. Please include authorization header.')
     token = auth_header.split(' ')[1]
-    if redis_store.get(token).decode('utf-8') == 'False':
-        return dict(status='failure', message='Invalid token')
+
     try:
         resp = decode_auth_token(token)
+    except Exception as e:
+        return dict(status='failure', message=str(e))
+
+    try:
+        if redis_store.get(token).decode('utf-8') == 'False':
+            return dict(status='failure', message='Invalid token')
+        status = 'failure' if isinstance(resp, str) else 'success'
+        return dict(status=status, message=resp)
+    except redis.exceptions.ConnectionError as e:
         status = 'failure' if isinstance(resp, str) else 'success'
         return dict(status=status, message=resp)
     except Exception as e:
