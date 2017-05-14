@@ -37,6 +37,7 @@ class SearchesContainer extends Component {
   componentWillReceiveProps(nextProps) {
     const { searchesPerPage, currentPage } = this.state;
     if (this.props.searches !== nextProps.searches) {
+      nextProps.searches = nextProps.searches.reverse();
       for (let i = 0; i < 22; i++) {
         nextProps.searches.push(nextProps.searches[0])
       }
