@@ -67,11 +67,6 @@ def get_geocode(address):
     return [results['results'][0]['geometry']['location']['lat'], results['results'][0]['geometry']['location']['lng']]
 
 
-def get_destination(origin, radius, angle):
-    origin_geocode = get_geocode(origin)
-    return calculate_haversine(origin_geocode=origin_geocode, radius=radius, angle=angle)
-
-
 def get_speed(transit_method):
     if transit_method == 'driving':
         return config.AVERAGE_CAR_SPEED
@@ -105,13 +100,14 @@ def calculate_isochrone(origin, transit_method, transit_time, max_speed=75, num_
     rmin = [0] * num_of_angles
     rmax = [(max_speed / 60) * transit_time] * num_of_angles
     iso = [[0, 0]] * num_of_angles
+    origin_geocode = get_geocode(origin)
 
     j = 0
 
     while sum([a - b for a, b in zip(rad0, rad1)]) != 0:
         rad2 = [0] * num_of_angles
         for i in range(num_of_angles):
-            iso[i] = get_destination(origin, rad1[i], phi1[i])
+            iso[i] = calculate_haversine(origin_geocode=origin_geocode, radius=rad1[i], angle=phi1[i])
         full_url = build_url(origin=origin, destination=iso, transit_method=transit_method)
         data = parse_distance_json(full_url)
         if not len(data[0]) or not len(data[1]):
